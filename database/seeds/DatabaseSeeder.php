@@ -14,6 +14,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
+
+
+        $this->call(CategoryTableSeeder::class);
+        $this->call(EventTableSeeder::class);
+        $this->call(ProductTableSeeder::class);
+        return true;
+
         $admin = User::create([
             'name' => 'Admin',
             'email' => 'admin@laravue.dev',
