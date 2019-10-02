@@ -4,7 +4,7 @@ import Layout from '@/layout';
 const eventRoutes = {
   path: '/event',
   component: Layout,
-  redirect: '/event/event',
+  redirect: '/event',
   name: 'event',
   alwaysShow: true,
   meta: {
@@ -15,14 +15,14 @@ const eventRoutes = {
   children: [
     /** event managements */
     {
-      path: 'event/edit/:id(\\d+)',
+      path: 'edit/:id(\\d+)',
       component: () => import('@/views/event/Profile'),
       name: 'eventProfile',
       meta: { title: 'eventProfile', noCache: true, permissions: ['manage event'] },
       hidden: true,
     },
     {
-      path: 'event',
+      path: '',
       component: () => import('@/views/event/List'),
       name: 'eventList',
       meta: { title: 'List', icon: 'list', permissions: ['manage event'] },

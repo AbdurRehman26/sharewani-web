@@ -8,21 +8,6 @@
         class="filter-item"
         @keyup.enter.native="handleFilter"
       />
-      <el-select
-        v-model="query.role"
-        :placeholder="$t('table.role')"
-        clearable
-        style="width: 90px"
-        class="filter-item"
-        @change="handleFilter"
-      >
-        <el-option
-          v-for="item in roles"
-          :key="item"
-          :label="item | uppercaseFirst"
-          :value="item"
-        />
-      </el-select>
       <el-button
         v-waves
         class="filter-item"
@@ -41,16 +26,6 @@
       >
         {{ $t('table.add') }}
       </el-button>
-      <el-button
-        v-waves
-        :loading="downloading"
-        class="filter-item"
-        type="primary"
-        icon="el-icon-download"
-        @click="handleDownload"
-      >
-        {{ $t('table.export') }}
-      </el-button>
     </div>
 
     <el-table
@@ -67,36 +42,21 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="Name">
+      <el-table-column align="center" label="Title">
         <template slot-scope="scope">
-          <span>{{ scope.row.name }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="Email">
-        <template slot-scope="scope">
-          <span>{{ scope.row.email }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="Role" width="120">
-        <template slot-scope="scope">
-          <span>{{ scope.row.roles.join(', ') }}</span>
+          <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="Actions" width="350">
         <template slot-scope="scope">
-          <router-link
-            v-if="!scope.row.roles.includes('admin')"
-            :to="'/administrator/users/edit/' + scope.row.id"
-          >
+          <router-link :to="'/product/edit/' + scope.row.id">
             <el-button type="primary" size="small" icon="el-icon-edit">
               Edit
             </el-button>
           </router-link>
+
           <el-button
-            v-if="scope.row.roles.includes('visitor')"
             type="danger"
             size="small"
             icon="el-icon-delete"
@@ -121,14 +81,14 @@
         <el-form
           ref="userForm"
           :rules="rules"
-          :model="newItem"
+          :model="newUser"
           label-position="left"
           label-width="150px"
           style="max-width: 500px;"
         >
           <el-form-item :label="$t('user.role')" prop="role">
             <el-select
-              v-model="newItem.role"
+              v-model="newUser.role"
               class="filter-item"
               placeholder="Please select role"
             >
@@ -141,19 +101,19 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('user.name')" prop="name">
-            <el-input v-model="newItem.name" />
+            <el-input v-model="newUser.name" />
           </el-form-item>
           <el-form-item :label="$t('user.email')" prop="email">
-            <el-input v-model="newItem.email" />
+            <el-input v-model="newUser.email" />
           </el-form-item>
           <el-form-item :label="$t('user.password')" prop="password">
-            <el-input v-model="newItem.password" show-password />
+            <el-input v-model="newUser.password" show-password />
           </el-form-item>
           <el-form-item
             :label="$t('user.confirmPassword')"
             prop="confirmPassword"
           >
-            <el-input v-model="newItem.confirmPassword" show-password />
+            <el-input v-model="newUser.confirmPassword" show-password />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -171,10 +131,10 @@
 
 <script>
 import Pagination from '@/components/Pagination'; // Secondary package based on el-pagination
-import UserResource from '@/api/user';
+import Resource from '@/api/resource';
 import waves from '@/directive/waves'; // Waves directive
 
-const userResource = new UserResource();
+const itemResource = new Resource('product');
 
 export default {
   name: 'UserList',
@@ -182,7 +142,7 @@ export default {
   directives: { waves },
   data() {
     var validateConfirmPassword = (rule, value, callback) => {
-      if (value !== this.newItem.password) {
+      if (value !== this.newUser.password) {
         callback(new Error('Password is mismatched!'));
       } else {
         callback();
@@ -202,7 +162,7 @@ export default {
       },
       roles: ['admin', 'manager', 'editor', 'user', 'visitor'],
       nonAdminRoles: ['editor', 'user', 'visitor'],
-      newItem: {},
+      newUser: {},
       dialogFormVisible: false,
       currentUserId: 0,
       currentUser: {
@@ -234,19 +194,21 @@ export default {
   },
   computed: {},
   created() {
-    this.resetNewItem();
+    this.resetNewUser();
     this.getList();
   },
   methods: {
     async getList() {
       const { limit, page } = this.query;
       this.loading = true;
-      const { data, meta } = await userResource.list(this.query);
-      this.list = data;
+
+      const response = await itemResource.list(this.query);
+
+      this.list = response.data;
       this.list.forEach((element, index) => {
         element['index'] = (page - 1) * limit + index + 1;
       });
-      this.total = meta.total;
+      this.total = 10;
       this.loading = false;
     },
     handleFilter() {
@@ -254,7 +216,7 @@ export default {
       this.getList();
     },
     handleCreate() {
-      this.resetNewItem();
+      this.resetNewUser();
       this.dialogFormVisible = true;
       this.$nextTick(() => {
         this.$refs['userForm'].clearValidate();
@@ -271,7 +233,7 @@ export default {
         }
       )
         .then(() => {
-          userResource
+          itemResource
             .destroy(id)
             .then(response => {
               this.$message({
@@ -294,22 +256,22 @@ export default {
     createUser() {
       this.$refs['userForm'].validate(valid => {
         if (valid) {
-          this.newItem.roles = [this.newItem.role];
+          this.newUser.roles = [this.newUser.role];
           this.userCreating = true;
-          userResource
-            .store(this.newItem)
+          itemResource
+            .store(this.newUser)
             .then(response => {
               this.$message({
                 message:
                   'New user ' +
-                  this.newItem.name +
+                  this.newUser.name +
                   '(' +
-                  this.newItem.email +
+                  this.newUser.email +
                   ') has been created successfully.',
                 type: 'success',
                 duration: 5 * 1000,
               });
-              this.resetNewItem();
+              this.resetNewUser();
               this.dialogFormVisible = false;
               this.handleFilter();
             })
@@ -325,31 +287,14 @@ export default {
         }
       });
     },
-    resetNewItem() {
-      this.newItem = {
+    resetNewUser() {
+      this.newUser = {
         name: '',
         email: '',
         password: '',
         confirmPassword: '',
         role: 'user',
       };
-    },
-    handleDownload() {
-      this.downloading = true;
-      import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['id', 'user_id', 'name', 'email', 'role'];
-        const filterVal = ['index', 'id', 'name', 'email', 'role'];
-        const data = this.formatJson(filterVal, this.list);
-        excel.export_json_to_excel({
-          header: tHeader,
-          data,
-          filename: 'user-list',
-        });
-        this.downloading = false;
-      });
-    },
-    formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => v[j]));
     },
   },
 };

@@ -14,14 +14,14 @@ const orderRoutes = {
   children: [
     /** User managements */
     {
-      path: 'order/edit/:id(\\d+)',
+      path: 'edit/:id(\\d+)',
       component: () => import('@/views/order/Profile'),
       name: 'UserProfile',
       meta: { title: 'userProfile', noCache: true, permissions: ['manage user'] },
       hidden: true,
     },
     {
-      path: 'order',
+      path: '',
       component: () => import('@/views/order/List'),
       name: 'UserList',
       meta: { title: 'List', icon: 'list', permissions: ['manage user'] },

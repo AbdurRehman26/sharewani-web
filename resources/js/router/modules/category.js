@@ -4,7 +4,7 @@ import Layout from '@/layout';
 const categoryRoutes = {
   path: '/category',
   component: Layout,
-  redirect: '/category/category',
+  redirect: '/category',
   name: 'category',
   alwaysShow: true,
   meta: {
@@ -15,14 +15,14 @@ const categoryRoutes = {
   children: [
     /** category managements */
     {
-      path: 'category/edit/:id(\\d+)',
+      path: 'edit/:id(\\d+)',
       component: () => import('@/views/category/Profile'),
       name: 'categoryProfile',
       meta: { title: 'categoryProfile', noCache: true, permissions: ['manage category'] },
       hidden: true,
     },
     {
-      path: 'category',
+      path: '',
       component: () => import('@/views/category/List'),
       name: 'categoryList',
       meta: { title: 'List', icon: 'list', permissions: ['manage category'] },

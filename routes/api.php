@@ -140,14 +140,23 @@ Route::group(['middleware' => 'api'], function () {
     });
 
 });
+
 Route::resource('product', 'Api\V1\ProductController')->except([
              'edit'
-        ]);Route::resource('category', 'Api\V1\CategoryController')->except([
+]);
+
+Route::resource('category', 'Api\V1\CategoryController')->except([
              'edit'
-        ]);Route::resource('order', 'Api\V1\OrderController')->except([
+]);
+
+Route::resource('order', 'Api\V1\OrderController')->except([
              'edit'
-        ]);Route::resource('event', 'Api\V1\EventController')->except([
+]);
+
+Route::resource('event', 'Api\V1\EventController')->except([
              'edit'
-        ]);Route::resource('role', 'Api\V1\RoleController')->except([
+]);
+
+Route::resource('role', 'Api\V1\RoleController')->except([
              'edit'
-        ]);
+]);

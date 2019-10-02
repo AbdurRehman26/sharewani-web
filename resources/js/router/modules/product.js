@@ -4,7 +4,7 @@ import Layout from '@/layout';
 const productRoutes = {
   path: '/product',
   component: Layout,
-  redirect: '/product/product',
+  redirect: '/product',
   name: 'product',
   alwaysShow: true,
   meta: {
@@ -15,14 +15,14 @@ const productRoutes = {
   children: [
     /** product managements */
     {
-      path: 'product/edit/:id(\\d+)',
+      path: 'edit/:id(\\d+)',
       component: () => import('@/views/product/Profile'),
       name: 'productProfile',
       meta: { title: 'productProfile', noCache: true, permissions: ['manage product'] },
       hidden: true,
     },
     {
-      path: 'product',
+      path: '',
       component: () => import('@/views/product/List'),
       name: 'productList',
       meta: { title: 'List', icon: 'list', permissions: ['manage product'] },

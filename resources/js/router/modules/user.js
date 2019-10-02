@@ -4,7 +4,7 @@ import Layout from '@/layout';
 const userRoutes = {
   path: '/user',
   component: Layout,
-  redirect: '/user/user',
+  redirect: '/user',
   name: 'user',
   alwaysShow: true,
   meta: {
@@ -15,7 +15,7 @@ const userRoutes = {
   children: [
     /** User managements */
     {
-      path: 'user/edit/:id(\\d+)',
+      path: 'edit/:id(\\d+)',
       component: () => import('@/views/user/Profile'),
       name: 'UserProfile',
       meta: {
@@ -26,7 +26,7 @@ const userRoutes = {
       hidden: true,
     },
     {
-      path: 'user',
+      path: '',
       component: () => import('@/views/user/List'),
       name: 'UserList',
       meta: { title: 'User List', icon: 'list', permissions: ['manage user'] },
