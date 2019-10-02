@@ -5,6 +5,12 @@
         "laravel"
     ],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/AbdurRehman26/laravel-abstract-resource.git"
+        }
+    ],    
     "authors": [
         {
             "name": "Syed Abdur Rehman Kazmi",
@@ -22,7 +28,8 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "spatie/laravel-permission": "^2.37",
         "tymon/jwt-auth": "^1.0",
-        "yadakhov/insert-on-duplicate-key": "^1.2"
+        "yadakhov/insert-on-duplicate-key": "^1.2",
+        "kazmi/laravel-abstract-resource": "dev-master"
     },
     "require-dev": {
         "xethron/migrations-generator": "^2.0",

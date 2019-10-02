@@ -9,7 +9,7 @@ const userRoutes = {
   alwaysShow: true,
   meta: {
     title: 'User',
-    icon: 'admin',
+    icon: 'user',
     permissions: ['view menu user'],
   },
   children: [
@@ -25,14 +25,14 @@ const userRoutes = {
       path: 'user',
       component: () => import('@/views/user/List'),
       name: 'UserList',
-      meta: { title: 'user', icon: 'user', permissions: ['manage user'] },
+      meta: { title: 'User List', icon: 'user', permissions: ['manage user'] },
     },
     /** Role and permission */
     {
       path: 'roles',
       component: () => import('@/views/role-permission/List'),
       name: 'RoleList',
-      meta: { title: 'rolePermission', icon: 'role', permissions: ['manage permission'] },
+      meta: { title: 'Role List', icon: 'role', permissions: ['manage permission'] },
     }],
 };
 

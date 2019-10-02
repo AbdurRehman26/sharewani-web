@@ -9,7 +9,7 @@ const orderRoutes = {
   alwaysShow: true,
   meta: {
     title: 'Order',
-    icon: 'admin',
+    icon: 'shopping',
   },
   children: [
     /** User managements */
@@ -24,14 +24,7 @@ const orderRoutes = {
       path: 'order',
       component: () => import('@/views/order/List'),
       name: 'UserList',
-      meta: { title: 'List', icon: 'user', permissions: ['manage user'] },
-    },
-    /** Role and permission */
-    {
-      path: 'roles',
-      component: () => import('@/views/role-permission/List'),
-      name: 'RoleList',
-      meta: { title: 'rolePermission', icon: 'role', permissions: ['manage permission'] },
+      meta: { title: 'List', icon: 'list', permissions: ['manage user'] },
     }],
 };
 

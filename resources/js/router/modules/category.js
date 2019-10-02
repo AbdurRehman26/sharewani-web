@@ -9,7 +9,7 @@ const categoryRoutes = {
   alwaysShow: true,
   meta: {
     title: 'Category',
-    icon: 'admin',
+    icon: 'form',
     permissions: ['view menu category'],
   },
   children: [
@@ -25,14 +25,7 @@ const categoryRoutes = {
       path: 'category',
       component: () => import('@/views/category/List'),
       name: 'categoryList',
-      meta: { title: 'List', icon: 'component', permissions: ['manage category'] },
-    },
-    /** Role and permission */
-    {
-      path: 'roles',
-      component: () => import('@/views/role-permission/List'),
-      name: 'RoleList',
-      meta: { title: 'rolePermission', icon: 'role', permissions: ['manage permission'] },
+      meta: { title: 'List', icon: 'list', permissions: ['manage category'] },
     }],
 };
 

@@ -9,7 +9,7 @@ const productRoutes = {
   alwaysShow: true,
   meta: {
     title: 'Product',
-    icon: 'admin',
+    icon: 'theme',
     permissions: ['view menu product'],
   },
   children: [
@@ -25,14 +25,7 @@ const productRoutes = {
       path: 'product',
       component: () => import('@/views/product/List'),
       name: 'productList',
-      meta: { title: 'List', icon: 'product', permissions: ['manage product'] },
-    },
-    /** Role and permission */
-    {
-      path: 'roles',
-      component: () => import('@/views/role-permission/List'),
-      name: 'RoleList',
-      meta: { title: 'rolePermission', icon: 'role', permissions: ['manage permission'] },
+      meta: { title: 'List', icon: 'list', permissions: ['manage product'] },
     }],
 };
 
