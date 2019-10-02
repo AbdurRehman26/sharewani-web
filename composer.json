@@ -2,18 +2,13 @@
     "name": "tuandm/laravue",
     "description": "The beautiful dashboard for Laravel built by VueJS.",
     "keywords": [
-        "laravel",
-        "laravue",
-        "vue",
-        "admin",
-        "dashboard"
+        "laravel"
     ],
     "license": "MIT",
     "authors": [
         {
-            "name": "Tuan Duong",
-            "email": "bacduong@gmail.com",
-            "homepage": "https://laravue.dev",
+            "name": "Syed Abdur Rehman Kazmi",
+            "email": "sydabdrehman@gmail.com",
             "role": "Developer"
         }
     ],
@@ -27,7 +22,7 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "spatie/laravel-permission": "^2.37",
         "tymon/jwt-auth": "^1.0",
-        "yadakhov/insert-on-duplicate-key": "^1.2"       
+        "yadakhov/insert-on-duplicate-key": "^1.2"
     },
     "require-dev": {
         "xethron/migrations-generator": "^2.0",
