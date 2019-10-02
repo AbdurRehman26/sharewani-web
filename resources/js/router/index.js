@@ -15,7 +15,10 @@ import Layout from '@/layout';
 /* Router for modules */
 import componentRoutes from './modules/components';
 import tableRoutes from './modules/table';
-import adminRoutes from './modules/admin';
+import userRoutes from './modules/user';
+import productRoutes from './modules/product';
+import orderRoutes from './modules/order';
+import categoryRoutes from './modules/category';
 
 /**
  * Sub-menu only appear when children.length>=1
@@ -89,9 +92,12 @@ export const constantRoutes = [
 ];
 
 export const asyncRoutes = [
+  orderRoutes,
+  userRoutes,
+  productRoutes,
+  categoryRoutes,
   componentRoutes,
   tableRoutes,
-  adminRoutes,
   { path: '*', redirect: '/404', hidden: true },
 ];
 

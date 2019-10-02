@@ -1,31 +1,31 @@
 /** When your routing table is too long, you can split it into small modules**/
 import Layout from '@/layout';
 
-const adminRoutes = {
-  path: '/administrator',
+const userRoutes = {
+  path: '/user',
   component: Layout,
-  redirect: '/administrator/users',
-  name: 'Administrator',
+  redirect: '/user/user',
+  name: 'user',
   alwaysShow: true,
   meta: {
-    title: 'administrator',
+    title: 'User',
     icon: 'admin',
-    permissions: ['view menu administrator'],
+    permissions: ['view menu user'],
   },
   children: [
     /** User managements */
     {
-      path: 'users/edit/:id(\\d+)',
-      component: () => import('@/views/users/Profile'),
+      path: 'user/edit/:id(\\d+)',
+      component: () => import('@/views/user/Profile'),
       name: 'UserProfile',
       meta: { title: 'userProfile', noCache: true, permissions: ['manage user'] },
       hidden: true,
     },
     {
-      path: 'users',
-      component: () => import('@/views/users/List'),
+      path: 'user',
+      component: () => import('@/views/user/List'),
       name: 'UserList',
-      meta: { title: 'users', icon: 'user', permissions: ['manage user'] },
+      meta: { title: 'user', icon: 'user', permissions: ['manage user'] },
     },
     /** Role and permission */
     {
@@ -36,4 +36,4 @@ const adminRoutes = {
     }],
 };
 
-export default adminRoutes;
+export default userRoutes;
