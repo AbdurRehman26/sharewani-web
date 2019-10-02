@@ -165,6 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Kazmi\Providers\ResourceCommandServiceProvider::class,
 
         /*
          * Application Service Providers...

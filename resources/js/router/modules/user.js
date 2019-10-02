@@ -18,22 +18,27 @@ const userRoutes = {
       path: 'user/edit/:id(\\d+)',
       component: () => import('@/views/user/Profile'),
       name: 'UserProfile',
-      meta: { title: 'userProfile', noCache: true, permissions: ['manage user'] },
+      meta: {
+        title: 'userProfile',
+        noCache: true,
+        permissions: ['manage user'],
+      },
       hidden: true,
     },
     {
       path: 'user',
       component: () => import('@/views/user/List'),
       name: 'UserList',
-      meta: { title: 'User List', icon: 'user', permissions: ['manage user'] },
+      meta: { title: 'User List', icon: 'list', permissions: ['manage user'] },
     },
-    /** Role and permission */
-    {
-      path: 'roles',
-      component: () => import('@/views/role-permission/List'),
-      name: 'RoleList',
-      meta: { title: 'Role List', icon: 'role', permissions: ['manage permission'] },
-    }],
+    // /** Role and permission */
+    // {
+    //   path: 'roles',
+    //   component: () => import('@/views/role-permission/List'),
+    //   name: 'RoleList',
+    //   meta: { title: 'Role List', icon: 'role', permissions: ['manage permission'] },
+    // }
+  ],
 };
 
 export default userRoutes;
