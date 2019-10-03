@@ -18,7 +18,11 @@ const productRoutes = {
       path: 'edit/:id(\\d+)',
       component: () => import('@/views/product/Profile'),
       name: 'productProfile',
-      meta: { title: 'productProfile', noCache: true, permissions: ['manage product'] },
+      meta: {
+        title: 'productProfile',
+        noCache: true,
+        permissions: ['manage product'],
+      },
       hidden: true,
     },
     {
@@ -26,7 +30,8 @@ const productRoutes = {
       component: () => import('@/views/product/List'),
       name: 'productList',
       meta: { title: 'List', icon: 'list', permissions: ['manage product'] },
-    }],
+    },
+  ],
 };
 
 export default productRoutes;

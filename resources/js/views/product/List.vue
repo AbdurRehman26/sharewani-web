@@ -56,13 +56,18 @@
 
       <el-table-column align="center" label="EVENT">
         <template slot-scope="scope">
-          <span>{{ scope.row.event.name }}</span>
+          <span v-for="(event, index) in scope.row.events" :key="index">{{
+            event.name
+          }}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="CATEGORY">
         <template slot-scope="scope">
-          <span>{{ scope.row.category.name }}</span>
+          <span
+            v-for="(category, index) in scope.row.categories"
+            :key="index"
+          >{{ category.name }}</span>
         </template>
       </el-table-column>
 

@@ -9,4 +9,10 @@ class Order extends Model
 {
     //
 	use  InsertOnDuplicateKey;
+
+	const STATUSES = [
+		0 => 'Pending',
+		1 => 'Accepted',
+		-1 => 'Rejected'
+	];
 }

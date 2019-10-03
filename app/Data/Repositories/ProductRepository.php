@@ -57,11 +57,34 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
         $data = parent::findById($id, $refresh, $details, $encode);
         
         $data->user = app('UserRepository')->findById($data->user_id);
+    
+        $data->categories = $this->model->join('product_categories', function($join){
+            
+            $join->on('products.id' , 'product_categories.product_id');
         
-        $data->category = app('CategoryRepository')->findById($data->category_id);
+        })->join('categories', function($join){
+
+            $join->on('categories.id' , 'product_categories.category_id');
+
+        })
+        ->where('products.id' , $data->id)
+        ->select('categories.name', 'categories.id')
+        ->get();
+
+
+        $data->events = $this->model->join('product_events', function($join){
+            
+            $join->on('products.id' , 'product_events.product_id');
         
-        $data->event = app('EventRepository')->findById($data->event_id);
-        
+        })->join('events', function($join){
+
+            $join->on('events.id' , 'product_events.event_id');
+
+        })
+        ->where('events.id' , $data->id)
+        ->select('events.name', 'events.id')
+        ->get();
+
         $data->formatted_created_at = \Carbon\Carbon::parse($data->created_at)->diffForHumans();
 
         return $data;
