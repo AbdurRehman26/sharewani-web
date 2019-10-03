@@ -13,8 +13,8 @@ Vue.use(Router);
 import Layout from '@/layout';
 
 /* Router for modules */
-import componentRoutes from './modules/components';
-import tableRoutes from './modules/table';
+// import componentRoutes from './modules/components';
+// import tableRoutes from './modules/table';
 import userRoutes from './modules/user';
 import productRoutes from './modules/product';
 import orderRoutes from './modules/order';
@@ -98,8 +98,8 @@ export const asyncRoutes = [
   orderRoutes,
   categoryRoutes,
   eventRoutes,
-  componentRoutes,
-  tableRoutes,
+  // componentRoutes,
+  // tableRoutes,
   { path: '*', redirect: '/404', hidden: true },
 ];
 
