@@ -48,11 +48,41 @@
         </template>
       </el-table-column>
 
+      <el-table-column align="center" label="USER">
+        <template slot-scope="scope">
+          <span>{{ scope.row.user.name }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="EVENT">
+        <template slot-scope="scope">
+          <span>{{ scope.row.event.name }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="CATEGORY">
+        <template slot-scope="scope">
+          <span>{{ scope.row.category.name }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="UPLOADED AT">
+        <template slot-scope="scope">
+          <span>{{ scope.row.formatted_created_at }}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column align="center" label="Actions" width="350">
         <template slot-scope="scope">
           <router-link :to="'/product/edit/' + scope.row.id">
             <el-button type="primary" size="small" icon="el-icon-edit">
               Edit
+            </el-button>
+          </router-link>
+
+          <router-link :to="'/product/edit/' + scope.row.id">
+            <el-button type="warning" size="small" icon="el-icon-edit">
+              View
             </el-button>
           </router-link>
 

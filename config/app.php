@@ -167,6 +167,15 @@ return [
          */
         Kazmi\Providers\ResourceCommandServiceProvider::class,
 
+
+        /*
+         * Custom Service Providers...
+         */
+        App\Providers\UserRepositoryServiceProvider::class,
+        App\Providers\CategoryRepositoryServiceProvider::class,
+        App\Providers\EventRepositoryServiceProvider::class,
+
+
         /*
          * Application Service Providers...
          */

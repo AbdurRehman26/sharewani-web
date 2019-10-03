@@ -3,10 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Data\Models\Category;
-use App\Data\Repositories\CategoryRepository;
+use App\Laravue\Models\User;
+use App\Data\Repositories\UserRepository;
 
-class CategoryRepositoryServiceProvider extends ServiceProvider
+class UserRepositoryServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -25,8 +25,8 @@ class CategoryRepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind('CategoryRepository', function () {
-            return new CategoryRepository(new Category);
+        $this->app->bind('UserRepository', function () {
+            return new UserRepository(new User);
         });
 
     }

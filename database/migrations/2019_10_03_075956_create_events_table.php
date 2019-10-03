@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateCategoriesTable extends Migration {
+class CreateEventsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,13 +12,12 @@ class CreateCategoriesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('categories', function(Blueprint $table)
+		Schema::create('events', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->string('name');
+			$table->string('name')->nullable()->unique('name_UNIQUE');
 			$table->timestamps();
-			$table->string('deleted_at', 6)->nullable();
-			$table->integer('parent_id')->nullable();
+			$table->softDeletes();
 		});
 	}
 
@@ -30,7 +29,7 @@ class CreateCategoriesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('categories');
+		Schema::drop('events');
 	}
 
 }

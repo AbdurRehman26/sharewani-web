@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Data\Models\Event;
+use App\Data\Repositories\EventRepository;
 
 class EventRepositoryServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,9 @@ class EventRepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->bind('EventRepository', function () {
+            return new EventRepository(new Event);
+        });
+
     }
 }
