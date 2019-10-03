@@ -20,10 +20,11 @@ class CreateProductsTable extends Migration {
 			$table->text('images', 65535)->nullable();
 			$table->timestamps();
 			$table->softDeletes();
-			$table->boolean('number_of_items')->nullable();
+			$table->boolean('number_of_items')->nullable()->default(1);
 			$table->integer('user_id')->nullable();
-			$table->integer('category_id')->nullable();
-			$table->integer('event_id')->nullable();
+			$table->boolean('rent_per_day')->nullable();
+			$table->boolean('base_rent')->nullable();
+			$table->string('original_price', 45)->nullable()->default('1000');
 		});
 	}
 
