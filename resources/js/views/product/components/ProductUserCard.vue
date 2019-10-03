@@ -23,19 +23,6 @@
         </el-table>
       </div>
 
-      <div class="box-user-details">
-        <el-table :data="productDetails" :show-header="false">
-
-          <el-table-column prop="label" label="Name" />
-          <el-table-column label="Count" align="left" width="100">
-            <template slot-scope="scope">
-              {{ product[scope.row.key] }}
-            </template>
-          </el-table-column>
-
-        </el-table>
-      </div>
-
     </div>
   </el-card>
 </template>
@@ -57,47 +44,9 @@ export default {
         };
       },
     },
-    product: {
-      type: Object,
-      default: () => {
-        return {
-          number_of_items: '',
-          original_price: '',
-          total_orders: '',
-          total_accepted_orders: '',
-          total_pending_orders: '',
-        };
-      },
-    },
   },
   data() {
     return {
-      productDetails: [
-
-        {
-          'key': 'number_of_items',
-          'label': 'Total Items',
-        },
-        {
-          'key': 'original_price',
-          'label': 'Original Price',
-        },
-        {
-          'key': 'total_orders',
-          'label': 'Total Orders',
-        },
-        {
-          'key': 'total_accepted_orders',
-          'label': 'Accepted Orders',
-        },
-
-        {
-          'key': 'total_pending_orders',
-          'label': 'Rejected Orders',
-        },
-
-      ],
-
       userDetails: [
         {
           'key': 'name',

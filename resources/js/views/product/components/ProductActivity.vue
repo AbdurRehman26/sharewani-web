@@ -1,38 +1,39 @@
 <template>
   <el-card v-if="user.name">
     <el-tabs v-model="activeActivity" @tab-click="handleClick">
-      <el-tab-pane label="Activity" name="first">
+      <el-tab-pane label="Product Details" name="first">
         <div class="user-activity">
-
           <div class="user-skills user-bio-section">
             <div class="user-bio-section-header">
-              <svg-icon icon-class="skill" />
-              <span>Skills</span>
+              <span>
+                <strong> {{ product.title }} </strong></span>
             </div>
+
             <div class="user-bio-section-body">
               <div class="progress-item">
-                <span>Laravel</span>
-                <el-progress :percentage="70" />
-              </div>
-              <div class="progress-item">
-                <span>Vue</span>
-                <el-progress :percentage="18" />
-              </div>
-              <div class="progress-item">
-                <span>JavaScript</span>
-                <el-progress :percentage="12" />
-              </div>
-              <div class="progress-item">
-                <span>HTML &amp; CSS</span>
-                <el-progress :percentage="100" status="success" />
+                <span>{{ product.description }}</span>
               </div>
             </div>
+          </div>
+
+          <div class="box-user-details">
+            <el-table :data="productDetails" :show-header="false">
+              <el-table-column prop="label" label="Name" />
+              <el-table-column label="Count" align="left" width="100">
+                <template slot-scope="scope">
+                  {{ product[scope.row.key] }}
+                </template>
+              </el-table-column>
+            </el-table>
           </div>
 
           <div class="post">
             <div class="user-images">
               <el-carousel :interval="6000" type="card" height="200px">
-                <el-carousel-item v-for="(item, index) in product.images" :key="index">
+                <el-carousel-item
+                  v-for="(item, index) in product.images"
+                  :key="index"
+                >
                   <img :src="item" class="image">
                 </el-carousel-item>
               </el-carousel>
@@ -75,13 +76,32 @@ export default {
   },
   data() {
     return {
-      activeActivity: 'first',
-      carouselImages: [
-        'https://cdn.laravue.dev/photo1.png',
-        'https://cdn.laravue.dev/photo2.png',
-        'https://cdn.laravue.dev/photo3.jpg',
-        'https://cdn.laravue.dev/photo4.jpg',
+      productDetails: [
+        {
+          key: 'number_of_items',
+          label: 'Total Items',
+        },
+        {
+          key: 'original_price',
+          label: 'Original Price',
+        },
+        {
+          key: 'total_orders',
+          label: 'Total Orders',
+        },
+        {
+          key: 'total_accepted_orders',
+          label: 'Accepted Orders',
+        },
+
+        {
+          key: 'total_pending_orders',
+          label: 'Rejected Orders',
+        },
       ],
+
+      activeActivity: 'first',
+      carouselImages: [],
       updating: false,
     };
   },
@@ -111,9 +131,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.user-bio-section-body, .box-user-details, .post {
+  margin-top: 40px;
+}
+
 .user-activity {
   .user-block {
-    .username, .description {
+    .username,
+    .description {
       display: block;
       margin-left: 50px;
       padding: 2px 0;
@@ -160,7 +185,8 @@ export default {
       font-size: 13px;
     }
     .link-black {
-      &:hover, &:focus {
+      &:hover,
+      &:focus {
         color: #999;
       }
     }
@@ -177,7 +203,7 @@ export default {
     background-color: #99a9bf;
   }
 
-  .el-carousel__item:nth-child(2n+1) {
+  .el-carousel__item:nth-child(2n + 1) {
     background-color: #d3dce6;
   }
 }

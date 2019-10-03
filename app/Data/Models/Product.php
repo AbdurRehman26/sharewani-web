@@ -9,4 +9,8 @@ class Product extends Model
 {
     //
 	use  InsertOnDuplicateKey;
+
+    protected $casts = [
+        'images' => 'array'
+    ];
 }
