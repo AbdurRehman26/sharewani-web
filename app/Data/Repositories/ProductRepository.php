@@ -87,6 +87,16 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
 
         $data->formatted_created_at = \Carbon\Carbon::parse($data->created_at)->diffForHumans();
 
+        if(!empty($details['dashboard_stats'])){
+
+            $data->total_orders = \App\Data\Models\Order::where('product_id', $data->id)->count();
+            $data->total_accepted_orders = \App\Data\Models\Order::where(['product_id' => $data->id, 'status' => 1])->count();
+            $data->total_pending_orders = \App\Data\Models\Order::where(['product_id' => $data->id, 'status' => 0])->count(); 
+
+        }
+
+
+
         return $data;
     }
 

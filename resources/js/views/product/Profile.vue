@@ -3,11 +3,10 @@
     <el-form v-if="user" :model="user">
       <el-row :gutter="20">
         <el-col :span="6">
-          <user-card :user="user" />
-          <user-bio />
+          <product-user-card :product="product" :user="user" />
         </el-col>
         <el-col :span="18">
-          <user-activity :user="user" />
+          <product-activity :product="product" :user="user" />
         </el-col>
       </el-row>
     </el-form>
@@ -16,30 +15,32 @@
 
 <script>
 import Resource from '@/api/resource';
-import UserBio from './components/UserBio';
-import UserCard from './components/UserCard';
-import UserActivity from './components/UserActivity';
+import ProductUserCard from './components/ProductUserCard';
+import ProductActivity from './components/ProductActivity';
 
-const userResource = new Resource('users');
+const itemResource = new Resource('product');
 export default {
   name: 'EditUser',
-  components: { UserBio, UserCard, UserActivity },
+  components: { ProductUserCard, ProductActivity },
   data() {
     return {
+      product: {},
       user: {},
     };
   },
   watch: {
-    '$route': 'getUser',
+    '$route': 'getItem',
   },
   created() {
-    const id = this.$route.params && this.$route.params.id;
-    this.getUser(id);
+    var id = this.$route.params && this.$route.params.id;
+    id += '?dashboard_stats=true';
+    this.getItem(id);
   },
   methods: {
-    async getUser(id) {
-      const { data } = await userResource.get(id);
-      this.user = data;
+    async getItem(id) {
+      const response = await itemResource.get(id);
+      this.product = response.data;
+      this.user = response.data.user;
     },
   },
 };

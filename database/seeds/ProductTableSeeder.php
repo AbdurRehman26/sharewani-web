@@ -46,6 +46,8 @@ class ProductTableSeeder extends Seeder
                 'description' => $faker->text,
                 'user_id' => $userId,
                 'images' => json_encode($images),
+                'number_of_items' => 1,
+                'original_price' => 1000,
                 'created_at' => $date,
                 'updated_at' => $date,
                 'deleted_at' => NULL

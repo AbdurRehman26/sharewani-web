@@ -54,7 +54,7 @@ class ProductController extends ApiResourceController{
     }
 
     public function input($value=''){
-        $input = request()->only('id');
+        $input = request()->only('id', 'pagination', 'dashboard_stats');
         
         return $input;
     }
