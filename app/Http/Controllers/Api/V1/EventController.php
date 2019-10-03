@@ -54,7 +54,7 @@ class EventController extends ApiResourceController{
     }
 
     public function input($value=''){
-        $input = request()->only('id');
+        $input = request()->only('id', 'name', 'pagination', 'page');
         
         return $input;
     }

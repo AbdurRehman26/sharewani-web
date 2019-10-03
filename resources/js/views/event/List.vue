@@ -76,51 +76,26 @@
       @pagination="getList"
     />
 
-    <el-dialog :title="'Create new user'" :visible.sync="dialogFormVisible">
-      <div v-loading="userCreating" class="form-container">
+    <el-dialog :title="'Create new event'" :visible.sync="dialogFormVisible">
+      <div v-loading="itemCreating" class="form-container">
         <el-form
           ref="userForm"
           :rules="rules"
-          :model="newUser"
+          :model="newItem"
           label-position="left"
           label-width="150px"
           style="max-width: 500px;"
         >
-          <el-form-item :label="$t('user.role')" prop="role">
-            <el-select
-              v-model="newUser.role"
-              class="filter-item"
-              placeholder="Please select role"
-            >
-              <el-option
-                v-for="item in nonAdminRoles"
-                :key="item"
-                :label="item | uppercaseFirst"
-                :value="item"
-              />
-            </el-select>
-          </el-form-item>
           <el-form-item :label="$t('user.name')" prop="name">
-            <el-input v-model="newUser.name" />
+            <el-input v-model="newItem.name" />
           </el-form-item>
-          <el-form-item :label="$t('user.email')" prop="email">
-            <el-input v-model="newUser.email" />
-          </el-form-item>
-          <el-form-item :label="$t('user.password')" prop="password">
-            <el-input v-model="newUser.password" show-password />
-          </el-form-item>
-          <el-form-item
-            :label="$t('user.confirmPassword')"
-            prop="confirmPassword"
-          >
-            <el-input v-model="newUser.confirmPassword" show-password />
-          </el-form-item>
+
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">
             {{ $t('table.cancel') }}
           </el-button>
-          <el-button type="primary" @click="createUser()">
+          <el-button type="primary" @click="createNewItem()">
             {{ $t('table.confirm') }}
           </el-button>
         </div>
@@ -141,60 +116,34 @@ export default {
   components: { Pagination },
   directives: { waves },
   data() {
-    var validateConfirmPassword = (rule, value, callback) => {
-      if (value !== this.newUser.password) {
-        callback(new Error('Password is mismatched!'));
-      } else {
-        callback();
-      }
-    };
     return {
       list: null,
       total: 0,
       loading: true,
       downloading: false,
-      userCreating: false,
+      itemCreating: false,
       query: {
         page: 1,
         limit: 15,
         keyword: '',
         role: '',
       },
-      roles: ['admin', 'manager', 'editor', 'user', 'visitor'],
-      nonAdminRoles: ['editor', 'user', 'visitor'],
-      newUser: {},
+      newItem: {},
       dialogFormVisible: false,
-      currentUserId: 0,
-      currentUser: {
+      currentItemId: 0,
+      currentItem: {
         name: '',
       },
       rules: {
-        role: [
-          { required: true, message: 'Role is required', trigger: 'change' },
-        ],
         name: [
           { required: true, message: 'Name is required', trigger: 'blur' },
-        ],
-        email: [
-          { required: true, message: 'Email is required', trigger: 'blur' },
-          {
-            type: 'email',
-            message: 'Please input correct email address',
-            trigger: ['blur', 'change'],
-          },
-        ],
-        password: [
-          { required: true, message: 'Password is required', trigger: 'blur' },
-        ],
-        confirmPassword: [
-          { validator: validateConfirmPassword, trigger: 'blur' },
         ],
       },
     };
   },
   computed: {},
   created() {
-    this.resetNewUser();
+    this.resetNewItem();
     this.getList();
   },
   methods: {
@@ -216,7 +165,7 @@ export default {
       this.getList();
     },
     handleCreate() {
-      this.resetNewUser();
+      this.resetNewItem();
       this.dialogFormVisible = true;
       this.$nextTick(() => {
         this.$refs['userForm'].clearValidate();
@@ -253,25 +202,22 @@ export default {
           });
         });
     },
-    createUser() {
+    createNewItem() {
       this.$refs['userForm'].validate(valid => {
         if (valid) {
-          this.newUser.roles = [this.newUser.role];
-          this.userCreating = true;
+          this.itemCreating = true;
           itemResource
-            .store(this.newUser)
+            .store(this.newItem)
             .then(response => {
               this.$message({
                 message:
-                  'New user ' +
-                  this.newUser.name +
-                  '(' +
-                  this.newUser.email +
-                  ') has been created successfully.',
+                  'New item ' +
+                  this.newItem.name +
+                  ' has been created successfully.',
                 type: 'success',
                 duration: 5 * 1000,
               });
-              this.resetNewUser();
+              this.resetNewItem();
               this.dialogFormVisible = false;
               this.handleFilter();
             })
@@ -279,7 +225,7 @@ export default {
               console.log(error);
             })
             .finally(() => {
-              this.userCreating = false;
+              this.itemCreating = false;
             });
         } else {
           console.log('error submit!!');
@@ -287,13 +233,9 @@ export default {
         }
       });
     },
-    resetNewUser() {
-      this.newUser = {
+    resetNewItem() {
+      this.newItem = {
         name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        role: 'user',
       };
     },
   },

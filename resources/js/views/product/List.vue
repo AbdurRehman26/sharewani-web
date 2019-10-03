@@ -79,11 +79,6 @@
 
       <el-table-column align="center" label="Actions" width="350">
         <template slot-scope="scope">
-          <router-link :to="'/product/edit/' + scope.row.id">
-            <el-button type="primary" size="small" icon="el-icon-edit">
-              Edit
-            </el-button>
-          </router-link>
 
           <router-link :to="'/product/edit/' + scope.row.id">
             <el-button type="warning" size="small" icon="el-icon-edit">
@@ -91,14 +86,6 @@
             </el-button>
           </router-link>
 
-          <el-button
-            type="danger"
-            size="small"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row.id, scope.row.name)"
-          >
-            Delete
-          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -121,20 +108,6 @@
           label-width="150px"
           style="max-width: 500px;"
         >
-          <el-form-item :label="$t('user.role')" prop="role">
-            <el-select
-              v-model="newUser.role"
-              class="filter-item"
-              placeholder="Please select role"
-            >
-              <el-option
-                v-for="item in nonAdminRoles"
-                :key="item"
-                :label="item | uppercaseFirst"
-                :value="item"
-              />
-            </el-select>
-          </el-form-item>
           <el-form-item :label="$t('user.name')" prop="name">
             <el-input v-model="newUser.name" />
           </el-form-item>
@@ -176,13 +149,6 @@ export default {
   components: { Pagination },
   directives: { waves },
   data() {
-    var validateConfirmPassword = (rule, value, callback) => {
-      if (value !== this.newUser.password) {
-        callback(new Error('Password is mismatched!'));
-      } else {
-        callback();
-      }
-    };
     return {
       list: null,
       total: 0,
@@ -193,10 +159,7 @@ export default {
         page: 1,
         limit: 15,
         keyword: '',
-        role: '',
       },
-      roles: ['admin', 'manager', 'editor', 'user', 'visitor'],
-      nonAdminRoles: ['editor', 'user', 'visitor'],
       newUser: {},
       dialogFormVisible: false,
       currentUserId: 0,
@@ -204,25 +167,8 @@ export default {
         name: '',
       },
       rules: {
-        role: [
-          { required: true, message: 'Role is required', trigger: 'change' },
-        ],
         name: [
           { required: true, message: 'Name is required', trigger: 'blur' },
-        ],
-        email: [
-          { required: true, message: 'Email is required', trigger: 'blur' },
-          {
-            type: 'email',
-            message: 'Please input correct email address',
-            trigger: ['blur', 'change'],
-          },
-        ],
-        password: [
-          { required: true, message: 'Password is required', trigger: 'blur' },
-        ],
-        confirmPassword: [
-          { validator: validateConfirmPassword, trigger: 'blur' },
         ],
       },
     };
