@@ -18,11 +18,13 @@ class OrderTableSeeder extends Seeder
         $date = Carbon::now()->toDateTimeString();
         $toDate = Carbon::now()->addDays(3)->toDateTimeString();
 
-        $userId = \App\Laravue\Models\User::first()['id'];
-		    $productId = \App\Data\Models\Product::first()['id'];
 
-        $data = [
-            [
+        for($i=0; $i<50; $i++){
+
+        $userId = \App\Laravue\Models\User::inRandomOrder()->first()['id'];
+		    $productId = \App\Data\Models\Product::inRandomOrder()->first()['id'];
+
+        $data[] = [
             'product_id' => $productId,	
             'user_id' => $userId,
             'from_date' => $date,
@@ -30,8 +32,10 @@ class OrderTableSeeder extends Seeder
             'created_at' => $date,
             'updated_at' => $date,
             'deleted_at' => NULL
-          ]
         ];
+
+        }
+
         
         \App\Data\Models\Order::insertOnDuplicateKey($data);
 

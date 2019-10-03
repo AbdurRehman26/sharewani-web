@@ -17,6 +17,19 @@ class ProductTableSeeder extends Seeder
         $faker = Faker::create();
         $date = Carbon::now()->toDateTimeString();
 
+
+        $sharewaniColors = [
+            'White',
+            'Tan',
+            'Yellow',
+            'Orange',
+            'Red',
+            'Pink',
+            'Purple',
+            'Blue',
+        ];
+
+
         $userId = \App\Laravue\Models\User::first()['id'];
 
         $imagesArray = config('dummyImages');
@@ -25,20 +38,22 @@ class ProductTableSeeder extends Seeder
 
         $images = array_slice($imagesArray, 0, 3);
 
-        $data = [
-            [
-            'title' => 'Black Sherwani',
-            'description' => $faker->text,
-            'user_id' => $userId,
-            'images' => json_encode($images),
-            'created_at' => $date,
-            'updated_at' => $date,
-            'deleted_at' => NULL
-          ]
-        ];
+
+        foreach ($sharewaniColors as $key => $sharewani) {
+ 
+           $data[] = [
+                'title' => "$sharewani Sherwani",
+                'description' => $faker->text,
+                'user_id' => $userId,
+                'images' => json_encode($images),
+                'created_at' => $date,
+                'updated_at' => $date,
+                'deleted_at' => NULL
+            ];
+ 
+        };
         
         \App\Data\Models\Product::insertOnDuplicateKey($data);
-
 
 }
 }

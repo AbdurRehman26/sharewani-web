@@ -13,16 +13,19 @@ class CategoryTableSeeder extends Seeder
     public function run()
     {
 
-    	$date = Carbon::now()->toDateTimeString();
+        $date = Carbon::now()->toDateTimeString();
 
-      $data = [
+        
 
-        'name' => 'Sharewani',
-        'created_at' => $date,
-        'updated_at' => $date,
-        'deleted_at' => NULL
 
-      ];
+          $data = [
+
+            'name' => 'Sharewani',
+            'created_at' => $date,
+            'updated_at' => $date,
+            'deleted_at' => NULL
+
+          ];
 
 
       \App\Data\Models\Category::insertOnDuplicateKey($data, ['name']);
