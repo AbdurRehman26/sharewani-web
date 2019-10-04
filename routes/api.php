@@ -82,4 +82,7 @@ Route::group(['middleware' => 'api'], function () {
                  'edit'
     ]);
 
+
+    Route::post('file/upload', 'Api\V1\FileUploadController@upload')->name("file.upload");
+
 });

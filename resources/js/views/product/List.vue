@@ -67,7 +67,8 @@
           <span
             v-for="(category, index) in scope.row.categories"
             :key="index"
-          >{{ category.name }}</span>
+          >{{ category.name }}
+          </span>
         </template>
       </el-table-column>
 
@@ -79,13 +80,11 @@
 
       <el-table-column align="center" label="Actions" width="350">
         <template slot-scope="scope">
-
           <router-link :to="'/product/edit/' + scope.row.id">
             <el-button type="warning" size="small" icon="el-icon-edit">
               View
             </el-button>
           </router-link>
-
         </template>
       </el-table-column>
     </el-table>
@@ -103,32 +102,63 @@
         <el-form
           ref="userForm"
           :rules="rules"
-          :model="newUser"
+          :model="newItem"
           label-position="left"
           label-width="150px"
-          style="max-width: 500px;"
+          style="max-width: 850px;"
         >
-          <el-form-item :label="$t('user.name')" prop="name">
-            <el-input v-model="newUser.name" />
+          <el-form-item :label="$t('product.title')" prop="title">
+            <el-input v-model="newItem.title" style="max-width : 200px;" />
           </el-form-item>
-          <el-form-item :label="$t('user.email')" prop="email">
-            <el-input v-model="newUser.email" />
+
+          <el-form-item :label="$t('product.event')" prop="role">
+            <el-select
+              v-model="newItem.event"
+              class="filter-item"
+              placeholder="Please select event"
+            >
+              <el-option
+                v-for="event in events"
+                :key="event.id"
+                :label="event.name | uppercaseFirst"
+                :value="event.id"
+              />
+            </el-select>
           </el-form-item>
-          <el-form-item :label="$t('user.password')" prop="password">
-            <el-input v-model="newUser.password" show-password />
+
+          <el-form-item :label="$t('product.category')" prop="role">
+            <el-select
+              v-model="newItem.category"
+              class="filter-item"
+              placeholder="Please select category"
+            >
+              <el-option
+                v-for="category in categories"
+                :key="category.id"
+                :label="category.name | uppercaseFirst"
+                :value="category.id"
+              />
+            </el-select>
           </el-form-item>
-          <el-form-item
-            :label="$t('user.confirmPassword')"
-            prop="confirmPassword"
-          >
-            <el-input v-model="newUser.confirmPassword" show-password />
+
+          <el-form-item>
+            <div class="components-container">
+              <div class="editor-container">
+                <dropzone
+                  id="myVueDropzone"
+                  url="api/file/upload"
+                  @dropzone-removedFile="dropzoneR"
+                  @dropzone-success="dropzoneS"
+                />
+              </div>
+            </div>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">
             {{ $t('table.cancel') }}
           </el-button>
-          <el-button type="primary" @click="createUser()">
+          <el-button type="primary" @click="createItem()">
             {{ $t('table.confirm') }}
           </el-button>
         </div>
@@ -141,15 +171,20 @@
 import Pagination from '@/components/Pagination'; // Secondary package based on el-pagination
 import Resource from '@/api/resource';
 import waves from '@/directive/waves'; // Waves directive
+import Dropzone from '@/components/Dropzone';
 
 const itemResource = new Resource('product');
+const categoryResource = new Resource('category');
+const eventResource = new Resource('event');
 
 export default {
   name: 'UserList',
-  components: { Pagination },
+  components: { Pagination, Dropzone },
   directives: { waves },
   data() {
     return {
+      categories: [],
+      events: [],
       list: null,
       total: 0,
       loading: true,
@@ -160,25 +195,61 @@ export default {
         limit: 15,
         keyword: '',
       },
-      newUser: {},
+      newItem: {},
       dialogFormVisible: false,
-      currentUserId: 0,
-      currentUser: {
-        name: '',
-      },
       rules: {
-        name: [
-          { required: true, message: 'Name is required', trigger: 'blur' },
+        title: [
+          { required: true, message: 'Title is required', trigger: 'blur' },
+        ],
+        category: [
+          { required: true, message: 'Category is required', trigger: 'blur' },
+        ],
+        event: [
+          { required: true, message: 'Event is required', trigger: 'blur' },
         ],
       },
     };
   },
   computed: {},
   created() {
-    this.resetNewUser();
+    this.resetNewItem();
     this.getList();
+    this.getCategoryList();
+    this.getEventList();
   },
   methods: {
+    dropzoneS(file) {
+      console.log(file);
+      this.$message({ message: 'Upload success', type: 'success' });
+    },
+    dropzoneR(file) {
+      this.$message({ message: 'Delete success', type: 'success' });
+    },
+
+    async getCategoryList() {
+      const { limit, page } = this.query;
+      this.loading = true;
+
+      const response = await categoryResource.list(this.query);
+
+      this.categories = response.data;
+      this.categories.forEach((element, index) => {
+        element['index'] = (page - 1) * limit + index + 1;
+      });
+      this.loading = false;
+    },
+    async getEventList() {
+      const { limit, page } = this.query;
+      this.loading = true;
+
+      const response = await eventResource.list(this.query);
+
+      this.events = response.data;
+      this.events.forEach((element, index) => {
+        element['index'] = (page - 1) * limit + index + 1;
+      });
+      this.loading = false;
+    },
     async getList() {
       const { limit, page } = this.query;
       this.loading = true;
@@ -197,7 +268,7 @@ export default {
       this.getList();
     },
     handleCreate() {
-      this.resetNewUser();
+      this.resetNewItem();
       this.dialogFormVisible = true;
       this.$nextTick(() => {
         this.$refs['userForm'].clearValidate();
@@ -234,25 +305,25 @@ export default {
           });
         });
     },
-    createUser() {
+    createItem() {
       this.$refs['userForm'].validate(valid => {
         if (valid) {
-          this.newUser.roles = [this.newUser.role];
+          this.newItem.roles = [this.newItem.role];
           this.userCreating = true;
           itemResource
-            .store(this.newUser)
+            .store(this.newItem)
             .then(response => {
               this.$message({
                 message:
                   'New user ' +
-                  this.newUser.name +
+                  this.newItem.title +
                   '(' +
-                  this.newUser.email +
+                  this.newItem.event +
                   ') has been created successfully.',
                 type: 'success',
                 duration: 5 * 1000,
               });
-              this.resetNewUser();
+              this.resetNewItem();
               this.dialogFormVisible = false;
               this.handleFilter();
             })
@@ -268,13 +339,11 @@ export default {
         }
       });
     },
-    resetNewUser() {
-      this.newUser = {
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        role: 'user',
+    resetNewItem() {
+      this.newItem = {
+        title: '',
+        category: null,
+        event: null,
       };
     },
   },
