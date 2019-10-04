@@ -31,7 +31,7 @@
             <div class="user-images">
               <el-carousel :interval="6000" type="card" height="200px">
                 <el-carousel-item
-                  v-for="(item, index) in product.images"
+                  v-for="(item, index) in product.image_paths"
                   :key="index"
                 >
                   <img :src="item" class="image">

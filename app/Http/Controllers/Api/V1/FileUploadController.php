@@ -19,12 +19,25 @@ class FileUploadController extends Controller
 
 	public function remove(Request $request)
 	{
+
 		$validator = Validator::make($request->all(), [ 'file_name' => 'required' ]);
 		if ($validator->fails()) {
 			return response()->json(['error'=>'Required file_name is missing.']);
 		}else{
-			$orignalFileName = config('uploads.user-photos.folder').$request->get('file_name');
-			$thumbFileName = config('uploads.user-photos.thumb.folder').$request->get('file_name');
+
+			$key = $request->key;
+	
+			$config = config("uploads.{$key}");
+		
+			if (!$key) {
+
+				$config = config("uploads.default");
+			
+			}
+
+			$orignalFileName = $config['public_relative'] .  '/' . $request->get('file_name');
+			$thumbFileName = $config['public_relative'] .  '/' . $request->get('file_name');
+			
 			if(Storage::exists($orignalFileName)) {
 				Storage::delete($orignalFileName);
 			}
@@ -40,14 +53,17 @@ class FileUploadController extends Controller
 		$key = $request->key;
 
 		$folderId = request()->user() ? request()->user()->id : null;
-		
-		if($key == 'event'){
-			$eventData = request()->only('id');
-			$folderId = $eventData['id'];
-		}	
 
-		$config = config("uploads.images.{$key}");
-		dd($config);
+		$config = config("uploads.{$key}");
+
+		
+		if (!$key) {
+
+			$config = config("uploads.default");
+		
+		}
+
+
 		if ($config) {
 
 			$field = isset($config['field']) ? $config['field'] : 'file';
@@ -63,14 +79,14 @@ class FileUploadController extends Controller
 			$file = $request->file($field);
 
 			if($file){
-				$file->store($config['folder_name']  .'/'. $folderId);
+				$file->store($config['folder_name']);
 			}
 			if(!$file){
 				$file = $request->file; 
 				$file = str_replace('data:image/png;base64,', '', $file);
 				$file = str_replace(' ', '+', $file);
 				$imageName = str_random(50).'.'.'png';
-				Storage::put($config['folder_name'] . '/' .  $folderId . '/' . $imageName, base64_decode($file));
+				Storage::put($config['folder_name'] . '/' . $imageName, base64_decode($file));
 
 			}
 
@@ -131,16 +147,17 @@ class FileUploadController extends Controller
 				}
 				$thumbImageName = str_random(25);
 				
-				Storage::put($config['folder_name'] .  '/' . $folderId . '/' .  $thumbImageName, $image->stream()->__toString());
+				Storage::put($config['folder_name'] .   '/' .  $thumbImageName, $image->stream()->__toString());
 
 				$response['thumb_name'] = $thumbImageName;
-				$response['thumbnail_url'] = Storage::url($config['folder_name'] . '/' . $folderId . '/' . $thumbImageName);
+				$response['thumbnail_url'] = Storage::url('storage/'.$config['folder_name'] .  '/' . $thumbImageName);
 			}
 
 			$fileHashName = !empty($imageName) ? $imageName : $file->hashName(); 
 
 			$response['name'] = $fileHashName;
-			$response['upload_url'] = url(config('uploads.images.'.$key.'.public_relative')) . '/' . $folderId . '/'. $fileHashName;
+
+			$response['upload_url'] = url('storage/'.$config['public_relative']) .  '/'. $fileHashName;
 
 			return $this->prepareUploadSuccessfulResponse($response, $file);
 		}

@@ -205,6 +205,8 @@ export default {
     title: 'Title',
     event: 'Event',
     category: 'Category',
+    original_price: 'Original Price',
+    number_of_items: 'Total Items',
   },
   roles: {
     description: {

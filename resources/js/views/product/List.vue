@@ -111,6 +111,14 @@
             <el-input v-model="newItem.title" style="max-width : 200px;" />
           </el-form-item>
 
+          <el-form-item :label="$t('product.original_price')" prop="original_price">
+            <el-input v-model="newItem.original_price" type="number" style="max-width : 200px;" />
+          </el-form-item>
+
+          <el-form-item :label="$t('product.number_of_items')" prop="number_of_items">
+            <el-input v-model="newItem.number_of_items" type="number" style="max-width : 200px;" />
+          </el-form-item>
+
           <el-form-item :label="$t('product.event')" prop="role">
             <el-select
               v-model="newItem.event"
@@ -176,6 +184,7 @@ import Dropzone from '@/components/Dropzone';
 const itemResource = new Resource('product');
 const categoryResource = new Resource('category');
 const eventResource = new Resource('event');
+const fileResource = new Resource('file/remove');
 
 export default {
   name: 'UserList',
@@ -219,10 +228,27 @@ export default {
   },
   methods: {
     dropzoneS(file) {
-      console.log(file);
+      if (file && file.xhr && file.xhr.response){
+        const uploadedFile = JSON.parse(file.xhr.response);
+
+        this.newItem.images.push(uploadedFile.name);
+      }
+
       this.$message({ message: 'Upload success', type: 'success' });
     },
     dropzoneR(file) {
+      if (file && file.xhr && file.xhr.response){
+        const uploadedFile = JSON.parse(file.xhr.response);
+
+        this.newItem.images.splice(this.newItem.images.indexOf(uploadedFile.name));
+
+        const fileData = {
+          file_name: uploadedFile.name,
+        };
+
+        fileResource.store(fileData);
+      }
+
       this.$message({ message: 'Delete success', type: 'success' });
     },
 
@@ -308,7 +334,6 @@ export default {
     createItem() {
       this.$refs['userForm'].validate(valid => {
         if (valid) {
-          this.newItem.roles = [this.newItem.role];
           this.userCreating = true;
           itemResource
             .store(this.newItem)
@@ -344,6 +369,9 @@ export default {
         title: '',
         category: null,
         event: null,
+        images: [],
+        original_price: 0,
+        number_of_items: 0,
       };
     },
   },
