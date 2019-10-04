@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Data\Repositories\ProductRepository;
+use App\Data\Repositories\UserRepository;
 use Kazmi\Http\Controllers\ApiResourceController;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 
 
-class ProductController extends ApiResourceController{
+class UserController extends ApiResourceController{
     
     public $_repository;
 
-    public function __construct(ProductRepository $repository){
+    public function __construct(UserRepository $repository){
         $this->_repository = $repository;
     }
 
@@ -54,7 +54,7 @@ class ProductController extends ApiResourceController{
     }
 
     public function input($value=''){
-        $input = request()->only('id', 'pagination', 'dashboard_stats');
+        $input = request()->only('id', 'name', 'pagination', 'page');
         
         return $input;
     }

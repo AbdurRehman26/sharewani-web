@@ -58,4 +58,19 @@ class OrderController extends ApiResourceController{
         
         return $input;
     }
+
+    public function itemCount(Request $request)
+    {
+        $data = $this->_repository->findTotal();
+    
+        $output = [
+                'data' => $data,
+        ];
+
+        // HTTP_OK = 200;
+
+        return response()->json($output, Response::HTTP_OK);
+
+    }
+
 }
