@@ -16,28 +16,28 @@ class DatabaseSeeder extends Seeder
     {
         $admin = User::create([
             'name' => 'Admin',
-            'email' => 'admin@laravue.dev',
-            'password' => Hash::make('laravue'),
+            'email' => 'admin@sharewani.com',
+            'password' => Hash::make('sharewani123!@#'),
         ]);
         $manager = User::create([
             'name' => 'Manager',
-            'email' => 'manager@laravue.dev',
-            'password' => Hash::make('laravue'),
+            'email' => 'manager@sharewani.com',
+            'password' => Hash::make('sharewani123!@#'),
         ]);
         $editor = User::create([
             'name' => 'Editor',
-            'email' => 'editor@laravue.dev',
-            'password' => Hash::make('laravue'),
+            'email' => 'editor@sharewani.com',
+            'password' => Hash::make('sharewani123!@#'),
         ]);
         $user = User::create([
             'name' => 'User',
-            'email' => 'user@laravue.dev',
-            'password' => Hash::make('laravue'),
+            'email' => 'user@sharewani.com',
+            'password' => Hash::make('sharewani123!@#'),
         ]);
         $visitor = User::create([
             'name' => 'Visitor',
-            'email' => 'visitor@laravue.dev',
-            'password' => Hash::make('laravue'),
+            'email' => 'visitor@sharewani.com',
+            'password' => Hash::make('sharewani123!@#'),
         ]);
 
         $adminRole = Role::findByName(\App\Laravue\Acl::ROLE_ADMIN);
@@ -50,6 +50,7 @@ class DatabaseSeeder extends Seeder
         $editor->syncRoles($editorRole);
         $user->syncRoles($userRole);
         $visitor->syncRoles($visitorRole);
+
         $this->call(UsersTableSeeder::class);
 
 
