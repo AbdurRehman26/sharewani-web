@@ -17,7 +17,6 @@
       >
         {{ $t('table.search') }}
       </el-button>
-
     </div>
 
     <el-table
@@ -54,7 +53,9 @@
 
       <el-table-column align="center" label="STATUS">
         <template slot-scope="scope">
-          <span>{{ scope.row.order_status }}</span>
+          <el-tag :type="scope.row.order_status | statusFilter">
+            {{ scope.row.order_status }}
+          </el-tag>
         </template>
       </el-table-column>
 
@@ -72,13 +73,11 @@
 
       <el-table-column v-if="false" align="center" label="Actions" width="350">
         <template slot-scope="scope">
-
           <router-link :to="'/product/edit/' + scope.row.id">
             <el-button type="warning" size="small" icon="el-icon-edit">
               View
             </el-button>
           </router-link>
-
         </template>
       </el-table-column>
     </el-table>
@@ -90,7 +89,6 @@
       :limit.sync="query.limit"
       @pagination="getList"
     />
-
   </div>
 </template>
 

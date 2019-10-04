@@ -60,6 +60,8 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
     
         $data->image_paths = [];
 
+        if(!empty($data->images)){
+
         foreach ($data->images as $key => $value) {
 
         if(substr($value, 0, 8) != "https://" && substr($value, 0, 8) != "http://"){
@@ -69,6 +71,8 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
         }else{
 
             $data->image_paths[] = $value;
+
+        }
 
         }
 
