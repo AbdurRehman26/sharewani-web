@@ -50,13 +50,20 @@
 
       <el-table-column align="center" label="Actions" width="350">
         <template slot-scope="scope">
-          <router-link :to="'/category/edit/' + scope.row.id">
-            <el-button type="primary" size="small" icon="el-icon-edit">
-              Edit
-            </el-button>
-          </router-link>
+          <el-button
+            type="primary"
+            size="small"
+            icon="el-icon-edit"
+            @click="
+              newItem = scope.row;
+              handleCreate(false);
+            "
+          >
+            Edit
+          </el-button>
 
           <el-button
+            v-if="false"
             type="danger"
             size="small"
             icon="el-icon-delete"
@@ -76,7 +83,10 @@
       @pagination="getList"
     />
 
-    <el-dialog :title="'Create new category'" :visible.sync="dialogFormVisible">
+    <el-dialog
+      :title="newItem.id ? 'Updated category' : 'Create category'"
+      :visible.sync="dialogFormVisible"
+    >
       <div v-loading="itemCreating" class="form-container">
         <el-form
           ref="userForm"
@@ -89,7 +99,6 @@
           <el-form-item :label="$t('user.name')" prop="name">
             <el-input v-model="newItem.name" />
           </el-form-item>
-
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">
@@ -101,7 +110,6 @@
         </div>
       </div>
     </el-dialog>
-
   </div>
 </template>
 
@@ -131,10 +139,6 @@ export default {
       },
       newItem: {},
       dialogFormVisible: false,
-      currentItemId: 0,
-      currentItem: {
-        name: '',
-      },
       rules: {
         name: [
           { required: true, message: 'Name is required', trigger: 'blur' },
@@ -165,8 +169,10 @@ export default {
       this.query.page = 1;
       this.getList();
     },
-    handleCreate() {
-      this.resetNewItem();
+    handleCreate(edit) {
+      if (edit) {
+        this.resetNewItem();
+      }
       this.dialogFormVisible = true;
       this.$nextTick(() => {
         this.$refs['userForm'].clearValidate();
@@ -207,14 +213,26 @@ export default {
       this.$refs['userForm'].validate(valid => {
         if (valid) {
           this.itemCreating = true;
-          itemResource
-            .store(this.newItem)
+
+          var request = {};
+
+          if (!this.newItem.id) {
+            request = itemResource.store(this.newItem);
+          } else {
+            request = itemResource.update(this.newItem.id, this.newItem);
+          }
+
+          const recordType = this.newItem.id ? 'udated' : 'created';
+
+          request
             .then(response => {
               this.$message({
                 message:
-                  'New item ' +
+                  'Item ' +
                   this.newItem.name +
-                  ' has been created successfully.',
+                  ' has been ' +
+                  recordType +
+                  ' successfully.',
                 type: 'success',
                 duration: 5 * 1000,
               });

@@ -15,13 +15,6 @@ const eventRoutes = {
   children: [
     /** event managements */
     {
-      path: 'edit/:id(\\d+)',
-      component: () => import('@/views/event/Profile'),
-      name: 'eventProfile',
-      meta: { title: 'eventProfile', noCache: true, permissions: ['manage event'] },
-      hidden: true,
-    },
-    {
       path: '',
       component: () => import('@/views/event/List'),
       name: 'eventList',

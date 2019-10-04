@@ -70,7 +70,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="Actions" width="350">
+      <el-table-column v-if="false" align="center" label="Actions" width="350">
         <template slot-scope="scope">
 
           <router-link :to="'/product/edit/' + scope.row.id">

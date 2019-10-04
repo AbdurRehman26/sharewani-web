@@ -15,13 +15,6 @@ const categoryRoutes = {
   children: [
     /** category managements */
     {
-      path: 'edit/:id(\\d+)',
-      component: () => import('@/views/category/Profile'),
-      name: 'categoryProfile',
-      meta: { title: 'categoryProfile', noCache: true, permissions: ['manage category'] },
-      hidden: true,
-    },
-    {
       path: '',
       component: () => import('@/views/category/List'),
       name: 'categoryList',
