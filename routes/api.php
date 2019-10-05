@@ -47,11 +47,6 @@ Route::group(['middleware' => 'api'], function () {
                  'edit'
     ]);
 
-    Route::get('order_count', 'Api\V1\OrderController@itemCount');
-    Route::resource('order', 'Api\V1\OrderController')->except([
-                 'edit'
-    ]);
-
     Route::resource('event', 'Api\V1\EventController')->except([
                  'edit'
     ]);
