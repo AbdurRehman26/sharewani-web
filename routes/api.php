@@ -26,6 +26,12 @@ Route::group(['middleware' => 'api'], function () {
         'edit'
     ]);
 
+    Route::get('order_count', 'Api\V1\OrderController@itemCount');
+    Route::resource('order', 'Api\V1\OrderController')->except([
+                 'edit'
+    ]);
+
+
 
     Route::post('auth/login', 'AuthController@login');
 
