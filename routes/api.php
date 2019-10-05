@@ -20,20 +20,22 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'api'], function () {
-    
-    Route::post('auth/login', 'AuthController@login');
-    
-    Route::group(['middleware' => 'auth:api'], function () {
-    
-        Route::get('auth/user', 'AuthController@user');
-        Route::post('auth/logout', 'AuthController@logout');
-    
-    
 
     Route::get('product_count', 'Api\V1\ProductController@itemCount');
     Route::resource('product', 'Api\V1\ProductController')->except([
-                 'edit'
+        'edit'
     ]);
+
+
+    Route::post('auth/login', 'AuthController@login');
+
+    Route::group(['middleware' => 'auth:api'], function () {
+
+        Route::get('auth/user', 'AuthController@user');
+        Route::post('auth/logout', 'AuthController@logout');
+
+
+
 
     Route::resource('category', 'Api\V1\CategoryController')->except([
                  'edit'
@@ -60,17 +62,17 @@ Route::group(['middleware' => 'api'], function () {
     });
 
     Route::apiResource('users', 'UserController')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_USER_MANAGE);
-    
+
     Route::get('users/{user}/permissions', 'UserController@permissions')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
-    
+
     Route::get('user_count', 'Api\V1\UserController@itemCount');
 
     Route::put('users/{user}/permissions', 'UserController@updatePermissions')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
-    
+
     Route::apiResource('roles', 'RoleController')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
-    
+
     Route::get('roles/{role}/permissions', 'RoleController@permissions')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
-    
+
     Route::apiResource('permissions', 'PermissionController')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
 
     // Fake APIs
@@ -92,6 +94,6 @@ Route::group(['middleware' => 'api'], function () {
 
         return response()->json(new JsonResponse(['items' => $data]));
     });
-    
+
 
 });

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 
 class ProductController extends ApiResourceController{
-    
+
     public $_repository;
 
     public function __construct(ProductRepository $repository){
@@ -20,7 +20,7 @@ class ProductController extends ApiResourceController{
         $rules = [];
 
         if($value == 'store'){
-            
+
             $rules['category'] =  'required';
             $rules['event'] =  'required';
             $rules['title'] =  'required';
@@ -49,21 +49,21 @@ class ProductController extends ApiResourceController{
         }
 
         if($value == 'index'){
-         
+
             $rules['pagination'] =  'nullable|in:true,false';
 
         }
 
         return $rules;
-    
+
     }
 
     public function input($value=''){
 
         $input = request()->only('id', 'category', 'number_of_items', 'original_price', 'event', 'images', 'title' , 'pagination', 'dashboard_stats');
 
-        $input['user_id'] = request()->user()->id;
-        
+        $input['user_id'] = request()->user() ? request()->user()->id : null;
+
         return $input;
     }
 
@@ -71,7 +71,7 @@ class ProductController extends ApiResourceController{
     public function itemCount(Request $request)
     {
         $data = $this->_repository->findTotal();
-    
+
         $output = [
                 'data' => $data,
         ];
@@ -84,16 +84,16 @@ class ProductController extends ApiResourceController{
 
         //Create single record
     public function store(Request $request)
-    {   
+    {
         $request->request->add(['method_type' => 'store']);
 
         $rules = $this->rules(__FUNCTION__);
         $input = $this->input(__FUNCTION__);
-        
+
         $messages = $this->messages(__FUNCTION__);
 
         $this->validate($request, $rules, $messages);
-        
+
         unset($input['category'], $input['event']);
 
         $data = $this->_repository->create($input);
@@ -103,7 +103,7 @@ class ProductController extends ApiResourceController{
         $data = $this->_repository->findById($data->id, true);
 
         $output = ['data' => $data, 'message' => $this->responseMessages(__FUNCTION__)];
-        
+
         // HTTP_OK = 200;
 
         return response()->json($output, Response::HTTP_OK);
@@ -126,7 +126,7 @@ class ProductController extends ApiResourceController{
             'category_id' => request()->category,
             'created_at' => $date
         ];
-    
+
         \App\Data\Models\ProductCategory::insertOnDuplicateKey($productCategoryData);
         \App\Data\Models\ProductEvent::insertOnDuplicateKey($productEventData);
 
