@@ -21,26 +21,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => 'api'], function () {
 
-    Route::get('product_count', 'Api\V1\ProductController@itemCount');
-    Route::resource('product', 'Api\V1\ProductController')->except([
-        'edit'
-    ]);
-
-    Route::get('order_count', 'Api\V1\OrderController@itemCount');
-    Route::resource('order', 'Api\V1\OrderController')->except([
-                 'edit'
-    ]);
-
-
 
     Route::post('auth/login', 'AuthController@login');
 
     Route::group(['middleware' => 'auth:api'], function () {
 
-        Route::get('auth/user', 'AuthController@user');
-        Route::post('auth/logout', 'AuthController@logout');
-
-
+    Route::get('auth/user', 'AuthController@user');
+    Route::post('auth/logout', 'AuthController@logout');
 
 
     Route::resource('category', 'Api\V1\CategoryController')->except([
@@ -60,6 +47,18 @@ Route::group(['middleware' => 'api'], function () {
     Route::post('file/remove', 'Api\V1\FileUploadController@remove')->name("file.remove");
 
 
+    Route::get('product_count', 'Api\V1\ProductController@itemCount');
+    Route::resource('product', 'Api\V1\ProductController')->except([
+        'edit'
+    ]);
+
+    Route::get('order_count', 'Api\V1\OrderController@itemCount');
+    Route::resource('order', 'Api\V1\OrderController')->except([
+        'edit'
+    ]);
+
+
+
     });
 
     Route::apiResource('users', 'UserController')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_USER_MANAGE);
@@ -69,6 +68,8 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('user_count', 'Api\V1\UserController@itemCount');
 
     Route::put('users/{user}/permissions', 'UserController@updatePermissions')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
+
+    Route::post('users/sign_in', 'Api\V1\UserController@signIn')->name("user.sign_in");
 
     Route::apiResource('roles', 'RoleController')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
 
