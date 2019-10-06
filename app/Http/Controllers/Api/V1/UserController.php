@@ -107,7 +107,6 @@ class UserController extends ApiResourceController{
 
         parent::store($request);
 
-
         if($credentials['email']){
             $user = User::where('email', '=' , $credentials['email'])->first();
             $user->access_token = $token = $user->createToken('Token Name')->accessToken;
@@ -116,7 +115,7 @@ class UserController extends ApiResourceController{
             if ($token) {
                 Session::put('token', $token);
 
-                $output = ['mesage' => 'success' , 'data' => ['token' => $token, 'user' => $user]];
+                $output = ['message' => 'success' , 'data' => ['token' => $token, 'user' => $user]];
                 return response()->json($output , 200);
             }
         }
