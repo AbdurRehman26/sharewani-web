@@ -95,7 +95,7 @@ class UserController extends ApiResourceController{
 
         if (!empty($user)) {
 
-            $user->access_token = $token = $user->createToken('Token Name')->accessToken;
+            $token = $this->jwt->fromUser($user);
 
             if ($token) {
 
@@ -109,7 +109,10 @@ class UserController extends ApiResourceController{
 
         if($credentials['email']){
             $user = User::where('email', '=' , $credentials['email'])->first();
-            $user->access_token = $token = $user->createToken('Token Name')->accessToken;
+
+            $token = $this->jwt->fromUser($user);
+
+            $user->access_token = $token;
             $user->first_time_user = true;
 
             if ($token) {
