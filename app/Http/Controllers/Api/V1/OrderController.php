@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 
 class OrderController extends ApiResourceController{
-    
+
     public $_repository;
 
     public function __construct(OrderRepository $repository){
@@ -20,11 +20,15 @@ class OrderController extends ApiResourceController{
         $rules = [];
 
         if($value == 'store'){
-            
+
+            $rules['product_id'] =  'required';
+            $rules['from_date'] =  'required';
+            $rules['to_date'] =  'required';
+            $rules['number_of_items'] =  'required';
 
         }
 
-        if($value == 'update'){
+        if ($value == 'update'){
 
             $rules['id'] =  'required';
 
@@ -44,25 +48,28 @@ class OrderController extends ApiResourceController{
         }
 
         if($value == 'index'){
-         
+
             $rules['pagination'] =  'nullable|in:true,false';
 
         }
 
         return $rules;
-    
+
     }
 
     public function input($value=''){
-        $input = request()->only('id');
-        
+
+        $input = request()->only('id', 'product_id', 'from_date', 'to_date', 'number_of_items');
+        $input['user_id'] = request()->user() ?? null;
+
         return $input;
+
     }
 
     public function itemCount(Request $request)
     {
         $data = $this->_repository->findTotal();
-    
+
         $output = [
                 'data' => $data,
         ];
