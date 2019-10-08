@@ -5,9 +5,11 @@ namespace App\Data\Repositories;
 use Kazmi\Data\Contracts\RepositoryContract;
 use Kazmi\Data\Repositories\AbstractRepository;
 use App\Data\Models\Order;
+use App\Traits\AbstractMethods;
 
 class OrderRepository extends AbstractRepository implements RepositoryContract
 {
+    use AbstractMethods;
     /**
      *
      * These will hold the instance of Order Class.
@@ -38,33 +40,37 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
     {
         $this->model = $model;
         $this->builder = $model;
-
     }
 
 
-        /**
+    /**
      *
      * This method will fetch single model
      * and will return output back to client as json
      *
      * @access public
+     * @param $id
+     * @param bool $refresh
+     * @param bool $details
+     * @param bool $encode
      * @return mixed
      *
      * @author Usaama Effendi <usaamaeffendi@gmail.com>
      *
-     **/
-    public function findById($id, $refresh = false, $details = false, $encode = true) {
+     */
+    public function findById($id, $refresh = false, $details = false, $encode = true)
+    {
 
         $data = parent::findById($id, $refresh, $details, $encode);
-        
+
         $data->user = app('UserRepository')->findById($data->user_id);
-        
+
         $data->product = app('ProductRepository')->findById($data->product_id);
-    
+
         $data->formatted_created_at = \Carbon\Carbon::parse($data->created_at)->diffForHumans();
-    
+
         $data->order_status = Order::STATUSES[$data->status];
-    
+
         return $data;
     }
 

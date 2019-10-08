@@ -62,6 +62,13 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
 
         $data->user = app('UserRepository')->findById($data->user_id);
 
+        $criteria = [
+            'product_id' => $data->id,
+            'user_id' => request()->user()->id
+        ];
+        
+        $data->my_order = app('OrderRepository')->findByCriteria($criteria);
+
         $data->image_paths = [];
 
         if (!empty($data->images)) {
