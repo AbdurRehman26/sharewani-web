@@ -28,6 +28,5 @@ class CategoryRepositoryServiceProvider extends ServiceProvider
         $this->app->bind('CategoryRepository', function () {
             return new CategoryRepository(new Category);
         });
-
     }
 }

@@ -175,6 +175,7 @@ return [
         App\Providers\CategoryRepositoryServiceProvider::class,
         App\Providers\EventRepositoryServiceProvider::class,
         App\Providers\ProductRepositoryServiceProvider::class,
+        App\Providers\OrderRepositoryServiceProvider::class,
 
 
         /*

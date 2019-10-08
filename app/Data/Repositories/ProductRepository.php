@@ -67,7 +67,7 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
             'user_id' => request()->user()->id
         ];
         
-        $data->my_order = app('OrderRepository')->findByCriteria($criteria);
+        $data->my_order = \App\Data\Models\Order::where($criteria)->first();
 
         $data->image_paths = [];
 

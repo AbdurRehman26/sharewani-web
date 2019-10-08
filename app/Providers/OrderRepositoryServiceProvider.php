@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Data\Models\Order;
+use App\Data\Repositories\OrderRepository;
 
 class OrderRepositoryServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,8 @@ class OrderRepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->bind('OrderRepository', function () {
+            return new OrderRepository(new Order);
+        });
     }
 }
