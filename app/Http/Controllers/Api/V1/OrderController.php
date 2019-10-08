@@ -56,7 +56,7 @@ class OrderController extends ApiResourceController
     {
         \Log::info('here');
         $input = request()->only('id', 'product_id', 'from_date', 'to_date', 'number_of_items');
-        $input['user_id'] = request()->user() ?? null;
+        $input['user_id'] = request()->user() ? request()->user()->id : null;
 
         return $input;
     }
