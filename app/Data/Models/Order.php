@@ -4,11 +4,12 @@ namespace App\Data\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Yadakhov\InsertOnDuplicateKey;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
     //
-	use  InsertOnDuplicateKey;
+	use  InsertOnDuplicateKey, SoftDeletes;
 
 	const STATUSES = [
 		0 => 'Pending',
