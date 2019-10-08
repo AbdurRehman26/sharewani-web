@@ -18,7 +18,7 @@ class OrderController extends ApiResourceController
         $this->_repository = $repository;
     }
 
-    public function rules($value ='')
+    public function rules($value = '')
     {
         $rules = [];
 
@@ -26,7 +26,6 @@ class OrderController extends ApiResourceController
             $rules['product_id'] =  'required';
             $rules['from_date'] =  'required';
             $rules['to_date'] =  'required';
-            $rules['number_of_items'] =  'required';
 
         }
 
@@ -53,7 +52,8 @@ class OrderController extends ApiResourceController
         return $rules;
     }
 
-    public function input ($value='') {
+    public function input($value = '')
+    {
         \Log::info('here');
         $input = request()->only('id', 'product_id', 'from_date', 'to_date', 'number_of_items');
         $input['user_id'] = request()->user() ?? null;
