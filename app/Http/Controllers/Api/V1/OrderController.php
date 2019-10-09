@@ -26,7 +26,6 @@ class OrderController extends ApiResourceController
             $rules['product_id'] =  'required';
             $rules['from_date'] =  'required';
             $rules['to_date'] =  'required';
-
         }
 
         if ($value == 'update') {

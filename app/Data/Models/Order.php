@@ -8,12 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    //
-	use  InsertOnDuplicateKey, SoftDeletes;
+    use  InsertOnDuplicateKey, SoftDeletes;
 
-	const STATUSES = [
-		0 => 'Pending',
-		1 => 'Accepted',
-		-1 => 'Rejected'
-	];
+    const STATUSES = [
+        0 => 'Pending',
+        1 => 'Accepted',
+        -1 => 'Rejected'
+    ];
 }

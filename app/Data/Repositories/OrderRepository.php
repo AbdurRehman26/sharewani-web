@@ -22,6 +22,24 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
 
     /**
      *
+     * This method will create a new model
+     * and will return output back to client as json
+     *
+     * @access public
+     * @param array $data
+     * @return mixed
+     *
+     * @author Usaama Effendi <usaamaeffendi@gmail.com>
+     *
+     */
+    public function create(array $data = [])
+    {
+        $data['deleted_at'] = null;
+        $order = Order::insertOnDuplicateKey($data);
+        return $this->findById($order['id']);
+    }
+    /**
+     *
      * This is the prefix of the cache key to which the
      * App\Data\Repositories data will be stored
      * App\Data\Repositories Auto incremented Id will be append to it
