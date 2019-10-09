@@ -36,7 +36,8 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
     {
         $data['deleted_at'] = null;
         $order = Order::insertOnDuplicateKey($data);
-        return $this->findById($order['id']);
+        $retRetId = \DB::getPdo()->lastInsertId();
+        return $this->findById($retRetId);
     }
     /**
      *
