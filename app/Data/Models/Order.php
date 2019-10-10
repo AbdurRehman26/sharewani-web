@@ -15,4 +15,8 @@ class Order extends Model
         1 => 'Accepted',
         -1 => 'Rejected'
     ];
+
+    public $searchables = [
+        'user_id'
+    ];
 }
