@@ -61,6 +61,9 @@ Route::group(['middleware' => 'api'], function () {
 
     });
 
+    Route::post('auth/sign-in', 'Api\V1\UserController@signIn')->name("user.sign_in");
+
+
     Route::apiResource('users', 'UserController')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_USER_MANAGE);
 
     Route::get('users/{user}/permissions', 'UserController@permissions')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
@@ -68,8 +71,6 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('user_count', 'Api\V1\UserController@itemCount');
 
     Route::put('users/{user}/permissions', 'UserController@updatePermissions')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
-
-    Route::post('users/sign_in', 'Api\V1\UserController@signIn')->name("user.sign_in");
 
     Route::apiResource('roles', 'RoleController')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
 
