@@ -57,8 +57,6 @@ Route::group(['middleware' => 'api'], function () {
         'edit'
     ]);
 
-
-
     });
 
     Route::post('auth/sign-in', 'Api\V1\UserController@signIn')->name("user.sign_in");
