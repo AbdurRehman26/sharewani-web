@@ -100,4 +100,8 @@ Route::group(['middleware' => 'api'], function () {
 });
 Route::resource('brand', 'Api\V1\BrandController')->except([
              'edit'
+        ]);Route::resource('size', 'Api\V1\SizeController')->except([
+             'edit'
+        ]);Route::resource('color', 'Api\V1\ColorController')->except([
+             'edit'
         ]);

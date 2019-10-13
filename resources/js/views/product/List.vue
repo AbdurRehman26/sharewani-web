@@ -97,7 +97,7 @@
       @pagination="getList"
     />
 
-    <el-dialog :title="'Create new user'" :visible.sync="dialogFormVisible">
+    <el-dialog :title="'Create new product'" :visible.sync="dialogFormVisible">
       <div v-loading="userCreating" class="form-container">
         <el-form
           ref="userForm"
@@ -130,56 +130,63 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item :label="$t('product.sizes')" prop="role">
+          <el-form-item :label="$t('product.size')" prop="role">
 
-            <multiselect
-              v-model="newItem.sizes"
-              style="width : 200px;"
-              :multiple="true"
-              :options="sizeOptions"
-            />
-
+            <el-select
+              v-model="newItem.size"
+              class="filter-item"
+              placeholder="Please select size"
+            >
+              <el-option
+                v-for="sizeOption in sizeOptions"
+                :key="sizeOption"
+                :label="$t('product.'+sizeOption)"
+                :value="sizeOption"
+              />
+            </el-select>
           </el-form-item>
 
-          <el-form-item :label="$t('product.colors')" prop="role">
+          <el-form-item :label="$t('product.color')" prop="role">
 
-            <multiselect
-              v-model="newItem.colors"
-              style="width : 200px;"
-              :multiple="true"
-              :options="colorOptions"
-            />
+            <el-select
+              v-model="newItem.color"
+              class="filter-item"
+              placeholder="Please select color"
+            >
+              <el-option
+                v-for="colorOption in colorOptions"
+                :key="colorOption"
+                :label="$t('product.'+colorOption)"
+                :value="colorOption"
+              />
+            </el-select>
 
           </el-form-item>
 
           <el-form-item :label="$t('product.event')" prop="role">
-            <el-select
+
+            <multiselect
               v-model="newItem.event"
-              class="filter-item"
-              placeholder="Please select event"
-            >
-              <el-option
-                v-for="event in events"
-                :key="event.id"
-                :label="event.name | uppercaseFirst"
-                :value="event.id"
-              />
-            </el-select>
+              class="multiselect"
+              :multiple="true"
+              label="name"
+              track-by="id"
+              :options="events"
+            />
+
           </el-form-item>
 
           <el-form-item :label="$t('product.category')" prop="role">
-            <el-select
+
+            <multiselect
               v-model="newItem.category"
-              class="filter-item"
-              placeholder="Please select category"
-            >
-              <el-option
-                v-for="category in categories"
-                :key="category.id"
-                :label="category.name | uppercaseFirst"
-                :value="category.id"
-              />
-            </el-select>
+              class="multiselect"
+              :multiple="true"
+              label="name"
+              track-by="id"
+              :options="categories"
+            />
+
           </el-form-item>
 
           <el-form-item :label="$t('product.brand')" prop="role">
@@ -473,7 +480,10 @@ export default {
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style lang="scss" scoped>
-.edit-input {
+.multiselect{
+  width : 200px
+}
+  .edit-input {
   padding-right: 100px;
 }
 .cancel-btn {
