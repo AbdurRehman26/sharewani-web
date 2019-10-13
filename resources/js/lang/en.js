@@ -207,6 +207,18 @@ export default {
     category: 'Category',
     original_price: 'Original Price',
     number_of_items: 'Total Items',
+    sizes: 'Sizes',
+    colors: 'Color',
+    brand: 'Brand',
+    fabric_age: 'Fabric Age',
+    new: 'New',
+    less_than_6: 'Less than 6 months',
+    between_6_and_12: 'Between 6 to 12 months',
+    between_12_and_18: 'Between 12 to 18 months',
+    between_18_and_24: 'Between 18 to 24 months',
+    between_24_and_30: 'Between 24 to 30 months',
+    between_30_and_36: 'Between 30 to 36 months',
+    more_than_36: 'More than 36 months',
   },
   roles: {
     description: {

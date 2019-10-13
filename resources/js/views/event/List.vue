@@ -270,7 +270,6 @@ export default {
 .dialog-footer {
   text-align: left;
   padding-top: 0;
-  margin-left: 150px;
 }
 .app-container {
   flex: 1;

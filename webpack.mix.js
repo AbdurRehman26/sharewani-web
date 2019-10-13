@@ -43,12 +43,7 @@ mix
     'vue-i18n',
     'element-ui',
     'echarts',
-    'highlight.js',
-    'sortablejs',
     'dropzone',
-    'xlsx',
-    'tui-editor',
-    'codemirror',
   ])
   .options({
     processCssUrls: false,

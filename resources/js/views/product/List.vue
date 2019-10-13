@@ -115,8 +115,41 @@
             <el-input v-model="newItem.original_price" type="number" style="max-width : 200px;" />
           </el-form-item>
 
-          <el-form-item :label="$t('product.number_of_items')" prop="number_of_items">
-            <el-input v-model="newItem.number_of_items" type="number" style="max-width : 200px;" />
+          <el-form-item :label="$t('product.fabric_age')" prop="fabric_age">
+            <el-select
+              v-model="newItem.fabric_age"
+              class="filter-item"
+              placeholder="Please select fabric age"
+            >
+              <el-option
+                v-for="fabricAge in fabricAges"
+                :key="fabricAge.key"
+                :label="$t('product.'+fabricAge.key)"
+                :value="fabricAge.key"
+              />
+            </el-select>
+          </el-form-item>
+
+          <el-form-item :label="$t('product.sizes')" prop="role">
+
+            <multiselect
+              v-model="newItem.sizes"
+              style="width : 200px;"
+              :multiple="true"
+              :options="sizeOptions"
+            />
+
+          </el-form-item>
+
+          <el-form-item :label="$t('product.colors')" prop="role">
+
+            <multiselect
+              v-model="newItem.colors"
+              style="width : 200px;"
+              :multiple="true"
+              :options="colorOptions"
+            />
+
           </el-form-item>
 
           <el-form-item :label="$t('product.event')" prop="role">
@@ -145,6 +178,21 @@
                 :key="category.id"
                 :label="category.name | uppercaseFirst"
                 :value="category.id"
+              />
+            </el-select>
+          </el-form-item>
+
+          <el-form-item :label="$t('product.brand')" prop="role">
+            <el-select
+              v-model="newItem.brand"
+              class="filter-item"
+              placeholder="Please select brand"
+            >
+              <el-option
+                v-for="brand in brands"
+                :key="brand.id"
+                :label="brand.name | uppercaseFirst"
+                :value="brand.id"
               />
             </el-select>
           </el-form-item>
@@ -180,18 +228,50 @@ import Pagination from '@/components/Pagination'; // Secondary package based on 
 import Resource from '@/api/resource';
 import waves from '@/directive/waves'; // Waves directive
 import Dropzone from '@/components/Dropzone';
-
+import Multiselect from 'vue-multiselect';
 const itemResource = new Resource('product');
 const categoryResource = new Resource('category');
 const eventResource = new Resource('event');
+const brandResource = new Resource('brand');
+
 const fileResource = new Resource('file/remove');
 
 export default {
   name: 'UserList',
-  components: { Pagination, Dropzone },
+  components: { Pagination, Dropzone, Multiselect },
   directives: { waves },
   data() {
     return {
+      selected: null,
+      colorOptions: ['red', 'blue', 'green', 'yellow', 'white'],
+      sizeOptions: ['small', 'medium', 'large', 'xl', 'xxl'],
+      brands: [],
+      fabricAges: [
+        {
+          key: 'new',
+        },
+        {
+          key: 'less_than_6',
+        },
+        {
+          key: 'between_6_and_12',
+        },
+        {
+          key: 'between_12_and_18',
+        },
+        {
+          key: 'between_18_and_24',
+        },
+        {
+          key: 'between_24_and_30',
+        },
+        {
+          key: 'between_30_and_36',
+        },
+        {
+          key: 'more_than_36',
+        },
+      ],
       categories: [],
       events: [],
       list: null,
@@ -225,6 +305,7 @@ export default {
     this.getList();
     this.getCategoryList();
     this.getEventList();
+    this.getBrandList();
   },
   methods: {
     dropzoneS(file) {
@@ -251,7 +332,18 @@ export default {
 
       this.$message({ message: 'Delete success', type: 'success' });
     },
+    async getBrandList() {
+      const { limit, page } = this.query;
+      this.loading = true;
 
+      const response = await brandResource.list(this.query);
+
+      this.brands = response.data;
+      this.brands.forEach((element, index) => {
+        element['index'] = (page - 1) * limit + index + 1;
+      });
+      this.loading = false;
+    },
     async getCategoryList() {
       const { limit, page } = this.query;
       this.loading = true;
@@ -378,6 +470,8 @@ export default {
 };
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
 <style lang="scss" scoped>
 .edit-input {
   padding-right: 100px;
@@ -390,7 +484,6 @@ export default {
 .dialog-footer {
   text-align: left;
   padding-top: 0;
-  margin-left: 150px;
 }
 .app-container {
   flex: 1;

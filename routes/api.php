@@ -98,3 +98,6 @@ Route::group(['middleware' => 'api'], function () {
 
 
 });
+Route::resource('brand', 'Api\V1\BrandController')->except([
+             'edit'
+        ]);
