@@ -29,6 +29,13 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('auth/user', 'AuthController@user');
     Route::post('auth/logout', 'AuthController@logout');
 
+    Route::resource('brand', 'Api\V1\BrandController')->except([
+        'edit'
+    ]);
+
+    Route::resource('color', 'Api\V1\ColorController')->except([
+        'edit'
+    ]);
 
     Route::resource('category', 'Api\V1\CategoryController')->except([
                  'edit'
@@ -38,14 +45,9 @@ Route::group(['middleware' => 'api'], function () {
                  'edit'
     ]);
 
-    Route::resource('role', 'Api\V1\RoleController')->except([
-                 'edit'
+    Route::resource('fabric-age', 'Api\V1\FabricAgeController')->except([
+        'edit'
     ]);
-
-
-    Route::post('file/upload', 'Api\V1\FileUploadController@upload')->name("file.upload");
-    Route::post('file/remove', 'Api\V1\FileUploadController@remove')->name("file.remove");
-
 
     Route::get('product_count', 'Api\V1\ProductController@itemCount');
     Route::resource('product', 'Api\V1\ProductController')->except([
@@ -56,6 +58,17 @@ Route::group(['middleware' => 'api'], function () {
     Route::resource('order', 'Api\V1\OrderController')->except([
         'edit'
     ]);
+
+        Route::resource('role', 'Api\V1\RoleController')->except([
+             'edit'
+    ]);
+
+
+    Route::resource('size', 'Api\V1\SizeController')->except([
+        'edit'
+    ]);
+
+
 
     });
 
@@ -69,12 +82,6 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('user_count', 'Api\V1\UserController@itemCount');
 
     Route::put('users/{user}/permissions', 'UserController@updatePermissions')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
-
-    Route::apiResource('roles', 'RoleController')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
-
-    Route::get('roles/{role}/permissions', 'RoleController@permissions')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
-
-    Route::apiResource('permissions', 'PermissionController')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
 
     // Fake APIs
     Route::get('/table/list', function () {
@@ -96,12 +103,8 @@ Route::group(['middleware' => 'api'], function () {
         return response()->json(new JsonResponse(['items' => $data]));
     });
 
+    Route::post('file/upload', 'Api\V1\FileUploadController@upload')->name("file.upload");
+    Route::post('file/remove', 'Api\V1\FileUploadController@remove')->name("file.remove");
+
 
 });
-Route::resource('brand', 'Api\V1\BrandController')->except([
-             'edit'
-        ]);Route::resource('size', 'Api\V1\SizeController')->except([
-             'edit'
-        ]);Route::resource('color', 'Api\V1\ColorController')->except([
-             'edit'
-        ]);

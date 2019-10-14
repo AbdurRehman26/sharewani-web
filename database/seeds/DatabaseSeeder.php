@@ -56,8 +56,12 @@ class DatabaseSeeder extends Seeder
 
         $this->call(CategoryTableSeeder::class);
         $this->call(EventTableSeeder::class);
-        $this->call(ProductTableSeeder::class);
+        $this->call(ColorTableSeeder::class);
+        $this->call(BrandTableSeeder::class);
+        $this->call(FabricAgeTableSeeder::class);
+        $this->call(SizeTableSeeder::class);
 
+        $this->call(ProductTableSeeder::class);
         $this->call(AssociateProductsTableSeeder::class);
 
         $this->call(OrderTableSeeder::class);

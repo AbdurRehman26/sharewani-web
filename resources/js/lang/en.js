@@ -205,7 +205,7 @@ export default {
     title: 'Title',
     event: 'Event',
     category: 'Category',
-    original_price: 'Original Price',
+    original_price: 'Original Price (Rs) ',
     number_of_items: 'Total Items',
     size: 'Size',
     color: 'Color',

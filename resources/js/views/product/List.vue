@@ -117,15 +117,15 @@
 
           <el-form-item :label="$t('product.fabric_age')" prop="fabric_age">
             <el-select
-              v-model="newItem.fabric_age"
+              v-model="newItem.fabric_age_id"
               class="filter-item"
               placeholder="Please select fabric age"
             >
               <el-option
                 v-for="fabricAge in fabricAges"
-                :key="fabricAge.key"
-                :label="$t('product.'+fabricAge.key)"
-                :value="fabricAge.key"
+                :key="fabricAge.id"
+                :label="fabricAge.name"
+                :value="fabricAge.id"
               />
             </el-select>
           </el-form-item>
@@ -133,15 +133,15 @@
           <el-form-item :label="$t('product.size')" prop="role">
 
             <el-select
-              v-model="newItem.size"
+              v-model="newItem.size_id"
               class="filter-item"
               placeholder="Please select size"
             >
               <el-option
                 v-for="sizeOption in sizeOptions"
-                :key="sizeOption"
-                :label="$t('product.'+sizeOption)"
-                :value="sizeOption"
+                :key="sizeOption.id"
+                :label="sizeOption.name"
+                :value="sizeOption.id"
               />
             </el-select>
           </el-form-item>
@@ -149,15 +149,15 @@
           <el-form-item :label="$t('product.color')" prop="role">
 
             <el-select
-              v-model="newItem.color"
+              v-model="newItem.color_id"
               class="filter-item"
               placeholder="Please select color"
             >
               <el-option
                 v-for="colorOption in colorOptions"
-                :key="colorOption"
-                :label="$t('product.'+colorOption)"
-                :value="colorOption"
+                :key="colorOption.id"
+                :label="colorOption.name"
+                :value="colorOption.id"
               />
             </el-select>
 
@@ -166,7 +166,7 @@
           <el-form-item :label="$t('product.event')" prop="role">
 
             <multiselect
-              v-model="newItem.event"
+              v-model="newItem.events"
               class="multiselect"
               :multiple="true"
               label="name"
@@ -179,7 +179,7 @@
           <el-form-item :label="$t('product.category')" prop="role">
 
             <multiselect
-              v-model="newItem.category"
+              v-model="newItem.categories"
               class="multiselect"
               :multiple="true"
               label="name"
@@ -191,7 +191,7 @@
 
           <el-form-item :label="$t('product.brand')" prop="role">
             <el-select
-              v-model="newItem.brand"
+              v-model="newItem.brand_id"
               class="filter-item"
               placeholder="Please select brand"
             >
@@ -240,6 +240,9 @@ const itemResource = new Resource('product');
 const categoryResource = new Resource('category');
 const eventResource = new Resource('event');
 const brandResource = new Resource('brand');
+const sizeResource = new Resource('size');
+const colorResource = new Resource('color');
+const fabricAgeResource = new Resource('fabric-age');
 
 const fileResource = new Resource('file/remove');
 
@@ -250,35 +253,10 @@ export default {
   data() {
     return {
       selected: null,
-      colorOptions: ['red', 'blue', 'green', 'yellow', 'white'],
-      sizeOptions: ['small', 'medium', 'large', 'xl', 'xxl'],
+      colorOptions: [],
+      sizeOptions: [],
       brands: [],
-      fabricAges: [
-        {
-          key: 'new',
-        },
-        {
-          key: 'less_than_6',
-        },
-        {
-          key: 'between_6_and_12',
-        },
-        {
-          key: 'between_12_and_18',
-        },
-        {
-          key: 'between_18_and_24',
-        },
-        {
-          key: 'between_24_and_30',
-        },
-        {
-          key: 'between_30_and_36',
-        },
-        {
-          key: 'more_than_36',
-        },
-      ],
+      fabricAges: [],
       categories: [],
       events: [],
       list: null,
@@ -310,11 +288,17 @@ export default {
   created() {
     this.resetNewItem();
     this.getList();
-    this.getCategoryList();
-    this.getEventList();
-    this.getBrandList();
+    this.getOptionsList();
   },
   methods: {
+    getOptionsList(){
+      this.getCategoryList();
+      this.getEventList();
+      this.getBrandList();
+      this.getColorList();
+      this.getSizeList();
+      this.getFabricAgeList();
+    },
     dropzoneS(file) {
       if (file && file.xhr && file.xhr.response){
         const uploadedFile = JSON.parse(file.xhr.response);
@@ -338,6 +322,42 @@ export default {
       }
 
       this.$message({ message: 'Delete success', type: 'success' });
+    },
+    async getFabricAgeList() {
+      const { limit, page } = this.query;
+      this.loading = true;
+
+      const response = await fabricAgeResource.list(this.query);
+
+      this.fabricAges = response.data;
+      this.fabricAges.forEach((element, index) => {
+        element['index'] = (page - 1) * limit + index + 1;
+      });
+      this.loading = false;
+    },
+    async getColorList() {
+      const { limit, page } = this.query;
+      this.loading = true;
+
+      const response = await colorResource.list(this.query);
+
+      this.colorOptions = response.data;
+      this.colorOptions.forEach((element, index) => {
+        element['index'] = (page - 1) * limit + index + 1;
+      });
+      this.loading = false;
+    },
+    async getSizeList() {
+      const { limit, page } = this.query;
+      this.loading = true;
+
+      const response = await sizeResource.list(this.query);
+
+      this.sizeOptions = response.data;
+      this.sizeOptions.forEach((element, index) => {
+        element['index'] = (page - 1) * limit + index + 1;
+      });
+      this.loading = false;
     },
     async getBrandList() {
       const { limit, page } = this.query;
@@ -471,6 +491,10 @@ export default {
         images: [],
         original_price: 0,
         number_of_items: 0,
+        fabric_age_id: 1,
+        brand_id: 1,
+        color_id: 1,
+        size_id: 1,
       };
     },
   },

@@ -21,8 +21,8 @@ class ProductController extends ApiResourceController{
 
         if($value == 'store'){
 
-            $rules['category'] =  'required';
-            $rules['event'] =  'required';
+            $rules['categories'] =  'required';
+            $rules['events'] =  'required';
             $rules['title'] =  'required';
             $rules['original_price'] =  'required';
             $rules['number_of_items'] =  'required';
@@ -60,7 +60,7 @@ class ProductController extends ApiResourceController{
 
     public function input($value=''){
 
-        $input = request()->only('id', 'category', 'number_of_items', 'original_price', 'event', 'images', 'title' , 'pagination', 'dashboard_stats');
+        $input = request()->only('id', 'category', 'categories', 'number_of_items', 'original_price', 'event',  'events', 'images', 'title' , 'pagination', 'dashboard_stats', 'fabric_age_id', 'color_id', 'brand_id', 'size_id');
 
         $input['user_id'] = request()->user() ? request()->user()->id : null;
 
@@ -94,7 +94,7 @@ class ProductController extends ApiResourceController{
 
         $this->validate($request, $rules, $messages);
 
-        unset($input['category'], $input['event']);
+        unset($input['category'], $input['categories'], $input['event'], $input['events']);
 
         $data = $this->_repository->create($input);
 
@@ -115,17 +115,24 @@ class ProductController extends ApiResourceController{
     {
         $date = \Carbon\Carbon::now()->toDateTimeString();
 
-        $productEventData[] = [
-            'product_id' => $product->id,
-            'event_id' => request()->event,
-            'created_at' => $date
-        ];
+        $productCategoryData = [];
+        $productEventData = [];
 
-        $productCategoryData[] = [
-            'product_id' => $product->id,
-            'category_id' => request()->category,
-            'created_at' => $date
-        ];
+        foreach (request()->events as $event){
+            $productEventData[] = [
+                'product_id' => $product->id,
+                'event_id' => $event['id'],
+                'created_at' => $date
+            ];
+        }
+
+        foreach (request()->categories as $category){
+            $productCategoryData[] = [
+                'product_id' => $product->id,
+                'category_id' => $category['id'],
+                'created_at' => $date
+            ];
+        }
 
         \App\Data\Models\ProductCategory::insertOnDuplicateKey($productCategoryData);
         \App\Data\Models\ProductEvent::insertOnDuplicateKey($productEventData);

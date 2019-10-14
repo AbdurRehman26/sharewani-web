@@ -15,14 +15,29 @@ class SizeTableSeeder extends Seeder
 
         $date = Carbon::now()->toDateTimeString();
 
-        $data = [
-
-            'name' => 'small',
-            'created_at' => $date,
-            'updated_at' => $date,
-            'deleted_at' => NULL
-
+        $sizes = [
+            'Small',
+            'Medium',
+            'Large',
+            'Extra Large (XL)',
+            'Extra Extra Large (XXL)',
+            'Extra Extra Extra Large (XXXL)'
         ];
+
+        $data = [];
+
+        foreach ($sizes as $size){
+
+            $data[] = [
+
+                'name' => $size,
+                'created_at' => $date,
+                'updated_at' => $date,
+                'deleted_at' => NULL
+
+            ];
+
+        }
 
         \App\Data\Models\Size::insertOnDuplicateKey($data, ['name']);
 
