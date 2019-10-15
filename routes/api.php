@@ -24,6 +24,7 @@ Route::group(['middleware' => 'api'], function () {
 
     Route::post('auth/login', 'AuthController@login');
 
+
     Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('auth/user', 'AuthController@user');
@@ -72,6 +73,22 @@ Route::group(['middleware' => 'api'], function () {
     ]);
 
     });
+
+
+    /* Routes without Authentication */
+
+    Route::get('brand', 'Api\V1\BrandController@index');
+
+    Route::get('category', 'Api\V1\CategoryController@index');
+
+    Route::get('event', 'Api\V1\EventController@index');
+
+    Route::get('fabric-age', 'Api\V1\FabricAgeController@index');
+
+    Route::get('product', 'Api\V1\ProductController@index');
+
+    Route::get('size', 'Api\V1\SizeController@index');
+
 
     Route::post('auth/sign-in', 'Api\V1\UserController@signIn')->name("user.sign_in");
 
