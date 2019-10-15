@@ -28,7 +28,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        if ($token = $this->guard()->attempt($credentials)) {
+        if ($token = $this->guard()->validate($credentials)) {
             return response()->json(new UserResource(Auth::user()), Response::HTTP_OK)->header('Authorization', $token);
         }
 

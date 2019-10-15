@@ -4,7 +4,6 @@ namespace App\Laravue\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Laravel\Passport\HasApiTokens;
 
@@ -19,9 +18,9 @@ use Laravel\Passport\HasApiTokens;
  * @method static User create(array $user)
  * @package App
  */
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable
 {
-    use Notifiable, HasRoles, HasApiTokens;
+    use Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -64,33 +63,4 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $guard_name = 'api';
 
-    /**
-     * @inheritdoc
-     */
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
-
-    /**
-     * @return bool
-     */
-    public function isAdmin(): bool
-    {
-        foreach ($this->roles  as $role) {
-            if ($role->isAdmin()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 }

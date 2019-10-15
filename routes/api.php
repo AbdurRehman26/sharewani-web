@@ -75,34 +75,9 @@ Route::group(['middleware' => 'api'], function () {
 
     Route::post('auth/sign-in', 'Api\V1\UserController@signIn')->name("user.sign_in");
 
-
-    Route::apiResource('users', 'UserController')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_USER_MANAGE);
-
-    Route::get('users/{user}/permissions', 'UserController@permissions')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
-
     Route::get('user_count', 'Api\V1\UserController@itemCount');
 
-    Route::put('users/{user}/permissions', 'UserController@updatePermissions')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
-
     // Fake APIs
-    Route::get('/table/list', function () {
-        $rowsNumber = mt_rand(20, 30);
-        $data = [];
-        for ($rowIndex = 0; $rowIndex < $rowsNumber; $rowIndex++) {
-            $row = [
-                'author' => Faker::randomString(mt_rand(5, 10)),
-                'display_time' => Faker::randomDateTime()->format('Y-m-d H:i:s'),
-                'id' => mt_rand(100000, 100000000),
-                'pageviews' => mt_rand(100, 10000),
-                'status' => Faker::randomInArray(['deleted', 'published', 'draft']),
-                'title' => Faker::randomString(mt_rand(20, 50)),
-            ];
-
-            $data[] = $row;
-        }
-
-        return response()->json(new JsonResponse(['items' => $data]));
-    });
 
     Route::post('file/upload', 'Api\V1\FileUploadController@upload')->name("file.upload");
     Route::post('file/remove', 'Api\V1\FileUploadController@remove')->name("file.remove");
