@@ -10,14 +10,45 @@
 
       </template>
 
+      <el-dialog :title="'Update Profile'" :visible.sync="dialogFormVisible">
+        <div v-loading="userUpdating" class="form-container">
+          <el-form
+            ref="userForm"
+            :model="newItem"
+            label-position="left"
+            label-width="150px"
+            style="max-width: 850px;"
+          >
+            <el-form-item :label="$t('product.title')" prop="title">
+              <el-input v-model="newItem.title" style="max-width : 200px;" />
+            </el-form-item>
+            <el-form-item :label="$t('product.original_price')" prop="original_price">
+              <el-input v-model="newItem.original_price" type="number" style="max-width : 200px;" />
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">
+              {{ $t('table.cancel') }}
+            </el-button>
+            <el-button type="primary" @click="createItem()">
+              {{ $t('table.confirm') }}
+            </el-button>
+          </div>
+        </div>
+      </el-dialog>
+
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
 
         <div class="avatar-wrapper">
           <img :src="avatar+'/128'" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
-
         <el-dropdown-menu slot="dropdown">
+          <li @click="dialogFormVisible = true">
+            <el-dropdown-item>
+              {{ $t('navbar.update') }}
+            </el-dropdown-item>
+          </li>
           <router-link to="/">
             <el-dropdown-item>
               {{ $t('navbar.dashboard') }}
@@ -41,6 +72,13 @@ export default {
   components: {
     Breadcrumb,
     Screenfull,
+  },
+  data(){
+    return {
+      newItem: {},
+      userUpdating: false,
+      dialogFormVisible: false,
+    };
   },
   computed: {
     ...mapGetters([

@@ -72,6 +72,7 @@ export default {
     userProfile: 'User Profile',
   },
   navbar: {
+    update: 'Update Profile',
     logOut: 'Log Out',
     dashboard: 'Dashboard',
     github: 'Github',
