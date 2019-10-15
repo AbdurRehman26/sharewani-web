@@ -59,16 +59,17 @@ Route::group(['middleware' => 'api'], function () {
         'edit'
     ]);
 
-        Route::resource('role', 'Api\V1\RoleController')->except([
+    Route::resource('role', 'Api\V1\RoleController')->except([
              'edit'
     ]);
-
 
     Route::resource('size', 'Api\V1\SizeController')->except([
         'edit'
     ]);
 
-
+    Route::resource('user', 'Api\V1\UserController')->except([
+        'edit'
+    ]);
 
     });
 

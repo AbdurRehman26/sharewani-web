@@ -57,7 +57,7 @@ class UserController extends ApiResourceController{
     }
 
     public function input($value=''){
-        $input = request()->only('id', 'email', 'name', 'pagination', 'page');
+        $input = request()->only('id', 'email', 'name', 'pagination', 'page', 'phone_number');
 
         return $input;
     }

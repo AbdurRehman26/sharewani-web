@@ -60,7 +60,10 @@ class ProductController extends ApiResourceController{
 
     public function input($value=''){
 
-        $input = request()->only('id', 'category', 'categories', 'number_of_items', 'original_price', 'event',  'events', 'images', 'title' , 'pagination', 'dashboard_stats', 'fabric_age_id', 'color_id', 'brand_id', 'size_id');
+        $input = request()->only('id',
+            'category', 'categories', 'number_of_items', 'original_price', 'event',
+            'events', 'images', 'title', 'description', 'pagination', 'dashboard_stats', 'fabric_age_id',
+            'color_id', 'brand_id', 'size_id', 'vendor');
 
         $input['user_id'] = request()->user() ? request()->user()->id : null;
 
@@ -94,7 +97,17 @@ class ProductController extends ApiResourceController{
 
         $this->validate($request, $rules, $messages);
 
-        unset($input['category'], $input['categories'], $input['event'], $input['events']);
+        $vendor = $input['vendor'][0];
+
+        if (!$input['vendor'][0]['id']) {
+
+            $vendor = \App\Laravue\Models\User::where('phone_number', $input['vendor'][0]['phone_number'])->first() ?? \App\Laravue\Models\User::create($input['vendor'][0]);
+
+        }
+
+        $input['vendor_id'] = (int) $vendor['id'];
+
+        unset($input['vendor'], $input['category'], $input['categories'], $input['event'], $input['events']);
 
         $data = $this->_repository->create($input);
 

@@ -29,7 +29,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password'
+        'name', 'email', 'password', 'phone_number'
     ];
 
     /**
@@ -50,6 +50,14 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    public $searchables = [
+        'phone_number'
+    ];
     /**
      * Set permissions guard to API by default
      * @var string

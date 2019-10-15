@@ -202,6 +202,9 @@ export default {
     email: 'Email',
   },
   product: {
+    description: 'Description',
+    vendor_name: 'Vendor Name',
+    vendor_number: 'Vendor Number',
     title: 'Title',
     event: 'Event',
     category: 'Category',

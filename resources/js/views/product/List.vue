@@ -111,6 +111,10 @@
             <el-input v-model="newItem.title" style="max-width : 200px;" />
           </el-form-item>
 
+          <el-form-item :label="$t('product.description')" prop="title">
+            <markdown-editor ref="markdownEditor" v-model="newItem.description" height="300px" />
+          </el-form-item>
+
           <el-form-item :label="$t('product.original_price')" prop="original_price">
             <el-input v-model="newItem.original_price" type="number" style="max-width : 200px;" />
           </el-form-item>
@@ -182,6 +186,7 @@
               v-model="newItem.categories"
               class="multiselect"
               :multiple="true"
+              :searchable="true"
               label="name"
               track-by="id"
               :options="categories"
@@ -202,6 +207,28 @@
                 :value="brand.id"
               />
             </el-select>
+          </el-form-item>
+
+          <el-form-item :label="$t('product.vendor_number')" prop="role">
+
+            <multiselect
+              v-model="newItem.vendor"
+              tag-placeholder="Add this as new tag"
+              placeholder="Search or add a tag"
+              label="phone_number"
+              track-by="id"
+              :options="users"
+              :multiple="true"
+              :taggable="true"
+              :max="1"
+              :loading="loading"
+              @tag="addTag"
+              @search-change="asyncFind"
+            />
+          </el-form-item>
+
+          <el-form-item v-if="newItem.vendor.length" :label="$t('product.vendor_name')" prop="role">
+            <el-input v-model="newItem.vendor[0].name" :disabled="!!newItem.vendor[0].id" style="max-width : 200px;" />
           </el-form-item>
 
           <el-form-item>
@@ -236,6 +263,8 @@ import Resource from '@/api/resource';
 import waves from '@/directive/waves'; // Waves directive
 import Dropzone from '@/components/Dropzone';
 import Multiselect from 'vue-multiselect';
+import MarkdownEditor from '@/components/MarkdownEditor';
+
 const itemResource = new Resource('product');
 const categoryResource = new Resource('category');
 const eventResource = new Resource('event');
@@ -243,16 +272,18 @@ const brandResource = new Resource('brand');
 const sizeResource = new Resource('size');
 const colorResource = new Resource('color');
 const fabricAgeResource = new Resource('fabric-age');
+const userResource = new Resource('user');
 
 const fileResource = new Resource('file/remove');
 
 export default {
   name: 'UserList',
-  components: { Pagination, Dropzone, Multiselect },
+  components: { Pagination, Dropzone, Multiselect, MarkdownEditor },
   directives: { waves },
   data() {
     return {
-      selected: null,
+      value: [],
+      users: [],
       colorOptions: [],
       sizeOptions: [],
       brands: [],
@@ -269,7 +300,10 @@ export default {
         limit: 15,
         keyword: '',
       },
-      newItem: {},
+      newItem: {
+        phone_number: [],
+        vendor: [],
+      },
       dialogFormVisible: false,
       rules: {
         title: [
@@ -291,6 +325,23 @@ export default {
     this.getOptionsList();
   },
   methods: {
+    addTag(newTag) {
+      const tag = {
+        id: null,
+        phone_number: newTag,
+      };
+      this.users.push(tag);
+      this.newItem.vendor.push(tag);
+    },
+    async asyncFind(query){
+      const formData = {
+        phone_number: query,
+      };
+      this.loading = true;
+      const response = await userResource.list(formData);
+      this.users = response.data;
+      this.loading = false;
+    },
     getOptionsList(){
       this.getCategoryList();
       this.getEventList();
@@ -453,6 +504,7 @@ export default {
     createItem() {
       this.$refs['userForm'].validate(valid => {
         if (valid) {
+          this.newItem.description = this.$refs.markdownEditor.getHtml();
           this.userCreating = true;
           itemResource
             .store(this.newItem)
@@ -486,8 +538,6 @@ export default {
     resetNewItem() {
       this.newItem = {
         title: '',
-        category: null,
-        event: null,
         images: [],
         original_price: 0,
         number_of_items: 0,
@@ -495,6 +545,7 @@ export default {
         brand_id: 1,
         color_id: 1,
         size_id: 1,
+        vendor: [],
       };
     },
   },
@@ -502,6 +553,14 @@ export default {
 </script>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
+<style>
+
+  .tui-editor-defaultUI .te-mode-switch{
+    display: none;
+  }
+
+</style>
 
 <style lang="scss" scoped>
 .multiselect{

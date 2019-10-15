@@ -47,4 +47,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    public $searchables = [
+        'phone_number'
+    ];
 }

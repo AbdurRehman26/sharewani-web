@@ -13,6 +13,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+
         $userList = [
             "Ali",
             "Talmeez",
@@ -33,6 +34,7 @@ class UsersTableSeeder extends Seeder
             ]);
             $user = \App\Laravue\Models\User::create([
                 'name' => $fullName,
+                'phone_number' => mt_rand(100000, 999999),
                 'email' => strtolower($name) . '@sharewani.com',
                 'password' => \Illuminate\Support\Facades\Hash::make('sharewani123!@#'),
             ]);
