@@ -62,12 +62,16 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
 
         $data->user = app('UserRepository')->findById($data->user_id);
 
-        $criteria = [
-            'product_id' => $data->id,
-            'user_id' => request()->user()->id
-        ];
-        
-        $data->my_order = \App\Data\Models\Order::where($criteria)->first();
+        if(request()->user()){
+
+            $criteria = [
+                'product_id' => $data->id,
+                'user_id' => request()->user()->id
+            ];
+
+            $data->my_order = \App\Data\Models\Order::where($criteria)->first();
+
+        }
 
         $data->image_paths = [];
 
@@ -106,8 +110,6 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
             $data->total_accepted_orders = \App\Data\Models\Order::where(['product_id' => $data->id, 'status' => 1])->count();
             $data->total_pending_orders = \App\Data\Models\Order::where(['product_id' => $data->id, 'status' => 0])->count();
         }
-
-
 
         return $data;
     }

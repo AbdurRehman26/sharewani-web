@@ -15,7 +15,6 @@ service.interceptors.request.use(
     if (token) {
       config.headers['Authorization'] = 'Bearer ' + getToken(); // Set JWT token
     }
-
     return config;
   },
   error => {

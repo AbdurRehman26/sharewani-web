@@ -166,8 +166,7 @@ return [
          * Package Service Providers...
          */
         Kazmi\Providers\ResourceCommandServiceProvider::class,
-
-
+        Barryvdh\Cors\ServiceProvider::class,
         /*
          * Custom Service Providers...
          */

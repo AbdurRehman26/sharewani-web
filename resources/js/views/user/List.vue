@@ -167,8 +167,8 @@
 
 <script>
 import Pagination from '@/components/Pagination'; // Secondary package based on el-pagination
-import UserResource from '@/api/user';
 import waves from '@/directive/waves'; // Waves directive
+import UserResource from '@/api/user';
 
 const userResource = new UserResource();
 
