@@ -85,9 +85,12 @@ Route::group(['middleware' => 'api'], function () {
 
     Route::get('fabric-age', 'Api\V1\FabricAgeController@index');
 
+    Route::get('product/{product}', 'Api\V1\ProductController@show');
     Route::get('product', 'Api\V1\ProductController@index');
 
     Route::get('size', 'Api\V1\SizeController@index');
+    
+    Route::get('color', 'Api\V1\ColorController@index');
 
 
     Route::post('auth/sign-in', 'Api\V1\UserController@signIn')->name("user.sign_in");
