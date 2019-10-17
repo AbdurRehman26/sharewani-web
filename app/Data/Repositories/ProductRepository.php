@@ -64,7 +64,7 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
 
         $data->size = app('SizeRepository')->findById($data->size_id);
 
-        
+
 
 
 
