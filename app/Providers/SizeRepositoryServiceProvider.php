@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Data\Models\Size;
+use App\Data\Repositories\SizeRepository;
 
 class SizeRepositoryServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,9 @@ class SizeRepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->bind('SizeRepository', function () {
+            return new SizeRepository(new Size);
+        });
+
     }
 }

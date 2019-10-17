@@ -62,6 +62,12 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
 
         $data->user = app('UserRepository')->findById($data->user_id);
 
+        $data->size = app('SizeRepository')->findById($data->size_id);
+
+        
+
+
+
         if(request()->user()){
 
             $criteria = [

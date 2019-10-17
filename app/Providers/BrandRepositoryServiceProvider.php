@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Data\Models\Brand;
+use App\Data\Repositories\BrandRepository;
 
 class BrandRepositoryServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,9 @@ class BrandRepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->bind('BrandRepository', function () {
+            return new BrandRepository(new Brand);
+        });
+
     }
 }

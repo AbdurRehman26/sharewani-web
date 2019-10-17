@@ -175,6 +175,10 @@ return [
         App\Providers\EventRepositoryServiceProvider::class,
         App\Providers\ProductRepositoryServiceProvider::class,
         App\Providers\OrderRepositoryServiceProvider::class,
+        App\Providers\SizeRepositoryServiceProvider::class,
+        App\Providers\BrandRepositoryServiceProvider::class,
+        App\Providers\ColorRepositoryServiceProvider::class,
+        App\Providers\FabricAgeRepositoryServiceProvider::class,
 
 
         /*

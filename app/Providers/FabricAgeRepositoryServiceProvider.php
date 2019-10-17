@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Data\Models\FabricAge;
+use App\Data\Repositories\FabricAgeRepository;
 
 class FabricAgeRepositoryServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,9 @@ class FabricAgeRepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->bind('FabricAgeRepository', function () {
+            return new FabricAgeRepository(new FabricAge);
+        });
+
     }
 }

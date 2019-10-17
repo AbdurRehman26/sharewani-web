@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Data\Models\Color;
+use App\Data\Repositories\ColorRepository;
 
 class ColorRepositoryServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,9 @@ class ColorRepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->bind('ColorRepository', function () {
+            return new ColorRepository(new Color);
+        });
+
     }
 }
