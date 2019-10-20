@@ -19,11 +19,36 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['middleware' => 'api'], function () {
+    /* Routes without Authentication */
+
+    Route::get('brand', 'Api\V1\BrandController@index');
+
+    Route::get('category', 'Api\V1\CategoryController@index');
+
+    Route::get('event', 'Api\V1\EventController@index');
+
+    Route::get('fabric-age', 'Api\V1\FabricAgeController@index');
+
+    Route::get('order/validate-order-date', 'Api\V1\OrderController@validateOrderDate');
+
+    Route::get('product/{product}', 'Api\V1\ProductController@show');
+    
+    Route::get('size', 'Api\V1\SizeController@index');
+    
+
+    Route::get('color', 'Api\V1\ColorController@index');
+
+
+    Route::post('auth/sign-in', 'Api\V1\UserController@signIn')->name("user.sign_in");
+
 
 
     Route::post('auth/login', 'AuthController@login');
 
+
+
+
+Route::group(['middleware' => 'api'], function () {
 
     Route::group(['middleware' => 'auth:api'], function () {
 
@@ -79,25 +104,7 @@ Route::group(['middleware' => 'api'], function () {
     });
 
 
-    /* Routes without Authentication */
-
-    Route::get('brand', 'Api\V1\BrandController@index');
-
-    Route::get('category', 'Api\V1\CategoryController@index');
-
-    Route::get('event', 'Api\V1\EventController@index');
-
-    Route::get('fabric-age', 'Api\V1\FabricAgeController@index');
-
-    Route::get('product/{product}', 'Api\V1\ProductController@show');
     Route::get('product', 'Api\V1\ProductController@index');
-
-    Route::get('size', 'Api\V1\SizeController@index');
-    
-    Route::get('color', 'Api\V1\ColorController@index');
-
-
-    Route::post('auth/sign-in', 'Api\V1\UserController@signIn')->name("user.sign_in");
 
 
     Route::apiResource('users', 'UserController')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_USER_MANAGE);
@@ -114,5 +121,7 @@ Route::group(['middleware' => 'api'], function () {
 
 });
 Route::resource('city', 'Api\V1\CityController')->except([
+             'edit'
+        ]);Route::resource('city', 'Api\V1\CityController')->except([
              'edit'
         ]);

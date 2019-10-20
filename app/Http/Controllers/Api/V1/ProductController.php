@@ -64,8 +64,9 @@ class ProductController extends ApiResourceController{
             'category', 'categories', 'number_of_items', 'original_price', 'event',
             'events', 'images', 'title', 'description', 'pagination', 'dashboard_stats', 'fabric_age_id',
             'color_id', 'brand_id', 'size_id', 'vendor');
-
+        
         $input['user_id'] = request()->user() ? request()->user()->id : null;
+        $input['pagination'] = true;
 
         return $input;
     }

@@ -20,45 +20,6 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
      **/
     public $model;
 
-
-    /**
-     *
-     * This method will fetch all exsiting models
-     * and will return output back to client as json
-     *
-     * @access public
-     * @param bool $pagination
-     * @param int $perPage
-     * @param array $input
-     * @return mixed
-     *
-     * @author Usaama Effendi <usaamaeffendi@gmail.com>
-     *
-     */
-    public function findByAll($pagination = false, $perPage = 10, array $input = [])
-    {
-        $this->builder = $this->searchCriteria($input);
-        return parent::findByAll($pagination, $perPage, $input);
-    }
-        /**
-     *
-     * This method will create a new model
-     * and will return output back to client as json
-     *
-     * @access public
-     * @param array $data
-     * @return mixed
-     *
-     * @author Usaama Effendi <usaamaeffendi@gmail.com>
-     *
-     */
-    public function create(array $data = [])
-    {
-        $data['deleted_at'] = null;
-        $order = Order::insertOnDuplicateKey($data);
-        $retRetId = \DB::getPdo()->lastInsertId();
-        return $this->findById($retRetId);
-    }
     /**
      *
      * This is the prefix of the cache key to which the
@@ -82,6 +43,47 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
     }
 
 
+
+    /**
+     *
+     * This method will fetch all exsiting models
+     * and will return output back to client as json
+     *
+     * @access public
+     * @param bool $pagination
+     * @param int $perPage
+     * @param array $input
+     * @return mixed
+     *
+     * @author Usaama Effendi <usaamaeffendi@gmail.com>
+     *
+     */
+    public function findByAll($pagination = false, $perPage = 10, array $input = [])
+    {
+        $this->builder = $this->searchCriteria($input);
+        return parent::findByAll($pagination, $perPage, $input);
+    }
+    
+    /**
+     *
+     * This method will create a new model
+     * and will return output back to client as json
+     *
+     * @access public
+     * @param array $data
+     * @return mixed
+     *
+     * @author Usaama Effendi <usaamaeffendi@gmail.com>
+     *
+     */
+    public function create(array $data = [])
+    {
+
+        $data['deleted_at'] = null;
+        $order = Order::insertOnDuplicateKey($data);
+        $retRetId = \DB::getPdo()->lastInsertId();
+        return $this->findById($retRetId);
+    }
     /**
      *
      * This method will fetch single model
@@ -113,5 +115,24 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
         return $data;
     }
 
+    public function validateOrderDate($input)
+    {
+
+        $data = $this->model->where(function($where) use ($input){
+
+            $where->where('from_date' , '<=', date($input['from_date']))
+            ->where('to_date', '>=', date($input['from_date']))
+            ->where('status', 1);
+
+        })->orWhere(function($where) use ($input){
+
+            $where->where('from_date' , '<=', date($input['to_date']))
+            ->where('to_date', '>=', date($input['to_date']))
+            ->where('status', 1);
+
+        })->first();
+
+        return $data;
+    }
 
 }

@@ -5,9 +5,11 @@ namespace App\Data\Repositories;
 use Kazmi\Data\Contracts\RepositoryContract;
 use Kazmi\Data\Repositories\AbstractRepository;
 use App\Data\Models\UserAddress;
+use App\Traits\AbstractMethods;
 
 class UserAddressRepository extends AbstractRepository implements RepositoryContract
 {
+    use AbstractMethods;
     /**
      *
      * These will hold the instance of UserAddress Class.
@@ -40,4 +42,28 @@ class UserAddressRepository extends AbstractRepository implements RepositoryCont
         $this->builder = $model;
 
     }
+
+
+
+    /**
+     *
+     * This method will fetch all exsiting models
+     * and will return output back to client as json
+     *
+     * @access public
+     * @param bool $pagination
+     * @param int $perPage
+     * @param array $input
+     * @return mixed
+     *
+     * @author Usaama Effendi <usaamaeffendi@gmail.com>
+     *
+     */
+    public function findByAll($pagination = false, $perPage = 10, array $input = [])
+    {
+        $this->builder = $this->searchCriteria($input);
+        
+        return parent::findByAll($pagination, $perPage, $input);
+    }
+    
 }

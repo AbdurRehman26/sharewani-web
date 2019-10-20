@@ -5,9 +5,11 @@ namespace App\Data\Repositories;
 use Kazmi\Data\Contracts\RepositoryContract;
 use Kazmi\Data\Repositories\AbstractRepository;
 use App\Data\Models\Product;
+use App\Traits\AbstractMethods;
 
 class ProductRepository extends AbstractRepository implements RepositoryContract
 {
+    use AbstractMethods;
     /**
      *
      * These will hold the instance of Product Class.
@@ -42,6 +44,27 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
 
     /**
      *
+     * This method will fetch all exsiting models
+     * and will return output back to client as json
+     *
+     * @access public
+     * @param bool $pagination
+     * @param int $perPage
+     * @param array $input
+     * @return mixed
+     *
+     * @author Usaama Effendi <usaamaeffendi@gmail.com>
+     *
+     */
+    public function findByAll($pagination = false, $perPage = 10, array $input = [])
+    {
+        $this->builder = $this->searchCriteria($input);
+        
+        return parent::findByAll($pagination, $perPage, $input);
+    }
+
+    /**
+     *
      * This method will fetch single model
      * and will return output back to client as json
      *
@@ -63,10 +86,6 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
         $data->user = app('UserRepository')->findById($data->user_id);
 
         $data->size = app('SizeRepository')->findById($data->size_id);
-
-
-
-
 
         if(request()->user()){
 

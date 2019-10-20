@@ -7,14 +7,12 @@ trait AbstractMethods
 {
 
     public function searchCriteria($input)
-    {
+    {   
         if (!empty($this->model->searchables)) {
             foreach ($input as $key => $value) {
                 if (in_array($key, $this->model->searchables)) {
-                    if (is_null($input[$key])) {
-                        $this->builder = $this->builder->whereNull($key);
-                    } else {
-                        if (is_string($input[$key])) {
+                        
+                        if (!(int) $input[$key] && is_string($input[$key])) {
                             $this->builder = $this->builder->where($key, 'like', '%' . $input[$key] . '%');
                         }
 
@@ -22,12 +20,9 @@ trait AbstractMethods
                             $this->builder = $this->builder->whereIn($key, $input[$key]);
                         }
 
-                        if (is_int($input[$key])) {
+                        if ((int) $input[$key]) {
                             $this->builder = $this->builder->where($key, '=', $input[$key]);
                         }
-
-                    }
-
                 }
             }
         }

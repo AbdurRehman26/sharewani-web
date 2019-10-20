@@ -55,6 +55,7 @@ class UserAddressController extends ApiResourceController{
 
     public function input($value=''){
         $input = request()->only('id');
+        $input['user_id'] = request()->user() ? request()->user()->id : null;
         
         return $input;
     }

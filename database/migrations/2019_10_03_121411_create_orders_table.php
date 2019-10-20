@@ -17,6 +17,7 @@ class CreateOrdersTable extends Migration {
 			$table->bigInteger('id', true);
 			$table->bigInteger('product_id');
 			$table->bigInteger('user_id');
+			$table->bigInteger('address_id');
 			$table->boolean('number_of_days')->default(3);
 			$table->boolean('status')->default(0);
 			$table->date('from_date')->nullable();

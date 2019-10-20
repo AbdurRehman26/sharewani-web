@@ -53,11 +53,62 @@ class OrderController extends ApiResourceController
 
     public function input($value = '')
     {
-        \Log::info('here');
-        $input = request()->only('id', 'product_id', 'from_date', 'to_date', 'number_of_items');
+        $input = request()->only('id', 'product_id', 'from_date', 'to_date', 'number_of_items', 'address', 'address_secondary', 'address_type', 'address_id', 'nearest_check_point');
         $input['user_id'] = request()->user() ? request()->user()->id : null;
-
+        
         return $input;
+    }
+
+        //Create single record
+    public function store(Request $request)
+    {
+        $request->request->add(['method_type' => 'store']);
+
+        $rules = $this->rules(__FUNCTION__);
+        $input = $this->input(__FUNCTION__);
+
+        $messages = $this->messages(__FUNCTION__);
+
+        $this->validate($request, $rules, $messages);
+
+        if (empty($input['address_id'])) {
+
+            $userAddress = [
+                'user_id' => $input['user_id'],
+                'city_id' => 1,
+                'address' => $input['address'],
+                'address_secondary' => $input['address_secondary'],
+                'nearest_check_point' => $input['nearest_check_point']
+            ];
+
+            $input['address_id'] = \App\Data\Models\UserAddress::create($userAddress)['id'];
+
+        }
+
+        unset($input['address'], $input['address_type'], $input['address_secondary'], $input['nearest_check_point']);
+
+        $data = $this->_repository->create($input);
+
+        $output = ['data' => $data, 'message' => $this->responseMessages(__FUNCTION__)];
+
+        // HTTP_OK = 200;
+
+        return response()->json($output, Response::HTTP_OK);
+
+    }
+
+    public function validateOrderDate()
+    {
+        $input = $this->input(__FUNCTION__);
+
+        $data = $this->_repository->validateOrderDate($input);
+
+        $output = ['data' => $data, 'message' => $this->responseMessages($data ? __FUNCTION__ : 'order_validated')];
+
+        $code = !!$data ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK;
+
+        return response()->json($output, $code);
+
     }
 
     public function itemCount(Request $request)
@@ -71,6 +122,19 @@ class OrderController extends ApiResourceController
         // HTTP_OK = 200;
 
         return response()->json($output, Response::HTTP_OK);
+    }
+
+    public function responseMessages ($value = '')
+    {
+        $messages = [
+            'store' => 'Record created successfully.',
+            'update' => 'Record updated successfully.',
+            'destroy' => 'Record deleted successfully.',
+            'validateOrderDate' => 'Prodcut unavailable on specified dates',
+            'order_validated' => 'Prodcut available on specified dates'
+        ];
+
+        return !empty($messages[$value]) ? $messages[$value] : '';
     }
 
 }

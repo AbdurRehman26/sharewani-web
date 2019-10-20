@@ -100,7 +100,7 @@ class UserController extends ApiResourceController{
             if ($token) {
 
                 Session::put('token', $token);
-                $output = ['message' => 'success' , 'data' => ['token' => $token, 'user' => $user]];
+                $output = ['message' => 'Successfully Logged in' , 'data' => ['token' => $token, 'user' => $user]];
                 return response()->json($output , 200);
             }
         }
