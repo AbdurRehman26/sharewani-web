@@ -16,10 +16,13 @@ import Layout from '@/layout';
 // import componentRoutes from './modules/components';
 // import tableRoutes from './modules/table';
 import userRoutes from './modules/user';
+import contactUsRoutes from './modules/contact_us';
 import productRoutes from './modules/product';
 import orderRoutes from './modules/order';
 import categoryRoutes from './modules/category';
 import eventRoutes from './modules/event';
+
+import productSpecificationRoutes from './modules/product-specification';
 
 /**
  * Sub-menu only appear when children.length>=1
@@ -98,16 +101,19 @@ export const asyncRoutes = [
   orderRoutes,
   categoryRoutes,
   eventRoutes,
+  contactUsRoutes,
+  productSpecificationRoutes,
   // componentRoutes,
   // tableRoutes,
   { path: '*', redirect: '/404', hidden: true },
 ];
 
-const createRouter = () => new Router({
-  // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes,
-});
+const createRouter = () =>
+  new Router({
+    // mode: 'history', // require service support
+    scrollBehavior: () => ({ y: 0 }),
+    routes: constantRoutes,
+  });
 
 const router = createRouter();
 
