@@ -65,6 +65,27 @@ class UserRepository extends AbstractRepository implements RepositoryContract
         return parent::findByAll($pagination, $perPage, $input);
     }
 
+    /**
+     *
+     * This method will fetch single model
+     * and will return output back to client as json
+     *
+     * @access public
+     * @param $id
+     * @param bool $refresh
+     * @param bool $details
+     * @param bool $encode
+     * @return mixed
+     *
+     * @author Usaama Effendi <usaamaeffendi@gmail.com>
+     *
+     */
+    public function findById($id, $refresh = false, $details = false, $encode = true)
+    {        
+        $data = parent::findById($id, $refresh, $details, $encode);
+        $data->formatted_created_at = \Carbon\Carbon::parse($data->created_at)->diffForHumans();
+        return $data;
+    }
 
     /**
      *

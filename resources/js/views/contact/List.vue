@@ -33,41 +33,33 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="PRODUCT">
+      <el-table-column align="center" label="NAME">
         <template slot-scope="scope">
-          <span>{{ scope.row.product.title }}</span>
+          <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="PLACED BY">
+      <el-table-column align="center" label="EMAIL">
         <template slot-scope="scope">
-          <span>{{ scope.row.user.name }}</span>
+          <span>{{ scope.row.email }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="NUMBER OF ITEMS">
+      <el-table-column align="center" label="SUBJECT">
         <template slot-scope="scope">
-          <span>{{ scope.row.number_of_items }}</span>
+          <span>{{ scope.row.subject }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="STATUS">
+      <el-table-column align="center" label="MESSAGE">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.order_status | statusFilter">
-            {{ scope.row.order_status }}
-          </el-tag>
+          {{ scope.row.message }}
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="FROM">
+      <el-table-column align="center" label="CREATED AT">
         <template slot-scope="scope">
-          <span>{{ scope.row.from_date }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="TO">
-        <template slot-scope="scope">
-          <span>{{ scope.row.to_date }}</span>
+          <span>{{ scope.row.formatted_created_at }}</span>
         </template>
       </el-table-column>
 
@@ -97,7 +89,7 @@ import Pagination from '@/components/Pagination'; // Secondary package based on 
 import Resource from '@/api/resource';
 import waves from '@/directive/waves'; // Waves directive
 
-const itemResource = new Resource('order');
+const itemResource = new Resource('contact-us');
 
 export default {
   name: 'UserList',

@@ -2,7 +2,7 @@
 import Layout from '@/layout';
 
 const contactRoutes = {
-  path: '/contact',
+  path: '/contact-us',
   component: Layout,
   redirect: '/contact',
   name: 'contact',

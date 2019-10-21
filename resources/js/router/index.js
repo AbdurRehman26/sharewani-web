@@ -98,11 +98,11 @@ export const constantRoutes = [
 export const asyncRoutes = [
   userRoutes,
   productRoutes,
+  productSpecificationRoutes,
   orderRoutes,
   categoryRoutes,
   eventRoutes,
   contactUsRoutes,
-  productSpecificationRoutes,
   // componentRoutes,
   // tableRoutes,
   { path: '*', redirect: '/404', hidden: true },

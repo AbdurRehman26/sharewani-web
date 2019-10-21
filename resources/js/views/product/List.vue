@@ -26,6 +26,70 @@
       >
         {{ $t('table.add') }}
       </el-button>
+
+      <el-select
+        v-model="query.brand_id"
+        :placeholder="$t('product.brand')"
+        clearable
+        style="width: 120px; margin-left: 10px;"
+        class="filter-item"
+        @change="handleFilter"
+      >
+        <el-option
+          v-for="item in brands"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id"
+        />
+      </el-select>
+
+      <el-select
+        v-model="query.fabric_age_id"
+        :placeholder="$t('product.fabric_age')"
+        clearable
+        style="width: 120px; margin-left: 10px;"
+        class="filter-item"
+        @change="handleFilter"
+      >
+        <el-option
+          v-for="item in fabricAges"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id"
+        />
+      </el-select>
+
+      <el-select
+        v-model="query.size_id"
+        :placeholder="$t('product.size')"
+        clearable
+        style="width: 120px; margin-left: 10px;"
+        class="filter-item"
+        @change="handleFilter"
+      >
+        <el-option
+          v-for="item in sizeOptions"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id"
+        />
+      </el-select>
+
+      <el-select
+        v-model="query.color_id"
+        :placeholder="$t('product.color')"
+        clearable
+        style="width: 120px; margin-left: 10px;"
+        class="filter-item"
+        @change="handleFilter"
+      >
+        <el-option
+          v-for="item in colorOptions"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id"
+        />
+      </el-select>
     </div>
 
     <el-table
@@ -42,15 +106,45 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="Title">
+      <el-table-column align="center" label="IMAGE">
+        <template slot-scope="scope">
+          <img height="65" :src="scope.row.image_paths[0]">
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="TITLE">
         <template slot-scope="scope">
           <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="USER">
+      <el-table-column align="center" label="DESCRIPTION">
         <template slot-scope="scope">
-          <span>{{ scope.row.user.name }}</span>
+          <span v-html="scope.row.description" />
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="ORIGINAL PRICE">
+        <template slot-scope="scope">
+          <span>{{ scope.row.original_price }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="COLOR">
+        <template slot-scope="scope">
+          <span>{{ scope.row.color.name }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="SIZE">
+        <template slot-scope="scope">
+          <span>{{ scope.row.size.name }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="BRAND">
+        <template slot-scope="scope">
+          <span>{{ scope.row.brand.name }}</span>
         </template>
       </el-table-column>
 
@@ -69,6 +163,12 @@
             :key="index"
           >{{ category.name }}
           </span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="USER">
+        <template slot-scope="scope">
+          <span>{{ scope.row.user.name }}</span>
         </template>
       </el-table-column>
 
@@ -112,11 +212,22 @@
           </el-form-item>
 
           <el-form-item :label="$t('product.description')" prop="title">
-            <markdown-editor ref="markdownEditor" v-model="newItem.description" height="300px" />
+            <markdown-editor
+              ref="markdownEditor"
+              v-model="newItem.description"
+              height="300px"
+            />
           </el-form-item>
 
-          <el-form-item :label="$t('product.original_price')" prop="original_price">
-            <el-input v-model="newItem.original_price" type="number" style="max-width : 200px;" />
+          <el-form-item
+            :label="$t('product.original_price')"
+            prop="original_price"
+          >
+            <el-input
+              v-model="newItem.original_price"
+              type="number"
+              style="max-width : 200px;"
+            />
           </el-form-item>
 
           <el-form-item :label="$t('product.fabric_age')" prop="fabric_age">
@@ -135,7 +246,6 @@
           </el-form-item>
 
           <el-form-item :label="$t('product.size')" prop="role">
-
             <el-select
               v-model="newItem.size_id"
               class="filter-item"
@@ -151,7 +261,6 @@
           </el-form-item>
 
           <el-form-item :label="$t('product.color')" prop="role">
-
             <el-select
               v-model="newItem.color_id"
               class="filter-item"
@@ -164,11 +273,9 @@
                 :value="colorOption.id"
               />
             </el-select>
-
           </el-form-item>
 
           <el-form-item :label="$t('product.event')" prop="role">
-
             <multiselect
               v-model="newItem.events"
               class="multiselect"
@@ -177,11 +284,9 @@
               track-by="id"
               :options="events"
             />
-
           </el-form-item>
 
           <el-form-item :label="$t('product.category')" prop="role">
-
             <multiselect
               v-model="newItem.categories"
               class="multiselect"
@@ -191,7 +296,6 @@
               track-by="id"
               :options="categories"
             />
-
           </el-form-item>
 
           <el-form-item :label="$t('product.brand')" prop="role">
@@ -210,7 +314,6 @@
           </el-form-item>
 
           <el-form-item :label="$t('product.vendor_number')" prop="role">
-
             <multiselect
               v-model="newItem.vendor"
               tag-placeholder="Add this as new tag"
@@ -227,8 +330,16 @@
             />
           </el-form-item>
 
-          <el-form-item v-if="newItem.vendor.length" :label="$t('product.vendor_name')" prop="role">
-            <el-input v-model="newItem.vendor[0].name" :disabled="!!newItem.vendor[0].id" style="max-width : 200px;" />
+          <el-form-item
+            v-if="newItem.vendor.length"
+            :label="$t('product.vendor_name')"
+            prop="role"
+          >
+            <el-input
+              v-model="newItem.vendor[0].name"
+              :disabled="!!newItem.vendor[0].id"
+              style="max-width : 200px;"
+            />
           </el-form-item>
 
           <el-form-item>
@@ -333,7 +444,7 @@ export default {
       this.users.push(tag);
       this.newItem.vendor.push(tag);
     },
-    async asyncFind(query){
+    async asyncFind(query) {
       const formData = {
         phone_number: query,
       };
@@ -342,7 +453,7 @@ export default {
       this.users = response.data;
       this.loading = false;
     },
-    getOptionsList(){
+    getOptionsList() {
       this.getCategoryList();
       this.getEventList();
       this.getBrandList();
@@ -351,7 +462,7 @@ export default {
       this.getFabricAgeList();
     },
     dropzoneS(file) {
-      if (file && file.xhr && file.xhr.response){
+      if (file && file.xhr && file.xhr.response) {
         const uploadedFile = JSON.parse(file.xhr.response);
 
         this.newItem.images.push(uploadedFile.name);
@@ -360,10 +471,12 @@ export default {
       this.$message({ message: 'Upload success', type: 'success' });
     },
     dropzoneR(file) {
-      if (file && file.xhr && file.xhr.response){
+      if (file && file.xhr && file.xhr.response) {
         const uploadedFile = JSON.parse(file.xhr.response);
 
-        this.newItem.images.splice(this.newItem.images.indexOf(uploadedFile.name));
+        this.newItem.images.splice(
+          this.newItem.images.indexOf(uploadedFile.name)
+        );
 
         const fileData = {
           file_name: uploadedFile.name,
@@ -555,18 +668,16 @@ export default {
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style>
-
-  .tui-editor-defaultUI .te-mode-switch{
-    display: none;
-  }
-
+.tui-editor-defaultUI .te-mode-switch {
+  display: none;
+}
 </style>
 
 <style lang="scss" scoped>
-.multiselect{
-  width : 200px
+.multiselect {
+  width: 200px;
 }
-  .edit-input {
+.edit-input {
   padding-right: 100px;
 }
 .cancel-btn {
