@@ -59,7 +59,14 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
     public function findByAll($pagination = false, $perPage = 10, array $input = [])
     {
         $this->builder = $this->searchCriteria($input);
-        
+
+
+        if(!empty($input['event_id'])){
+            $productIds = \App\Data\Models\ProductEvent::where('event_id', (int)$input['event_id'])->get()->pluck('product_id')->toArray();
+            $this->builder = $this->builder->whereIn('id', $productIds);
+        }
+
+
         return parent::findByAll($pagination, $perPage, $input);
     }
 

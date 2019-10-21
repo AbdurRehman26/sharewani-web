@@ -61,7 +61,7 @@ class ProductController extends ApiResourceController{
     public function input($value=''){
 
         $input = request()->only('id',
-            'category', 'categories', 'number_of_items', 'original_price', 'event',
+            'category', 'categories', 'number_of_items', 'original_price', 'event', 'event_id',
             'events', 'images', 'title', 'description', 'pagination', 'dashboard_stats', 'fabric_age_id',
             'color_id', 'brand_id', 'size_id', 'vendor');
         

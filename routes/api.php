@@ -53,6 +53,7 @@ Route::group(['middleware' => 'api'], function () {
         'edit'
     ]);
 
+    Route::get('order/validate-order-date', 'Api\V1\OrderController@validateOrderDate');
     Route::get('order_count', 'Api\V1\OrderController@itemCount');
     Route::resource('order', 'Api\V1\OrderController')->except([
         'edit'
@@ -86,8 +87,6 @@ Route::group(['middleware' => 'api'], function () {
 
     Route::get('fabric-age', 'Api\V1\FabricAgeController@index');
 
-    Route::get('order/validate-order-date', 'Api\V1\OrderController@validateOrderDate');
-
     Route::get('product/{product}', 'Api\V1\ProductController@show');
     
     Route::get('size', 'Api\V1\SizeController@index');
@@ -102,6 +101,13 @@ Route::group(['middleware' => 'api'], function () {
 
     Route::post('auth/login', 'AuthController@login');
 
+    Route::resource('city', 'Api\V1\CityController')->except([
+        'edit'
+    ]);
+    
+    Route::resource('contact-us', 'Api\V1\ContactUsController')->except([
+        'edit'
+    ]);
 
 
 
@@ -121,8 +127,3 @@ Route::group(['middleware' => 'api'], function () {
 
 
 });
-Route::resource('city', 'Api\V1\CityController')->except([
-             'edit'
-        ]);Route::resource('city', 'Api\V1\CityController')->except([
-             'edit'
-        ]);
