@@ -56,7 +56,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('order/validate-order-date', 'Api\V1\OrderController@validateOrderDate');
     Route::get('order_count', 'Api\V1\OrderController@itemCount');
     Route::resource('order', 'Api\V1\OrderController')->except([
-        'edit'
+        'edit', 'show'
     ]);
 
     Route::resource('role', 'Api\V1\RoleController')->except([
