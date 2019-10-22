@@ -42,10 +42,10 @@ const actions = {
   login({ commit }, userInfo) {
     const { email, password } = userInfo;
     return new Promise((resolve, reject) => {
-      login({ email: email.trim(), password: password })
+      login({ username: email.trim(), password: password })
         .then(response => {
-          commit('SET_TOKEN', response.token);
-          setToken(response.token);
+          commit('SET_TOKEN', response.access_token);
+          setToken(response.access_token);
           resolve();
         })
         .catch(error => {

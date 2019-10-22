@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use \App\Laravue\Faker;
 use \App\Laravue\JsonResponse;
+use Laravel\Passport\Passport;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::group(['middleware' => 'api'], function () {
+
+    Route::group(['middleware' => 'passport.route'] , function(){
+
+        Passport::routes();
+
+    });
+
 
     Route::group(['middleware' => 'auth:api'], function () {
 
