@@ -76,7 +76,6 @@ const actions = {
       } else {
         accessedRoutes = filterAsyncRoutes(asyncRoutes, roles, permissions);
       }
-
       commit('SET_ROUTES', accessedRoutes);
       resolve(accessedRoutes);
     });
