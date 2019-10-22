@@ -118,17 +118,9 @@ Route::group(['middleware' => 'api'], function () {
     ]);
 
 
-
     Route::get('product', 'Api\V1\ProductController@index');
 
-
-    Route::apiResource('users', 'UserController')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_USER_MANAGE);
-
-    Route::get('users/{user}/permissions', 'UserController@permissions')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
-
     Route::get('user_count', 'Api\V1\UserController@itemCount');
-
-    Route::put('users/{user}/permissions', 'UserController@updatePermissions')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
 
     Route::post('file/upload', 'Api\V1\FileUploadController@upload')->name("file.upload");
     Route::post('file/remove', 'Api\V1\FileUploadController@remove')->name("file.remove");

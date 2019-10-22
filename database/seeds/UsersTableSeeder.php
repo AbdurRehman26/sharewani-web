@@ -30,54 +30,42 @@ class UsersTableSeeder extends Seeder
         $admin = \App\Laravue\Models\User::create([
             'name' => 'Admin',
             'phone_number' => mt_rand(100000, 999999),
-            'email' => 'admin@sharewaani.com',
-            'password' => Hash::make('sharewaani123!@#'),
+            'email' => 'admin@sharewani.com',
+            'password' => Hash::make('sharewani123!@#'),
             'image' => $faker->imageUrl(300, 450, 'people')
             
         ]);
         $manager = \App\Laravue\Models\User::create([
             'name' => 'Manager',
             'phone_number' => mt_rand(100000, 999999),
-            'email' => 'manager@sharewaani.com',
-            'password' => Hash::make('sharewaani123!@#'),
+            'email' => 'manager@sharewani.com',
+            'password' => Hash::make('sharewani123!@#'),
             'image' => $faker->imageUrl(300, 450, 'people')
             
         ]);
         $editor = \App\Laravue\Models\User::create([
             'name' => 'Editor',
             'phone_number' => mt_rand(100000, 999999),
-            'email' => 'editor@sharewaani.com',
-            'password' => Hash::make('sharewaani123!@#'),
+            'email' => 'editor@sharewani.com',
+            'password' => Hash::make('sharewani123!@#'),
             'image' => $faker->imageUrl(300, 450, 'people')
             
         ]);
         $user = \App\Laravue\Models\User::create([
             'name' => 'User',
             'phone_number' => mt_rand(100000, 999999),
-            'email' => 'user@sharewaani.com',
-            'password' => Hash::make('sharewaani123!@#'),
+            'email' => 'user@sharewani.com',
+            'password' => Hash::make('sharewani123!@#'),
             'image' => $faker->imageUrl(300, 450, 'people')
             
         ]);
         $visitor = \App\Laravue\Models\User::create([
             'name' => 'Visitor',
             'phone_number' => mt_rand(100000, 999999),
-            'email' => 'visitor@sharewaani.com',
-            'password' => Hash::make('sharewaani123!@#'),
+            'email' => 'visitor@sharewani.com',
+            'password' => Hash::make('sharewani123!@#'),
             'image' => $faker->imageUrl(300, 450, 'people') 
         ]);
-
-
-        $adminRole = Role::findByName(\App\Laravue\Acl::ROLE_ADMIN);
-        $managerRole = Role::findByName(\App\Laravue\Acl::ROLE_MANAGER);
-        $editorRole = Role::findByName(\App\Laravue\Acl::ROLE_EDITOR);
-        $userRole = Role::findByName(\App\Laravue\Acl::ROLE_USER);
-        $visitorRole = Role::findByName(\App\Laravue\Acl::ROLE_VISITOR);
-        $admin->syncRoles($adminRole);
-        $manager->syncRoles($managerRole);
-        $editor->syncRoles($editorRole);
-        $user->syncRoles($userRole);
-        $visitor->syncRoles($visitorRole);
 
 
         foreach ($userList as $fullName) {
@@ -90,8 +78,6 @@ class UsersTableSeeder extends Seeder
                 'image' => $faker->imageUrl(300, 450, 'people')
             ]);
 
-            $user->syncRoles($adminRole);
-        
         }
     }
 }
