@@ -17,13 +17,7 @@ class EventTableSeeder extends Seeder
 
         $data = [
             [
-            'name' => 'Valima',
-            'created_at' => $date,
-            'updated_at' => $date,
-            'deleted_at' => NULL
-            ],
-            [
-            'name' => 'Shadi',
+            'name' => 'Shaadi',
             'created_at' => $date,
             'updated_at' => $date,
             'deleted_at' => NULL

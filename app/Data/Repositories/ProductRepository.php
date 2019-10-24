@@ -60,14 +60,39 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
     {
         $this->builder = $this->searchCriteria($input);
 
+        if(!empty($input['latest'])){
+            $this->builder = $this->builder->orderBy('created_at', 'DESC');
+            $perPage = 10;
+        }
 
         if(!empty($input['event_id'])){
             $productIds = \App\Data\Models\ProductEvent::where('event_id', (int)$input['event_id'])->get()->pluck('product_id')->toArray();
             $this->builder = $this->builder->whereIn('id', $productIds);
         }
 
-
         return parent::findByAll($pagination, $perPage, $input);
+    }
+
+    /**
+     *
+     * This method will fetch single model
+     * and will return output back to client as json
+     *
+     * @access public
+     * @param $id
+     * @param bool $refresh
+     * @param bool $details
+     * @param bool $encode
+     * @return mixed
+     *
+     * @author Usaama Effendi <usaamaeffendi@gmail.com>
+     *
+     */
+
+    public function topSellingProducts(){
+
+        return parent::findByAll(true, 8);
+
     }
 
     /**
@@ -96,7 +121,7 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
         $data->brand = app('BrandRepository')->findById($data->brand_id);
         $data->fabric_age = app('FabricAgeRepository')->findById($data->fabric_age_id);
         $data->color = app('ColorRepository')->findById($data->color_id);
-      
+
         if(request()->user()){
 
             $criteria = [

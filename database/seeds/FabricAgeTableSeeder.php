@@ -15,57 +15,25 @@ class FabricAgeTableSeeder extends Seeder
 
         $date = Carbon::now()->toDateTimeString();
 
-
-        $data = [
-            [
-                'name' => 'New',
-                'created_at' => $date,
-                'updated_at' => $date,
-                'deleted_at' => NULL
-            ],
-            [
-                'name' => 'Less than 6 months',
-                'created_at' => $date,
-                'updated_at' => $date,
-                'deleted_at' => NULL
-            ],
-            [
-                'name' => 'Between 6 and 12 months',
-                'created_at' => $date,
-                'updated_at' => $date,
-                'deleted_at' => NULL
-            ],
-            [
-                'name' => 'Between 12 and 18 months',
-                'created_at' => $date,
-                'updated_at' => $date,
-                'deleted_at' => NULL
-            ],
-            [
-                'name' => 'Between 18 and 24 months',
-                'created_at' => $date,
-                'updated_at' => $date,
-                'deleted_at' => NULL
-            ],
-            [
-                'name' => 'Between 24 and 30 months',
-                'created_at' => $date,
-                'updated_at' => $date,
-                'deleted_at' => NULL
-            ],
-            [
-                'name' => 'Between 30 and 36 months',
-                'created_at' => $date,
-                'updated_at' => $date,
-                'deleted_at' => NULL
-            ],
-            [
-                'name' => 'Older than 36 months',
-                'created_at' => $date,
-                'updated_at' => $date,
-                'deleted_at' => NULL
-            ],
+        $fabricAges = [
+            'New',
+            'Less than 6 months',
+            'Between 6 and 12 months',
+            'Between 12 and 18 months',
+            'Between 18 and 24 months',
+            'Between 24 and 30 months',
+            'Between 30 and 36 months',
+            'Older than 36 months'
         ];
+
+        foreach ($fabricAges as $fabricAge){
+            $data[] = [
+                'name' => $fabricAge,
+                'created_at' => $date,
+                'updated_at' => $date,
+                'deleted_at' => NULL
+            ];
+        }
 
 
         \App\Data\Models\FabricAge::insertOnDuplicateKey($data, ['name']);

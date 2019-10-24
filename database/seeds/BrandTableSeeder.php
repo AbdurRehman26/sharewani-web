@@ -15,14 +15,26 @@ class BrandTableSeeder extends Seeder
 
         $date = Carbon::now()->toDateTimeString();
 
-        $data = [
-
-            'name' => 'Bonanza',
-            'created_at' => $date,
-            'updated_at' => $date,
-            'deleted_at' => NULL
-
+        $brands = [
+            'Bonanza',
+            'Gul Ahmed',
+            'Moosaa Jee',
+            'Maaz Jee',
+            'Junaid Jamshaid',
+            'Khaadi',
+            'Kapraay',
+            'Eden Robe',
+            'Cotton & Cotton'
         ];
+
+        foreach ($brands as $brand){
+            $data[] = [
+                'name' => $brand,
+                'created_at' => $date,
+                'updated_at' => $date,
+                'deleted_at' => NULL
+            ];
+        }
 
         \App\Data\Models\Brand::insertOnDuplicateKey($data, ['name']);
 

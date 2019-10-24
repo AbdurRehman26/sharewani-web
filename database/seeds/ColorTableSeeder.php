@@ -17,8 +17,7 @@ class ColorTableSeeder extends Seeder
 
         $date = Carbon::now()->toDateTimeString();
 
-        for($i = 0; $i < 20; $i++){
-
+        for($i = 0; $i < 40; $i++){
 
         $data[] = [
 

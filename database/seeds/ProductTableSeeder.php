@@ -18,47 +18,33 @@ class ProductTableSeeder extends Seeder
         $date = Carbon::now()->toDateTimeString();
 
 
-        $sharewaniColors = [
-            'White',
-            'Tan',
-            'Yellow',
-            'Orange',
-            'Red',
-            'Pink',
-            'Purple',
-            'Blue',
-        ];
-
-
-        $userId = \App\Laravue\Models\User::first()['id'];
-
         $imagesArray = config('dummyImages');
 
-        shuffle($imagesArray);
 
-        $images = array_slice($imagesArray, 0, 3);
+        for ($i = 0; $i < 200; $i++) {
 
+            shuffle($imagesArray);
 
-        foreach ($sharewaniColors as $key => $sharewani) {
- 
-           $data[] = [
-                'title' => "$sharewani Sherwani",
+            $images = array_slice($imagesArray, 0, 3);
+
+            $data[] = [
+                'title' => "$faker->companySuffix Sherwani",
                 'description' => $faker->text,
-                'user_id' => $userId,
+                'user_id' => \App\Laravue\Models\User::inRandomOrder()->first()['id'],
                 'images' => json_encode($images),
                 'number_of_items' => 1,
                 'original_price' => 1000,
-                'size_id' => \App\Data\Models\Size::first()['id'],
-                'brand_id' => \App\Data\Models\Brand::first()['id'],
-                'color_id' => \App\Data\Models\Color::first()['id'],
-                'fabric_age_id' => \App\Data\Models\FabricAge::first()['id'],
+                'size_id' => \App\Data\Models\Size::inRandomOrder()->first()['id'],
+                'brand_id' => \App\Data\Models\Brand::inRandomOrder()->first()['id'],
+                'color_id' => \App\Data\Models\Color::inRandomOrder()->first()['id'],
+                'fabric_age_id' => \App\Data\Models\FabricAge::inRandomOrder()->first()['id'],
                 'created_at' => $date,
                 'updated_at' => $date,
                 'deleted_at' => NULL
             ];
- 
+
         };
-        
+
         \App\Data\Models\Product::insertOnDuplicateKey($data);
 
 }

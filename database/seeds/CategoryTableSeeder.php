@@ -15,12 +15,9 @@ class CategoryTableSeeder extends Seeder
 
         $date = Carbon::now()->toDateTimeString();
 
-        
-
-
           $data = [
 
-            'name' => 'Sharewani',
+            'name' => 'Sherwaani',
             'created_at' => $date,
             'updated_at' => $date,
             'deleted_at' => NULL

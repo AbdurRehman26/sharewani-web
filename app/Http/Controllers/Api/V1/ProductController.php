@@ -63,14 +63,23 @@ class ProductController extends ApiResourceController{
         $input = request()->only('id',
             'category', 'categories', 'number_of_items', 'original_price', 'event', 'event_id',
             'events', 'images', 'title', 'description', 'pagination', 'dashboard_stats', 'fabric_age_id',
-            'color_id', 'brand_id', 'size_id', 'vendor');
-        
+            'color_id', 'brand_id', 'size_id', 'vendor', 'latest');
+
         $input['user_id'] = request()->user() ? request()->user()->id : null;
         $input['pagination'] = true;
 
         return $input;
     }
 
+    protected function topSelling()
+    {
+        $data = $this->_repository->topSellingProducts();
+
+        // HTTP_OK = 200;
+
+        return response()->json($data, Response::HTTP_OK);
+
+    }
 
     public function itemCount(Request $request)
     {

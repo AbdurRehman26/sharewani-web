@@ -14,9 +14,9 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-     
+
         $faker = Faker::create();
-   
+
         $userList = [
             "Kazmi",
             "Ali",
@@ -33,7 +33,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@sharewani.com',
             'password' => Hash::make('sharewani123!@#'),
             'image' => $faker->imageUrl(300, 450, 'people')
-            
+
         ]);
         $manager = \App\Laravue\Models\User::create([
             'name' => 'Manager',
@@ -41,7 +41,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'manager@sharewani.com',
             'password' => Hash::make('sharewani123!@#'),
             'image' => $faker->imageUrl(300, 450, 'people')
-            
+
         ]);
         $editor = \App\Laravue\Models\User::create([
             'name' => 'Editor',
@@ -49,7 +49,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'editor@sharewani.com',
             'password' => Hash::make('sharewani123!@#'),
             'image' => $faker->imageUrl(300, 450, 'people')
-            
+
         ]);
         $user = \App\Laravue\Models\User::create([
             'name' => 'User',
@@ -57,14 +57,14 @@ class UsersTableSeeder extends Seeder
             'email' => 'user@sharewani.com',
             'password' => Hash::make('sharewani123!@#'),
             'image' => $faker->imageUrl(300, 450, 'people')
-            
+
         ]);
         $visitor = \App\Laravue\Models\User::create([
             'name' => 'Visitor',
             'phone_number' => mt_rand(100000, 999999),
             'email' => 'visitor@sharewani.com',
             'password' => Hash::make('sharewani123!@#'),
-            'image' => $faker->imageUrl(300, 450, 'people') 
+            'image' => $faker->imageUrl(300, 450, 'people')
         ]);
 
 
@@ -77,7 +77,19 @@ class UsersTableSeeder extends Seeder
                 'password' => \Illuminate\Support\Facades\Hash::make('sharewaani123!@#'),
                 'image' => $faker->imageUrl(300, 450, 'people')
             ]);
-
         }
+
+        for ($i = 0; $i < 200; $i++) {
+            $user = \App\Laravue\Models\User::create([
+                'name' => $faker->firstName,
+                'phone_number' => mt_rand(100000, 999999),
+                'email' => $faker->email,
+                'password' => \Illuminate\Support\Facades\Hash::make('sharewaani123!@#'),
+                'image' => $faker->imageUrl(300, 450, 'people')
+            ]);
+        }
+
+
+
     }
 }

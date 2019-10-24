@@ -30,6 +30,8 @@ Route::group(['middleware' => 'api'], function () {
 
     });
 
+    Route::get('product/top-selling', 'Api\V1\ProductController@topSelling');
+
 
     Route::group(['middleware' => 'auth:api'], function () {
 
@@ -96,9 +98,9 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('fabric-age', 'Api\V1\FabricAgeController@index');
 
     Route::get('product/{product}', 'Api\V1\ProductController@show');
-    
+
     Route::get('size', 'Api\V1\SizeController@index');
-    
+
 
     Route::get('color', 'Api\V1\ColorController@index');
 
@@ -112,7 +114,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::resource('city', 'Api\V1\CityController')->except([
         'edit'
     ]);
-    
+
     Route::resource('contact-us', 'Api\V1\ContactUsController')->except([
         'edit'
     ]);
