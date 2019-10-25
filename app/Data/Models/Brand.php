@@ -2,11 +2,7 @@
 
 namespace App\Data\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Yadakhov\InsertOnDuplicateKey;
-
-class Brand extends Model
+class Brand extends BaseModel
 {
     //
-    use  InsertOnDuplicateKey;
 }

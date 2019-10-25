@@ -2,14 +2,9 @@
 
 namespace App\Data\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Yadakhov\InsertOnDuplicateKey;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Order extends Model
+class Order extends BaseModel
 {
-    use  InsertOnDuplicateKey, SoftDeletes;
-
     const STATUSES = [
         0 => 'Pending',
         1 => 'Accepted',

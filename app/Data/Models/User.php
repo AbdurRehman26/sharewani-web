@@ -5,6 +5,9 @@ namespace App\Data\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 /**
  * Class User
  *
@@ -18,7 +21,7 @@ use Laravel\Passport\HasApiTokens;
  */
 class User extends Authenticatable
 {
-    use Notifiable, HasApiTokens;
+    use Notifiable, HasApiTokens, SoftDeletes, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -56,4 +59,12 @@ class User extends Authenticatable
     public $searchables = [
         'phone_number'
     ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var Boolean
+     */
+    protected static $logFillable = true;
+
 }
