@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use \App\Laravue\Faker;
-use \App\Laravue\JsonResponse;
 use Laravel\Passport\Passport;
 
 /*
@@ -24,10 +22,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => 'api'], function () {
 
-    Route::group(['middleware' => 'passport.route'] , function(){
-
+    Route::group(['middleware' => 'passport.route'], function () {
         Passport::routes();
-
     });
 
     Route::get('product/top-selling', 'Api\V1\ProductController@topSelling');
@@ -35,56 +31,55 @@ Route::group(['middleware' => 'api'], function () {
 
     Route::group(['middleware' => 'auth:api'], function () {
 
-    Route::get('auth/user', 'AuthController@user');
-    Route::post('auth/logout', 'AuthController@logout');
+            Route::get('auth/user', 'AuthController@user');
+            Route::post('auth/logout', 'AuthController@logout');
 
-    Route::resource('brand', 'Api\V1\BrandController')->except([
-        'edit'
-    ]);
+            Route::resource('brand', 'Api\V1\BrandController')->except([
+                'edit'
+            ]);
 
-    Route::resource('color', 'Api\V1\ColorController')->except([
-        'edit'
-    ]);
+            Route::resource('color', 'Api\V1\ColorController')->except([
+                'edit'
+            ]);
 
-    Route::resource('category', 'Api\V1\CategoryController')->except([
-                 'edit'
-    ]);
+            Route::resource('category', 'Api\V1\CategoryController')->except([
+                         'edit'
+            ]);
 
-    Route::resource('event', 'Api\V1\EventController')->except([
-                 'edit'
-    ]);
+            Route::resource('event', 'Api\V1\EventController')->except([
+                         'edit'
+            ]);
 
-    Route::resource('fabric-age', 'Api\V1\FabricAgeController')->except([
-        'edit'
-    ]);
+            Route::resource('fabric-age', 'Api\V1\FabricAgeController')->except([
+                'edit'
+            ]);
 
-    Route::get('product_count', 'Api\V1\ProductController@itemCount');
-    Route::resource('product', 'Api\V1\ProductController')->except([
-        'edit'
-    ]);
+            Route::get('product_count', 'Api\V1\ProductController@itemCount');
+            Route::resource('product', 'Api\V1\ProductController')->except([
+                'edit'
+            ]);
 
-    Route::get('order/validate-order-date', 'Api\V1\OrderController@validateOrderDate');
-    Route::get('order_count', 'Api\V1\OrderController@itemCount');
-    Route::resource('order', 'Api\V1\OrderController')->except([
-        'edit', 'show'
-    ]);
+            Route::get('order/validate-order-date', 'Api\V1\OrderController@validateOrderDate');
+            Route::get('order_count', 'Api\V1\OrderController@itemCount');
+            Route::resource('order', 'Api\V1\OrderController')->except([
+                'edit', 'show'
+            ]);
 
-    Route::resource('role', 'Api\V1\RoleController')->except([
-             'edit'
-    ]);
+            Route::resource('role', 'Api\V1\RoleController')->except([
+                     'edit'
+            ]);
 
-    Route::resource('size', 'Api\V1\SizeController')->except([
-        'edit'
-    ]);
+            Route::resource('size', 'Api\V1\SizeController')->except([
+                'edit'
+            ]);
 
-    Route::resource('user', 'Api\V1\UserController')->except([
-        'edit'
-    ]);
+            Route::resource('user', 'Api\V1\UserController')->except([
+                'edit'
+            ]);
 
-    Route::resource('user-address', 'Api\V1\UserAddressController')->except([
-        'edit'
-    ]);
-
+            Route::resource('user-address', 'Api\V1\UserAddressController')->except([
+                'edit'
+            ]);
     });
 
     /* Routes without Authentication */
@@ -126,6 +121,4 @@ Route::group(['middleware' => 'api'], function () {
 
     Route::post('file/upload', 'Api\V1\FileUploadController@upload')->name("file.upload");
     Route::post('file/remove', 'Api\V1\FileUploadController@remove')->name("file.remove");
-
-
 });

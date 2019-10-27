@@ -28,6 +28,5 @@ class SizeRepositoryServiceProvider extends ServiceProvider
         $this->app->bind('SizeRepository', function () {
             return new SizeRepository(new Size);
         });
-
     }
 }

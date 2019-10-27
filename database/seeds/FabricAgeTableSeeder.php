@@ -15,6 +15,8 @@ class FabricAgeTableSeeder extends Seeder
 
         $date = Carbon::now()->toDateTimeString();
 
+        $data = [];
+
         $fabricAges = [
             'New',
             'Less than 6 months',
@@ -26,18 +28,15 @@ class FabricAgeTableSeeder extends Seeder
             'Older than 36 months'
         ];
 
-        foreach ($fabricAges as $fabricAge){
+        foreach ($fabricAges as $fabricAge) {
             $data[] = [
                 'name' => $fabricAge,
                 'created_at' => $date,
                 'updated_at' => $date,
-                'deleted_at' => NULL
+                'deleted_at' => null
             ];
         }
 
-
         \App\Data\Models\FabricAge::insertOnDuplicateKey($data, ['name']);
-
-
     }
 }

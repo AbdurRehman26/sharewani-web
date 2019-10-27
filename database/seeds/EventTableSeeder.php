@@ -20,19 +20,7 @@ class EventTableSeeder extends Seeder
             'name' => 'Shaadi',
             'created_at' => $date,
             'updated_at' => $date,
-            'deleted_at' => NULL
-            ],
-            [
-            'name' => 'Mehendi',
-            'created_at' => $date,
-            'updated_at' => $date,
-            'deleted_at' => NULL
-            ],
-            [
-            'name' => 'Other',
-            'created_at' => $date,
-            'updated_at' => $date,
-            'deleted_at' => NULL
+            'deleted_at' => null
             ],
         ];
 

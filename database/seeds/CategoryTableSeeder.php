@@ -20,14 +20,8 @@ class CategoryTableSeeder extends Seeder
             'name' => 'Sherwaani',
             'created_at' => $date,
             'updated_at' => $date,
-            'deleted_at' => NULL
-
+            'deleted_at' => null,
           ];
-
-
-      \App\Data\Models\Category::insertOnDuplicateKey($data, ['name']);
-
-
-
+          \App\Data\Models\Category::insertOnDuplicateKey($data, ['name']);
 }
 }

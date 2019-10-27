@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Data\Models\UserAddress;
+use App\Data\Repositories\UserAddressRepository;
 
 class UserAddressRepositoryServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,8 @@ class UserAddressRepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->bind('UserAddressRepository', function () {
+            return new UserAddressRepository(new UserAddress);
+        });
     }
 }

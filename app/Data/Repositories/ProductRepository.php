@@ -10,6 +10,7 @@ use App\Traits\AbstractMethods;
 class ProductRepository extends AbstractRepository implements RepositoryContract
 {
     use AbstractMethods;
+    const PER_PAGE = 12;
     /**
      *
      * These will hold the instance of Product Class.
@@ -59,6 +60,7 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
     public function findByAll($pagination = false, $perPage = 10, array $input = [])
     {
         $this->builder = $this->searchCriteria($input);
+        $perPage = self::PER_PAGE;
 
         if(!empty($input['latest'])){
             $this->builder = $this->builder->orderBy('created_at', 'DESC');

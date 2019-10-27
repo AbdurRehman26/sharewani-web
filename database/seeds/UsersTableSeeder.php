@@ -78,18 +78,5 @@ class UsersTableSeeder extends Seeder
                 'image' => $faker->imageUrl(300, 450, 'people')
             ]);
         }
-
-        for ($i = 0; $i < 200; $i++) {
-            $user = \App\Laravue\Models\User::create([
-                'name' => $faker->firstName,
-                'phone_number' => mt_rand(100000, 999999),
-                'email' => $faker->email,
-                'password' => \Illuminate\Support\Facades\Hash::make('sharewaani123!@#'),
-                'image' => $faker->imageUrl(300, 450, 'people')
-            ]);
-        }
-
-
-
     }
 }

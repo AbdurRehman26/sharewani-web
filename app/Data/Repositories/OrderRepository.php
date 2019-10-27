@@ -63,7 +63,7 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
         $this->builder = $this->searchCriteria($input);
         return parent::findByAll($pagination, $perPage, $input);
     }
-    
+
     /**
      *
      * This method will create a new model
@@ -107,6 +107,8 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
 
         $data->product = app('ProductRepository')->findById($data->product_id);
 
+        $data->address = app('UserAddressRepository')->findById($data->address_id);
+
         $data->formatted_created_at = \Carbon\Carbon::parse($data->created_at)->diffForHumans();
 
         $data->order_status = Order::STATUSES[$data->status];
@@ -116,19 +118,14 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
 
     public function validateOrderDate($input)
     {
-
-        $data = $this->model->where(function($where) use ($input){
-
-            $where->where('from_date' , '<=', date($input['from_date']))
+        $data = $this->model->where(function ($where) use ($input) {
+            $where->where('from_date', '<=', date($input['from_date']))
             ->where('to_date', '>=', date($input['from_date']))
             ->where('status', 1);
-
-        })->orWhere(function($where) use ($input){
-
-            $where->where('from_date' , '<=', date($input['to_date']))
+        })->orWhere(function ($where) use ($input) {
+            $where->where('from_date', '<=', date($input['to_date']))
             ->where('to_date', '>=', date($input['to_date']))
             ->where('status', 1);
-
         })->first();
 
         return $data;

@@ -15,48 +15,25 @@ class UserController extends ApiResourceController{
 
     public $_repository;
 
-    public function __construct(UserRepository $repository){
+    public function __construct(UserRepository $repository)
+    {
         $this->_repository = $repository;
     }
 
-    public function rules($value=''){
+    public function rules($value = '')
+    {
         $rules = [];
 
-        if($value == 'store'){
-
-
-        }
-
-        if($value == 'update'){
-
-            $rules['id'] =  'required';
-
-        }
-
-
-        if($value == 'destroy'){
-
-            $rules['id'] =  'required';
-
-        }
-
-        if($value == 'show'){
-
-            $rules['id'] =  'required';
-
-        }
-
-        if($value == 'index'){
-
+        if ($value == 'index') {
             $rules['pagination'] =  'nullable|in:true,false';
 
         }
 
         return $rules;
-
     }
 
-    public function input($value=''){
+    public function input($value = '')
+    {
         $input = request()->only('id', 'email', 'name', 'pagination', 'page', 'phone_number');
 
         return $input;
@@ -74,52 +51,47 @@ class UserController extends ApiResourceController{
         // HTTP_OK = 200;
 
         return response()->json($output, Response::HTTP_OK);
-
     }
 
-    public function signIn(Request $request){
+    public function signIn(Request $request)
+    {
+        $credentials = $request->only('email', 'provider_id', 'image');
 
-        $credentials = $request->only('email' , 'provider_id' , 'image');
-
-        if(empty($credentials['email'])){
+        if (empty($credentials['email'])) {
             $request->request->add(['email' => request()->only('provider_id')['provider_id']]);
         }
 
-        if(empty($credentials['email'])){
+        if (empty($credentials['email'])) {
             $credentials['email'] = $credentials['provider_id'];
         }
 
-
-        $user = User::where('email', '=' , $credentials['email'])->first();
+        $user = User::where('email', '=', $credentials['email'])->first();
 
 
         if (!empty($user)) {
-
-            $token = JWTAuth::fromUser($user);
+            $user->access_token = $token = $user->createToken('Token Name')->accessToken;
 
             if ($token) {
-
                 Session::put('token', $token);
                 $output = ['message' => 'Successfully Logged in' , 'data' => ['token' => $token, 'user' => $user]];
-                return response()->json($output , 200);
+                return response()->json($output, 200);
             }
         }
 
         parent::store($request);
 
-        if($credentials['email']){
-            $user = User::where('email', '=' , $credentials['email'])->first();
+        if ($credentials['email']) {
+            $user = User::where('email', '=', $credentials['email'])->first();
 
-            $token = JWTAuth::fromUser($user);
+            $user->access_token = $token = $user->createToken('Token Name')->accessToken;
 
-            $user->access_token = $token;
             $user->first_time_user = true;
 
             if ($token) {
                 Session::put('token', $token);
 
                 $output = ['message' => 'success' , 'data' => ['token' => $token, 'user' => $user]];
-                return response()->json($output , 200);
+                return response()->json($output, 200);
             }
         }
 

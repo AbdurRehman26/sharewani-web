@@ -28,13 +28,9 @@ class DatabaseSeeder extends Seeder
         /* Required Seeders */
 
         $this->call(UsersTableSeeder::class);
-        
-        /* Extra Populated Data */
-        $this->call(UserAddressTableSeeder::class);
-        $this->call(ProductTableSeeder::class);
-        $this->call(AssociateProductsTableSeeder::class);
-        $this->call(OrderTableSeeder::class);
-        $this->call(ContactUsTableSeeder::class);
 
+        /* Extra Populated Data */
+
+//        $this->call(DummyDataTableseeder::class);
     }
 }

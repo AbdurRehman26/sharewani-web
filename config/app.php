@@ -178,6 +178,7 @@ return [
         App\Providers\BrandRepositoryServiceProvider::class,
         App\Providers\ColorRepositoryServiceProvider::class,
         App\Providers\FabricAgeRepositoryServiceProvider::class,
+        App\Providers\UserAddressRepositoryServiceProvider::class,
 
 
         /*

@@ -40,7 +40,6 @@ class UserAddressRepository extends AbstractRepository implements RepositoryCont
     {
         $this->model = $model;
         $this->builder = $model;
-
     }
 
 
@@ -60,7 +59,7 @@ class UserAddressRepository extends AbstractRepository implements RepositoryCont
      *
      */
     public function findById($id, $refresh = false, $details = false, $encode = true)
-    {        
+    {
         $data = parent::findById($id, $refresh, $details, $encode);
         $data->formatted_created_at = \Carbon\Carbon::parse($data->created_at)->diffForHumans();
         return $data;
@@ -82,8 +81,8 @@ class UserAddressRepository extends AbstractRepository implements RepositoryCont
     public function findByAll($pagination = false, $perPage = 10, array $input = [])
     {
         $this->builder = $this->searchCriteria($input);
-        
+
         return parent::findByAll($pagination, $perPage, $input);
     }
-    
+
 }
