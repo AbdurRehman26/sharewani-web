@@ -124,8 +124,7 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
         $data->fabric_age = app('FabricAgeRepository')->findById($data->fabric_age_id);
         $data->color = app('ColorRepository')->findById($data->color_id);
 
-        if(request()->user()){
-
+        if (request()->user()) {
             $criteria = [
                 'product_id' => $data->id,
                 'user_id' => request()->user()->id
@@ -140,7 +139,7 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
         if (!empty($data->images)) {
             foreach ($data->images as $key => $value) {
                 if (substr($value, 0, 8) != "https://" && substr($value, 0, 8) != "http://") {
-                    $data->image_paths[] = url('storage/product/'.$value);
+                    $data->image_paths[] = url('storage/app/product/'.$value);
                 } else {
                     $data->image_paths[] = $value;
                 }

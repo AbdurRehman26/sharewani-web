@@ -112,12 +112,6 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="TITLE">
-        <template slot-scope="scope">
-          <span>{{ scope.row.title }}</span>
-        </template>
-      </el-table-column>
-
       <el-table-column align="center" label="DESCRIPTION">
         <template slot-scope="scope">
           <span v-html="scope.row.description" />
@@ -207,10 +201,6 @@
           label-width="150px"
           style="max-width: 850px;"
         >
-          <el-form-item :label="$t('product.title')" prop="title">
-            <el-input v-model="newItem.title" style="max-width : 200px;" />
-          </el-form-item>
-
           <el-form-item :label="$t('product.description')" prop="title">
             <markdown-editor
               ref="markdownEditor"
@@ -245,7 +235,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item :label="$t('product.size')" prop="role">
+          <el-form-item class="product-size-fields" :label="$t('product.size')" prop="role">
             <el-select
               v-model="newItem.size_id"
               class="filter-item"
@@ -258,6 +248,66 @@
                 :value="sizeOption.id"
               />
             </el-select>
+
+            <el-form-item
+              label="Length"
+              prop="original_price"
+            >
+              <el-input
+                v-model="newItem.size_length"
+                type="number"
+                style="max-width : 80px;"
+              />
+            </el-form-item>
+
+            <el-form-item
+              label="Chest"
+              prop="original_price"
+            >
+
+              <el-input
+                v-model="newItem.size_chest"
+                type="number"
+                style="max-width : 80px;"
+              />
+            </el-form-item>
+
+            <el-form-item
+              label="Tummy"
+              prop="original_price"
+            >
+
+              <el-input
+                v-model="newItem.size_tummy"
+                type="number"
+                style="max-width : 80px;"
+              />
+            </el-form-item>
+
+            <el-form-item
+              label="Sleeves"
+              prop="original_price"
+            >
+
+              <el-input
+                v-model="newItem.size_sleeves"
+                type="number"
+                style="max-width : 80px;"
+              />
+            </el-form-item>
+
+            <el-form-item
+              label="Collar"
+              prop="original_price"
+            >
+
+              <el-input
+                v-model="newItem.size_collar"
+                type="number"
+                style="max-width : 80px;"
+              />
+            </el-form-item>
+
           </el-form-item>
 
           <el-form-item :label="$t('product.color')" prop="role">
@@ -347,7 +397,7 @@
               <div class="editor-container">
                 <dropzone
                   id="myVueDropzone"
-                  url="api/file/upload"
+                  url="/api/file/upload"
                   @dropzone-removedFile="dropzoneR"
                   @dropzone-success="dropzoneS"
                 />
@@ -417,9 +467,6 @@ export default {
       },
       dialogFormVisible: false,
       rules: {
-        title: [
-          { required: true, message: 'Title is required', trigger: 'blur' },
-        ],
         category: [
           { required: true, message: 'Category is required', trigger: 'blur' },
         ],
@@ -624,8 +671,7 @@ export default {
             .then(response => {
               this.$message({
                 message:
-                  'New user ' +
-                  this.newItem.title +
+                  'New product ' +
                   '(' +
                   this.newItem.event +
                   ') has been created successfully.',
@@ -650,7 +696,6 @@ export default {
     },
     resetNewItem() {
       this.newItem = {
-        title: '',
         images: [],
         original_price: 0,
         number_of_items: 0,
@@ -668,7 +713,21 @@ export default {
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style>
-.tui-editor-defaultUI .te-mode-switch {
+
+  .product-size-fields .el-form-item__label{
+    width: 120px !important;
+    margin-top: 20px;
+  }
+
+  .product-size-fields .el-form-item__content{
+    margin-left: 120px !important;
+    margin-top: 20px;
+  }
+  .product-size-fields .el-form-item, .product-size-fields .el-select{
+  margin-left:30px !important;
+  }
+
+  .tui-editor-defaultUI .te-mode-switch {
   display: none;
 }
 </style>

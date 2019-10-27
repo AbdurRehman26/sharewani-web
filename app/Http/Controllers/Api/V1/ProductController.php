@@ -19,54 +19,58 @@ class ProductController extends ApiResourceController{
     public function rules($value=''){
         $rules = [];
 
-        if($value == 'store'){
-
+        if ($value == 'store') {
             $rules['categories'] =  'required';
             $rules['events'] =  'required';
-            $rules['title'] =  'required';
             $rules['original_price'] =  'required';
             $rules['number_of_items'] =  'required';
 
         }
 
-        if($value == 'update'){
-
+        if ($value == 'update') {
             $rules['id'] =  'required';
-
         }
 
-
-        if($value == 'destroy'){
-
-            $rules['id'] =  'required';
-
-        }
-
-        if($value == 'show'){
-
-            $rules['id'] =  'required';
-
-        }
-
-        if($value == 'index'){
-
+        if ($value == 'index') {
             $rules['pagination'] =  'nullable|in:true,false';
-
         }
-
         return $rules;
-
     }
 
-    public function input($value=''){
-
-        $input = request()->only('id',
-            'category', 'categories', 'number_of_items', 'original_price', 'event', 'event_id',
-            'events', 'images', 'title', 'description', 'pagination', 'dashboard_stats', 'fabric_age_id',
-            'color_id', 'brand_id', 'size_id', 'vendor', 'latest');
+    public function input($value = '')
+    {
+        $input = request()->only(
+            'id',
+            'category',
+            'categories',
+            'number_of_items',
+            'original_price',
+            'event',
+            'event_id',
+            'events',
+            'images',
+            'description',
+            'pagination',
+            'dashboard_stats',
+            'fabric_age_id',
+            'color_id',
+            'brand_id',
+            'size_id',
+            'vendor',
+            'latest',
+            'size_length',
+            'size_collar',
+            'size_tummy',
+            'size_chest',
+            'size_sleeves'
+        );
 
         $input['user_id'] = request()->user() ? request()->user()->id : null;
-        $input['pagination'] = true;
+
+        if($value != 'store'){
+            $input['pagination'] = true;
+        }
+
 
         return $input;
     }
