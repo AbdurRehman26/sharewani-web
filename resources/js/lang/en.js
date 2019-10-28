@@ -223,6 +223,7 @@ export default {
     between_24_and_30: 'Between 24 to 30 months',
     between_30_and_36: 'Between 30 to 36 months',
     more_than_36: 'More than 36 months',
+    fabric_brand: 'Fabric Brand',
   },
   roles: {
     description: {

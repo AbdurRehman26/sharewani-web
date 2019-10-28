@@ -67,8 +67,12 @@ class ProductController extends ApiResourceController{
 
         $input['user_id'] = request()->user() ? request()->user()->id : null;
 
-        if($value != 'store'){
+        if ($value != 'store') {
             $input['pagination'] = true;
+        }
+
+        if ($value == 'store') {
+            request()->request->add(['number_of_items' => 1]);
         }
 
 
@@ -82,7 +86,6 @@ class ProductController extends ApiResourceController{
         // HTTP_OK = 200;
 
         return response()->json($data, Response::HTTP_OK);
-
     }
 
     public function itemCount(Request $request)
@@ -96,7 +99,6 @@ class ProductController extends ApiResourceController{
         // HTTP_OK = 200;
 
         return response()->json($output, Response::HTTP_OK);
-
     }
 
         //Create single record
@@ -114,7 +116,6 @@ class ProductController extends ApiResourceController{
         $vendor = $input['vendor'][0];
 
         if (!$input['vendor'][0]['id']) {
-
             $vendor = \App\Laravue\Models\User::where('phone_number', $input['vendor'][0]['phone_number'])->first() ?? \App\Laravue\Models\User::create($input['vendor'][0]);
 
         }
@@ -134,7 +135,6 @@ class ProductController extends ApiResourceController{
         // HTTP_OK = 200;
 
         return response()->json($output, Response::HTTP_OK);
-
     }
 
 
@@ -145,7 +145,7 @@ class ProductController extends ApiResourceController{
         $productCategoryData = [];
         $productEventData = [];
 
-        foreach (request()->events as $event){
+        foreach (request()->events as $event) {
             $productEventData[] = [
                 'product_id' => $product->id,
                 'event_id' => $event['id'],
@@ -153,7 +153,7 @@ class ProductController extends ApiResourceController{
             ];
         }
 
-        foreach (request()->categories as $category){
+        foreach (request()->categories as $category) {
             $productCategoryData[] = [
                 'product_id' => $product->id,
                 'category_id' => $category['id'],
@@ -165,7 +165,6 @@ class ProductController extends ApiResourceController{
         \App\Data\Models\ProductEvent::insertOnDuplicateKey($productEventData);
 
         return true;
-
     }
 
 }

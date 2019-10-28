@@ -118,9 +118,15 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
         $data = parent::findById($id, $refresh, $details, $encode);
 
         $data->user = app('UserRepository')->findById($data->user_id);
+        $data->vendor = app('UserRepository')->findById($data->vendor_id);
 
         $data->size = app('SizeRepository')->findById($data->size_id);
         $data->brand = app('BrandRepository')->findById($data->brand_id);
+
+        if ($data->fabric_brand_id) {
+            $data->fabric_brand = app('BrandRepository')->findById($data->fabric_brand_id);
+        }
+
         $data->fabric_age = app('FabricAgeRepository')->findById($data->fabric_age_id);
         $data->color = app('ColorRepository')->findById($data->color_id);
 
