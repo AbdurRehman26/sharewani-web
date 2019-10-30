@@ -116,31 +116,30 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
         return $data;
     }
 
-    public function validateOrderDate($input, $all = false)
+    public function validateOrderDate($input, $all = false, $status = 1)
     {
         $orderBuilder = $this->model->where('product_id', $input['product_id']);
 
         if (!empty($input['order_id'])) {
             $orderBuilder = $orderBuilder->where('id', '!=', $input['order_id']);
         }
-
-        $orderBuilder = $orderBuilder->where(function ($where) use ($input) {
-            $where->where(function ($childWhere) use ($input) {
+        $orderBuilder = $orderBuilder->where(function ($where) use ($input, $status)  {
+            $where->where(function ($childWhere) use ($input, $status) {
                 $childWhere->where('from_date', '<=', date($input['from_date']))
                     ->where('to_date', '>=', date($input['from_date']))
-                    ->where('status', 1);
-            })->orWhere(function ($childWhere) use ($input) {
+                    ->where('status', $status);
+            })->orWhere(function ($childWhere) use ($input, $status) {
                 $childWhere->where('from_date', '<=', date($input['to_date']))
                     ->where('to_date', '>=', date($input['to_date']))
-                    ->where('status', 1);
+                    ->where('status', $status);
             });
         });
-
+        
         if (!$all) {
             return $orderBuilder->first();
         }
 
-        return $orderBuilder->get();
+        return $orderBuilder->pluck('id')->toArray();
     }
 
     public function calculateRent($input)
@@ -172,9 +171,10 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
         $input['product_id'] = $order['product_id'];
         $input['order_id'] = $order['id'];
 
-        $allOrders = $this->validateOrderDate($input, true);
-
-        return $allOrders;
+        $allOrdersId = $this->validateOrderDate($input, true, 0);
+        $input['id'] = $allOrdersId;
+        unset($input['user_id']);
+        return $this->findByAll(false, 20, $input)['data'];
     }
 
 }

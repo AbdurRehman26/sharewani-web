@@ -76,7 +76,7 @@ class OrderController extends ApiResourceController
         );
         $input['user_id'] = request()->user() ? request()->user()->id : null;
 
-        if ($value == 'index') {
+        if ($value == 'index' || $value == 'update') {
             if ($input['user_id'] == 1) {
                 unset($input['user_id']);
             }

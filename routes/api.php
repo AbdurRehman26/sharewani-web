@@ -64,7 +64,7 @@ Route::group(['middleware' => 'api'], function () {
             Route::get('order/calculate-rent', 'Api\V1\OrderController@calculateRent');
             Route::get('order_count', 'Api\V1\OrderController@itemCount');
             Route::resource('order', 'Api\V1\OrderController')->except([
-                'edit', 'show'
+                'edit'
             ]);
 
             Route::resource('role', 'Api\V1\RoleController')->except([

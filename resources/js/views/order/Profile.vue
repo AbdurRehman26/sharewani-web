@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
-    <el-form v-if="user" :model="user">
+    <el-form>
       <el-row :gutter="20">
         <el-col :span="6">
-          <user-card :user="user" />
-          <user-bio />
+          <item-card :item="item" :items="items" />
+          <item-bio :item="item" />
         </el-col>
         <el-col :span="18">
-          <user-activity :user="user" />
+          <item-activity :item="item" :items="items" />
         </el-col>
       </el-row>
     </el-form>
@@ -16,29 +16,35 @@
 
 <script>
 import OrderResource from '@/api/order';
-import UserBio from './components/UserBio';
-import UserCard from './components/UserCard';
-import UserActivity from './components/UserActivity';
+import ItemBio from './components/Bio';
+import ItemCard from './components/Card';
+import ItemActivity from './components/Activity';
 const itemResource = new OrderResource();
 export default {
   name: 'EditUser',
-  components: { UserBio, UserCard, UserActivity },
+  components: { ItemBio, ItemCard, ItemActivity },
   data() {
     return {
-      user: {},
+      item: {},
+      items: [],
     };
   },
   watch: {
-    '$route': 'getUser',
+    $route: 'getListOfOrders',
   },
   created() {
     const id = this.$route.params && this.$route.params.id;
-    this.getUser(id);
+    this.getListOfOrders(id);
+    this.getSingle(id);
   },
   methods: {
-    async getUser(id) {
+    async getSingle(id) {
+      const { data } = await itemResource.get(id);
+      this.item = data;
+    },
+    async getListOfOrders(id) {
       const { data } = await itemResource.getCollidingOrders(id);
-      this.user = data;
+      this.items = data;
     },
   },
 };

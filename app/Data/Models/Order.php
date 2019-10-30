@@ -12,6 +12,7 @@ class Order extends BaseModel
     ];
 
     public $searchables = [
-        'user_id'
+        'user_id',
+        'id'
     ];
 }
