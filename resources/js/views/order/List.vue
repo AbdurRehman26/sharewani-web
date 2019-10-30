@@ -29,7 +29,7 @@ import Resource from '@/api/resource';
 const itemResource = new Resource('order');
 
 export default {
-  name: 'UserList',
+  name: 'OrderList',
   components: { ListInnerBody },
   data() {
     return {

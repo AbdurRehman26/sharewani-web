@@ -16,14 +16,14 @@ const orderRoutes = {
     {
       path: 'edit/:id(\\d+)',
       component: () => import('@/views/order/Profile'),
-      name: 'UserProfile',
+      name: 'Order View',
       meta: { title: 'userProfile', noCache: true, permissions: ['manage user'] },
       hidden: true,
     },
     {
       path: '',
       component: () => import('@/views/order/List'),
-      name: 'UserList',
+      name: 'Orders List',
       meta: { title: 'List', icon: 'list', permissions: ['manage user'] },
     }],
 };

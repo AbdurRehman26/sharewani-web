@@ -2,7 +2,6 @@
 
 namespace App\Data\Models;
 
-
 class Order extends BaseModel
 {
     const STATUSES = [

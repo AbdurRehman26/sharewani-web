@@ -21,6 +21,7 @@ import productRoutes from './modules/product';
 import orderRoutes from './modules/order';
 import categoryRoutes from './modules/category';
 import eventRoutes from './modules/event';
+import globalSettingRoutes from './modules/global_setting';
 
 import productSpecificationRoutes from './modules/product-specification';
 
@@ -103,7 +104,7 @@ export const asyncRoutes = [
   categoryRoutes,
   eventRoutes,
   contactUsRoutes,
-  // componentRoutes,
+  globalSettingRoutes,
   // tableRoutes,
   { path: '*', redirect: '/404', hidden: true },
 ];
