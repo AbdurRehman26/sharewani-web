@@ -33,6 +33,7 @@ export default {
     '$route': 'getUser',
   },
   created() {
+    alert(1);
     const id = this.$route.params && this.$route.params.id;
     this.getUser(id);
   },

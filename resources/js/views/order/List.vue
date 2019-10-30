@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="order-container app-container">
     <div class="filter-container">
       <el-input
         v-model="query.keyword"
@@ -44,18 +44,17 @@
           <span>{{ scope.row.user.name }}</span>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="NUMBER OF ITEMS">
-        <template slot-scope="scope">
-          <span>{{ scope.row.number_of_items }}</span>
-        </template>
-      </el-table-column>
-
       <el-table-column align="center" label="STATUS">
         <template slot-scope="scope">
           <el-tag :type="scope.row.order_status | statusFilter">
             {{ scope.row.order_status }}
           </el-tag>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="RENT">
+        <template slot-scope="scope">
+          {{ scope.row.rent_amount }}
         </template>
       </el-table-column>
 
@@ -71,10 +70,17 @@
         </template>
       </el-table-column>
 
-      <el-table-column v-if="false" align="center" label="Actions" width="350">
+      <el-table-column align="center" label="Actions" width="350">
         <template slot-scope="scope">
-          <router-link :to="'/product/edit/' + scope.row.id">
-            <el-button type="warning" size="small" icon="el-icon-edit">
+          <el-button v-if="scope.row.status !== 1" type="success" size="small" icon="el-icon-edit" @click.prevent="dialogFormVisible = true; confirmationType= 'accept'; currentItemId = scope.row.id">
+            Accept
+          </el-button>
+          <el-button v-if="scope.row.status !== 1" type="danger" size="small" icon="el-icon-edit" @click.prevent="dialogFormVisible = true; confirmationType= 'reject'; currentItemId = scope.row.id">
+            Reject
+          </el-button>
+
+          <router-link :to="'/order/edit/' + scope.row.id">
+            <el-button type="warning" size="small" icon="el-icon-eye">
               View
             </el-button>
           </router-link>
@@ -82,6 +88,24 @@
       </el-table-column>
     </el-table>
 
+    <el-dialog
+      :title="'Confirm'"
+      :visible.sync="dialogFormVisible"
+    >
+      <div v-loading="loading" class="form-container">
+        <div class="margin-bottom-40">
+          Are you sure you want to {{ confirmationType }} this order?
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">
+            {{ $t('table.cancel') }}
+          </el-button>
+          <el-button type="primary" @click="submitOrderRequest">
+            {{ $t('table.confirm') }}
+          </el-button>
+        </div>
+      </div>
+    </el-dialog>
     <pagination
       v-show="total > 0"
       :total="total"
@@ -105,6 +129,8 @@ export default {
   directives: { waves },
   data() {
     return {
+      currentItemId: null,
+      confirmationType: '',
       list: null,
       total: 0,
       loading: true,
@@ -128,6 +154,18 @@ export default {
     this.getList();
   },
   methods: {
+    async submitOrderRequest(){
+      this.loading = true;
+      if (this.confirmationType === 'reject') {
+        this.query.status = -1;
+      } else {
+        this.query.status = 1;
+      }
+      await itemResource.update(this.currentItemId, this.query);
+      this.dialogFormVisible = false;
+      this.getList();
+      this.loading = false;
+    },
     async getList() {
       const { limit, page } = this.query;
       this.loading = true;
@@ -161,7 +199,6 @@ export default {
 .dialog-footer {
   text-align: left;
   padding-top: 0;
-  margin-left: 150px;
 }
 .app-container {
   flex: 1;
@@ -176,4 +213,10 @@ export default {
     clear: left;
   }
 }
+</style>
+
+<style>
+  .order-container .el-dialog{
+    width: 25%;
+  }
 </style>

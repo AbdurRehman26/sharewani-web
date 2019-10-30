@@ -61,9 +61,26 @@ class OrderController extends ApiResourceController
 
     public function input($value = '')
     {
-        $input = request()->only('id', 'product_id', 'from_date', 'to_date', 'number_of_items', 'address', 'address_secondary', 'address_type', 'address_id', 'nearest_check_point');
+        $input = request()->only(
+            'id',
+            'product_id',
+            'from_date',
+            'to_date',
+            'number_of_items',
+            'address',
+            'address_secondary',
+            'address_type',
+            'address_id',
+            'nearest_check_point',
+            'status'
+        );
         $input['user_id'] = request()->user() ? request()->user()->id : null;
 
+        if ($value == 'index') {
+            if ($input['user_id'] == 1) {
+                unset($input['user_id']);
+            }
+        }
         return $input;
     }
 
@@ -163,11 +180,11 @@ class OrderController extends ApiResourceController
     public function responseMessages($value = '')
     {
         $messages = [
-            'store' => 'Record created successfully.',
+            'store' => 'Order placed successfully.',
             'update' => 'Record updated successfully.',
-            'destroy' => 'Record deleted successfully.',
-            'validateOrderDate' => 'Prodcut unavailable on specified dates',
-            'order_validated' => 'Prodcut available on specified dates'
+            'destroy' => 'Order cancelled.',
+            'validateOrderDate' => 'Product unavailable on specified dates',
+            'order_validated' => 'Product available on specified dates'
         ];
 
         return !empty($messages[$value]) ? $messages[$value] : '';
