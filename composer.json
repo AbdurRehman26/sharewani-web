@@ -10,7 +10,7 @@
             "type": "git",
             "url": "https://github.com/AbdurRehman26/laravel-abstract-resource.git"
         }
-    ],    
+    ],
     "authors": [
         {
             "name": "Syed Abdur Rehman Kazmi",
@@ -32,7 +32,8 @@
         "spatie/laravel-activitylog": "^3.9",
         "spatie/laravel-permission": "^2.37",
         "tymon/jwt-auth": "^1.0",
-        "yadakhov/insert-on-duplicate-key": "^1.2"
+        "yadakhov/insert-on-duplicate-key": "^1.2",
+      "ext-json": "*"
     },
     "require-dev": {
         "xethron/migrations-generator": "^2.0",

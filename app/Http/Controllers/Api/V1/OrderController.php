@@ -23,6 +23,7 @@ class OrderController extends ApiResourceController
         $rules = [];
 
         if ($value == 'store') {
+            $rules['address_id'] = 'required_without_all:address';
             $rules['product_id'] =  'required';
             $rules['from_date'] =  'required';
             $rules['to_date'] =  'required';
@@ -48,6 +49,13 @@ class OrderController extends ApiResourceController
 
         }
 
+        if ($value == 'validateOrderDate') {
+            $rules['from_date'] =  'required';
+            $rules['to_date'] =  'required';
+            $rules['product_id'] =  'required';
+        }
+
+
         return $rules;
     }
 
@@ -55,7 +63,7 @@ class OrderController extends ApiResourceController
     {
         $input = request()->only('id', 'product_id', 'from_date', 'to_date', 'number_of_items', 'address', 'address_secondary', 'address_type', 'address_id', 'nearest_check_point');
         $input['user_id'] = request()->user() ? request()->user()->id : null;
-        
+
         return $input;
     }
 
@@ -66,13 +74,12 @@ class OrderController extends ApiResourceController
 
         $rules = $this->rules(__FUNCTION__);
         $input = $this->input(__FUNCTION__);
-
         $messages = $this->messages(__FUNCTION__);
+        \Log::info(json_encode($messages));
 
         $this->validate($request, $rules, $messages);
 
         if (empty($input['address_id'])) {
-
             $userAddress = [
                 'user_id' => $input['user_id'],
                 'city_id' => 1,
@@ -87,6 +94,8 @@ class OrderController extends ApiResourceController
 
         unset($input['address'], $input['address_type'], $input['address_secondary'], $input['nearest_check_point']);
 
+        $input['rent_amount'] = $this->_repository->calculateRent($input);
+
         $data = $this->_repository->create($input);
 
         $output = ['data' => $data, 'message' => $this->responseMessages(__FUNCTION__)];
@@ -94,21 +103,48 @@ class OrderController extends ApiResourceController
         // HTTP_OK = 200;
 
         return response()->json($output, Response::HTTP_OK);
-
     }
 
-    public function validateOrderDate()
+    public function validateOrderDate(Request $request)
     {
+        $rules = $this->rules(__FUNCTION__);
         $input = $this->input(__FUNCTION__);
+
+        $messages = $this->messages(__FUNCTION__);
+
+        $this->validate($request, $rules, $messages);
 
         $data = $this->_repository->validateOrderDate($input);
 
-        $output = ['data' => $data, 'message' => $this->responseMessages($data ? __FUNCTION__ : 'order_validated')];
+        $output = [
+            'data' => $data,
+            'message' => $this->responseMessages($data ? __FUNCTION__ : 'order_validated')
+        ];
 
         $code = !!$data ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK;
 
         return response()->json($output, $code);
+    }
 
+    public function calculateRent(Request $request)
+    {
+        $rules = $this->rules(__FUNCTION__);
+        $input = $this->input(__FUNCTION__);
+
+        $messages = $this->messages(__FUNCTION__);
+
+        $this->validate($request, $rules, $messages);
+
+        $data = $this->_repository->calculateRent($input);
+
+        $output = [
+            'data' => $data,
+            'message' => ''
+        ];
+
+        $code = !!$data ? Response::HTTP_OK : Response::HTTP_UNPROCESSABLE_ENTITY ;
+
+        return response()->json($output, $code);
     }
 
     public function itemCount(Request $request)
@@ -124,7 +160,7 @@ class OrderController extends ApiResourceController
         return response()->json($output, Response::HTTP_OK);
     }
 
-    public function responseMessages ($value = '')
+    public function responseMessages($value = '')
     {
         $messages = [
             'store' => 'Record created successfully.',
@@ -136,5 +172,18 @@ class OrderController extends ApiResourceController
 
         return !empty($messages[$value]) ? $messages[$value] : '';
     }
+
+    public function messages($value = '')
+    {
+        $messages = [
+             'store' => [
+                 'address_id.required' => 'Please select an address',
+                 'address_id.required_without_all' => 'Please select an address'
+             ]
+        ];
+
+        return !empty($messages[$value]) ? $messages[$value] : [];
+    }
+
 
 }

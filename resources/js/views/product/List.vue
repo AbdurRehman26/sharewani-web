@@ -184,7 +184,7 @@
 
       <el-table-column align="center" label="Vender">
         <template slot-scope="scope">
-          <span>{{ scope.row.vendor.name }}</span>
+          <span>{{ scope.row.vendor[0].name }}</span>
         </template>
       </el-table-column>
 
@@ -407,6 +407,7 @@
           <el-form-item :label="$t('product.vendor_number')" prop="vendor_number">
             <multiselect
               v-model="newItem.vendor"
+              :disabled="newItem.id"
               tag-placeholder="Add this as new tag"
               placeholder="Search or add a tag"
               label="phone_number"
@@ -420,7 +421,6 @@
               @search-change="asyncFind"
             />
           </el-form-item>
-
           <el-form-item
             v-if="newItem.vendor.length"
             :label="$t('product.vendor_name')"
@@ -746,22 +746,23 @@ export default {
         if (valid) {
           this.newItem.description = this.$refs.markdownEditor.getHtml();
           this.userCreating = true;
-          itemResource
-            .store(this.newItem)
-            .then(response => {
-              this.$message({
-                message:
+
+          var itemCreateOrUpdated = {};
+          if (this.newItem.id) {
+            itemCreateOrUpdated = itemResource.update(this.newItem.id, this.newItem);
+          } else {
+            itemCreateOrUpdated = itemResource.store(this.newItem);
+          }
+          itemCreateOrUpdated.then(response => {
+            this.$message({ message:
                   'New product ' +
                   '(' +
                   this.newItem.event +
-                  ') has been created successfully.',
-                type: 'success',
-                duration: 5 * 1000,
-              });
-              this.resetNewItem();
-              this.dialogFormVisible = false;
-              this.handleFilter();
-            })
+                  ') has been created successfully.', type: 'success', duration: 5 * 1000 });
+            this.resetNewItem();
+            this.dialogFormVisible = false;
+            this.handleFilter();
+          })
             .catch(error => {
               console.log(error);
             })

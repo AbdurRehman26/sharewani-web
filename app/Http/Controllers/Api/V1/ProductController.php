@@ -53,7 +53,9 @@ class ProductController extends ApiResourceController{
             'pagination',
             'dashboard_stats',
             'fabric_age_id',
+            'fabric_brand_id',
             'color_id',
+            'vendor_id',
             'brand_id',
             'size_id',
             'vendor',
@@ -67,7 +69,7 @@ class ProductController extends ApiResourceController{
 
         $input['user_id'] = request()->user() ? request()->user()->id : null;
 
-        if ($value != 'store') {
+        if ($value == 'index') {
             $input['pagination'] = true;
         }
 
@@ -136,6 +138,42 @@ class ProductController extends ApiResourceController{
 
         return response()->json($output, Response::HTTP_OK);
     }
+
+    public function update(Request $request, $id)
+    {
+        $request->request->add(['method_type' => 'update']);
+
+        $rules = $this->rules(__FUNCTION__);
+        $input = $this->input(__FUNCTION__);
+
+        $messages = $this->messages(__FUNCTION__);
+
+        $this->validate($request, $rules, $messages);
+
+        $vendor = $input['vendor'][0];
+
+        if (!$input['vendor'][0]['id']) {
+            $vendor = \App\Laravue\Models\User::where('phone_number', $input['vendor'][0]['phone_number'])->first() ?? \App\Laravue\Models\User::create($input['vendor'][0]);
+
+        }
+
+        $input['vendor_id'] = (int) $vendor['id'];
+
+        unset($input['vendor'], $input['category'], $input['categories'], $input['event'], $input['events']);
+
+        $data = $this->_repository->update($input);
+
+        $this->associateWithEventAndCategory($data);
+
+        $data = $this->_repository->findById($data->id, true);
+
+        $output = ['data' => $data, 'message' => $this->responseMessages(__FUNCTION__)];
+
+        // HTTP_OK = 200;
+
+        return response()->json($output, Response::HTTP_OK);
+    }
+
 
 
     public function associateWithEventAndCategory($product)

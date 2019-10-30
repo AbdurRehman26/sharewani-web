@@ -2,6 +2,7 @@
 
 namespace App\Data\Repositories;
 
+use Carbon\Carbon;
 use Kazmi\Data\Contracts\RepositoryContract;
 use Kazmi\Data\Repositories\AbstractRepository;
 use App\Data\Models\Product;
@@ -45,6 +46,23 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
 
     /**
      *
+     * This method will update an existing model
+     * and will return output back to client as json
+     *
+     * @access public
+     * @param array $data
+     * @return mixed
+     *
+     * @author Usaama Effendi <usaamaeffendi@gmail.com>
+     *
+     */
+    public function update(array $data = [])
+    {
+        return parent::update($data);
+    }
+
+    /**
+     *
      * This method will fetch all exsiting models
      * and will return output back to client as json
      *
@@ -62,12 +80,12 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
         $this->builder = $this->searchCriteria($input);
         $perPage = self::PER_PAGE;
 
-        if(!empty($input['latest'])){
+        if (!empty($input['latest'])) {
             $this->builder = $this->builder->orderBy('created_at', 'DESC');
             $perPage = 10;
         }
 
-        if(!empty($input['event_id'])){
+        if (!empty($input['event_id'])) {
             $productIds = \App\Data\Models\ProductEvent::where('event_id', (int)$input['event_id'])->get()->pluck('product_id')->toArray();
             $this->builder = $this->builder->whereIn('id', $productIds);
         }
@@ -90,11 +108,9 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
      * @author Usaama Effendi <usaamaeffendi@gmail.com>
      *
      */
-
-    public function topSellingProducts(){
-
+    public function topSellingProducts()
+    {
         return parent::findByAll(true, 8);
-
     }
 
     /**
@@ -118,7 +134,7 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
         $data = parent::findById($id, $refresh, $details, $encode);
 
         $data->user = app('UserRepository')->findById($data->user_id);
-        $data->vendor = app('UserRepository')->findById($data->vendor_id);
+        $data->vendor = [app('UserRepository')->findById($data->vendor_id)];
 
         $data->size = app('SizeRepository')->findById($data->size_id);
         $data->brand = app('BrandRepository')->findById($data->brand_id);

@@ -131,4 +131,25 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
         return $data;
     }
 
+    public function calculateRent($input)
+    {
+        $orderConstants = !empty(app('config')['constants']['order']) ? app('config')['constants']['order'] : null;
+
+        if (!$orderConstants) {
+            return false;
+        }
+
+        $product = app('ProductRepository')->findById($input['product_id']);
+        $productPrice = (int) $product->original_price;
+
+        $age = 0;
+
+        $rent = (
+                ($productPrice * $orderConstants['base_factor'] *
+                (10/$orderConstants['condition_factor'])) -
+            ($productPrice * $age * $orderConstants['age_discount'])) *
+            (1- $orderConstants['promo_discount']);
+        return $rent;
+    }
+
 }
