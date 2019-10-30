@@ -116,19 +116,31 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
         return $data;
     }
 
-    public function validateOrderDate($input)
+    public function validateOrderDate($input, $all = false)
     {
-        $data = $this->model->where(function ($where) use ($input) {
-            $where->where('from_date', '<=', date($input['from_date']))
-            ->where('to_date', '>=', date($input['from_date']))
-            ->where('status', 1);
-        })->orWhere(function ($where) use ($input) {
-            $where->where('from_date', '<=', date($input['to_date']))
-            ->where('to_date', '>=', date($input['to_date']))
-            ->where('status', 1);
-        })->first();
+        $orderBuilder = $this->model->where('product_id', $input['product_id']);
 
-        return $data;
+        if (!empty($input['order_id'])) {
+            $orderBuilder = $orderBuilder->where('id', '!=', $input['order_id']);
+        }
+
+        $orderBuilder = $orderBuilder->where(function ($where) use ($input) {
+            $where->where(function ($childWhere) use ($input) {
+                $childWhere->where('from_date', '<=', date($input['from_date']))
+                    ->where('to_date', '>=', date($input['from_date']))
+                    ->where('status', 1);
+            })->orWhere(function ($childWhere) use ($input) {
+                $childWhere->where('from_date', '<=', date($input['to_date']))
+                    ->where('to_date', '>=', date($input['to_date']))
+                    ->where('status', 1);
+            });
+        });
+
+        if (!$all) {
+            return $orderBuilder->first();
+        }
+
+        return $orderBuilder->get();
     }
 
     public function calculateRent($input)
@@ -150,6 +162,19 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
             ($productPrice * $age * $orderConstants['age_discount'])) *
             (1- $orderConstants['promo_discount']);
         return $rent;
+    }
+
+    public function collidingOrders($input)
+    {
+        $order = \App\Data\Models\Order::find($input['order_id']);
+        $input['from_date'] = $order['from_date'];
+        $input['to_date'] = $order['to_date'];
+        $input['product_id'] = $order['product_id'];
+        $input['order_id'] = $order['id'];
+
+        $allOrders = $this->validateOrderDate($input, true);
+
+        return $allOrders;
     }
 
 }

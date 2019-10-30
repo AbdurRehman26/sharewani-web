@@ -15,12 +15,11 @@
 </template>
 
 <script>
-import Resource from '@/api/resource';
+import OrderResource from '@/api/order';
 import UserBio from './components/UserBio';
 import UserCard from './components/UserCard';
 import UserActivity from './components/UserActivity';
-
-const userResource = new Resource('users');
+const itemResource = new OrderResource();
 export default {
   name: 'EditUser',
   components: { UserBio, UserCard, UserActivity },
@@ -33,13 +32,12 @@ export default {
     '$route': 'getUser',
   },
   created() {
-    alert(1);
     const id = this.$route.params && this.$route.params.id;
     this.getUser(id);
   },
   methods: {
     async getUser(id) {
-      const { data } = await userResource.get(id);
+      const { data } = await itemResource.getCollidingOrders(id);
       this.user = data;
     },
   },

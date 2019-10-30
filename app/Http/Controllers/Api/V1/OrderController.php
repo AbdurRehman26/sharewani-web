@@ -122,6 +122,21 @@ class OrderController extends ApiResourceController
         return response()->json($output, Response::HTTP_OK);
     }
 
+    public function collidingOrders(Request $request, $id)
+    {
+        $input = $this->input();
+        $input['order_id'] = $id;
+        $data = $this->_repository->collidingOrders($input);
+
+        $output = [
+            'data' => $data
+        ];
+
+        $code = Response::HTTP_OK;
+
+        return response()->json($output, $code);
+    }
+
     public function validateOrderDate(Request $request)
     {
         $rules = $this->rules(__FUNCTION__);
