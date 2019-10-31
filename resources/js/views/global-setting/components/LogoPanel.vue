@@ -1,6 +1,10 @@
 <template>
-  <div class="user-activity">
-    <el-form ref="userForm" label-position="left" style="max-width: 530px;">
+  <div class="el-row user-activity">
+    <el-form
+      ref="userForm"
+      class="el-col el-col-24 el-col-xs-24 el-col-sm-24 el-col-lg-12"
+      label-position="left"
+    >
       <el-form-item>
         <div class="components-container">
           <div class="editor-container">
@@ -13,11 +17,32 @@
           </div>
         </div>
       </el-form-item>
+      <el-button type="primary" @click="onSubmit()">
+        {{ $t('table.confirm') }}
+      </el-button>
     </el-form>
 
-    <el-button type="primary" @click="onSubmit()">
-      {{ $t('table.confirm') }}
-    </el-button>
+    <el-form
+      ref="userForm"
+      class="el-col el-col-24 el-col-xs-24 el-col-sm-24 el-col-lg-12"
+      label-position="left"
+    >
+      <el-form-item>
+        <div class="components-container">
+          <div class="editor-container">
+            <dropzone
+              id="myVueDropzone"
+              url="/api/file/upload?key=settings&file_type=main_logo"
+              @dropzone-removedFile="dropzoneR"
+              @dropzone-success="dropzoneS"
+            />
+          </div>
+        </div>
+      </el-form-item>
+      <el-button type="primary" @click="onSubmit()">
+        {{ $t('table.confirm') }}
+      </el-button>
+    </el-form>
   </div>
 </template>
 
