@@ -21,6 +21,9 @@ class GlobalSettingController extends ApiResourceController{
 
         if($value == 'store'){
             
+            $rules['key'] =  'required';
+            $rules['value'] =  'required';
+            $rules['type'] =  'required';
 
         }
 
@@ -54,8 +57,22 @@ class GlobalSettingController extends ApiResourceController{
     }
 
     public function input($value=''){
-        $input = request()->only('id');
+        $input = request()->only('id', 'key', 'value', 'type');
         
         return $input;
+    }
+
+
+    public function getItemByKey($key)
+    {
+
+        $data = $this->_repository->findByAttribute('key', $key);
+    
+        $output = ['data' => $data, 'message' => $this->responseMessages(__FUNCTION__)];
+
+        // HTTP_OK = 200;
+
+        return response()->json($output, Response::HTTP_OK);
+
     }
 }

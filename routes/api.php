@@ -54,6 +54,17 @@ Route::group(['middleware' => 'api'], function () {
                 'edit'
             ]);
 
+            
+            Route::resource('global-setting-type', 'Api\V1\GlobalSettingTypeController')->except([
+                 'edit'
+            ]);
+
+            Route::get('global-setting-key/{id}', 'Api\V1\GlobalSettingController@getItemByKey');
+            Route::resource('global-setting', 'Api\V1\GlobalSettingController')->except([
+                 'edit'
+            ]);
+
+
             Route::get('product_count', 'Api\V1\ProductController@itemCount');
             Route::resource('product', 'Api\V1\ProductController')->except([
                 'edit'
@@ -124,8 +135,3 @@ Route::group(['middleware' => 'api'], function () {
     Route::post('file/upload', 'Api\V1\FileUploadController@upload')->name("file.upload");
     Route::post('file/remove', 'Api\V1\FileUploadController@remove')->name("file.remove");
 });
-Route::resource('globalsettingtype', 'Api\V1\GlobalSettingTypeController')->except([
-             'edit'
-        ]);Route::resource('globalsetting', 'Api\V1\GlobalSettingController')->except([
-             'edit'
-        ]);

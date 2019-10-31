@@ -40,4 +40,33 @@ class GlobalSettingRepository extends AbstractRepository implements RepositoryCo
         $this->builder = $model;
 
     }
+
+        /**
+     *
+     * This method will fetch single model
+     * and will return output back to client as json
+     *
+     * @access public
+     * @return mixed
+     *
+     * @author Usaama Effendi <usaamaeffendi@gmail.com>
+     *
+     **/
+    public function findById($id, $refresh = false, $details = false, $encode = true) {
+        
+        $data = parent::findById($id, $refresh, $details, $encode);
+        
+        if (!empty($data->value)) {
+                if (substr($data->value, 0, 8) != "https://" && substr($data->value, 0, 8) != "http://") {
+                    $data->image_path = url('storage/app/settings/'.$data->value);
+                } else {
+                    $data->image_path = $data->value;
+                }
+        }
+
+        return $data;
+    
+    }
+
+
 }

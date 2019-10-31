@@ -8,11 +8,11 @@ return [
         'full_path' => storage_path('app/product'),
     ],
 
-    'users' => [
-        'folder_name' => 'users',
-        'public_relative' => 'users/',
-        'path' => 'files/users',
-        'full_path' => storage_path('app/users'),
+    'settings' => [
+        'folder_name' => 'settings',
+        'public_relative' => 'settings/',
+        'path' => 'files/settings',
+        'full_path' => storage_path('app/settings'),
     ],
     'images' => [
         'user' => [

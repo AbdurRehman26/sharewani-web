@@ -1,21 +1,21 @@
 <template>
   <div>
 
-    <activity :product="product" :user="user" />
+    <layout :product="product" :user="user" />
 
   </div>
 </template>
 
 <script>
 
-import Activity from '../product/components/ProductActivity';
+import Layout from './Layout';
 import Resource from '@/api/resource';
 
 const itemResource = new Resource('product');
 
 export default {
-  name: 'EditUser',
-  components: { Activity },
+  name: 'GlobalSettings',
+  components: { Layout },
   data() {
     return {
       product: {},
