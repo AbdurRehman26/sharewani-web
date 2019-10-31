@@ -44,7 +44,7 @@
 
         <el-table-column align="center" label="IMAGE">
           <template slot-scope="scope">
-            <img :src="scope.row.value.thumbnail_url">
+            <img :src="scope.row.value.upload_url">
           </template>
         </el-table-column>
 
@@ -97,9 +97,9 @@ export default {
       },
       list: [],
       newItem: {
-        key: 'main_logo',
+        key: 'home_main_banner',
         value: null,
-        type: 1,
+        type: 2,
       },
       activeActivity: 'first',
       loading: false,
