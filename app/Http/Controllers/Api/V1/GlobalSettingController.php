@@ -92,7 +92,9 @@ class GlobalSettingController extends ApiResourceController{
     public function getItemByKey($key)
     {
 
-        $data = $this->_repository->findByAttribute('key', $key);
+        $criteria = ['key' =>  $key, 'is_active' => 1];
+
+        $data = $this->_repository->findByCriteria($criteria);
     
         $output = ['data' => $data, 'message' => $this->responseMessages(__FUNCTION__)];
 

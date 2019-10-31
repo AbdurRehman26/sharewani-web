@@ -360,8 +360,8 @@ trait AbstractMethods
      *
      **/
     public function updateMultiple(array $criteria = []) {
-
-        return $this->model->where($criteria)->update(['is_active' => 1]);
+        \Cache::flush();    
+        return $this->model->where($criteria)->update(['is_active' => 0]);
         
     }
 
