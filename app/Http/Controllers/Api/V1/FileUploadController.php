@@ -64,7 +64,6 @@ class FileUploadController extends Controller
 		
 		}
 
-
 		if ($config) {
 
 			$field = isset($config['field']) ? $config['field'] : 'file';
@@ -112,6 +111,8 @@ class FileUploadController extends Controller
 
 				$method = $conf['method'];
 				
+				if(!empty($conf['thumb']['width']) && !empty($conf['thumb']['height'])){
+
 				if ($method instanceof Closure) {
 					$method($image, $conf);
 				} else {
@@ -156,6 +157,8 @@ class FileUploadController extends Controller
 
 				$response['thumb_name'] = $thumbImageName;
 				$response['thumbnail_url'] = url('storage/'.$config['public_relative'] .  '/' . $thumbImageName);
+					
+				}
 			}
 
 			$fileHashName = !empty($imageName) ? $imageName : $file->hashName(); 

@@ -1,20 +1,30 @@
 <template>
   <el-card>
     <el-tabs v-model="activeActivity" @tab-click="handleClick">
+
       <el-tab-pane label="Logos" name="first">
 
         <logo-panel />
 
       </el-tab-pane>
+
+      <el-tab-pane label="Main Page Banner" name="second">
+
+        <main-page-banner />
+
+      </el-tab-pane>
+
     </el-tabs>
+
   </el-card>
 </template>
 
 <script>
 import LogoPanel from './components/LogoPanel.vue';
+import MainPageBanner from './components/MainPageBanner.vue';
 
 export default {
-  components: { LogoPanel },
+  components: { LogoPanel, MainPageBanner },
   props: {},
   data() {
     return {

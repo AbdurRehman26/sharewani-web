@@ -8,4 +8,8 @@ class GlobalSetting extends BaseModel
         'value' => 'array'
     ];
 
+    public $searchables = [
+    	'key'
+    ];
+
 }

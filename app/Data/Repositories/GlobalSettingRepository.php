@@ -63,4 +63,26 @@ class GlobalSettingRepository extends AbstractRepository implements RepositoryCo
     }
 
 
+    /**
+     *
+     * This method will fetch all exsiting models
+     * and will return output back to client as json
+     *
+     * @access public
+     * @param bool $pagination
+     * @param int $perPage
+     * @param array $input
+     * @return mixed
+     *
+     * @author Usaama Effendi <usaamaeffendi@gmail.com>
+     *
+     */
+    public function findByAll($pagination = false, $perPage = 10, array $input = [])
+    {
+        $this->builder = $this->searchCriteria($input);
+
+        $this->builder = $this->builder->orderBy('is_active', 'DESC');
+
+        return parent::findByAll($pagination, $perPage, $input);
+    }
 }

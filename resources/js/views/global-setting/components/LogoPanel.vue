@@ -112,7 +112,7 @@ export default {
     async getList() {
       this.list = [];
 
-      const response = await globalSettingResource.list();
+      const response = await globalSettingResource.list({ key: 'main_logo' });
 
       this.list = response.data;
       this.list.forEach((element, index) => {

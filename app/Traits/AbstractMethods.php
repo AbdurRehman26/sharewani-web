@@ -8,6 +8,7 @@ trait AbstractMethods
 
     public function searchCriteria($input)
     {   
+        $this->builder = $this->model;
         if (!empty($this->model->searchables)) {
             foreach ($input as $key => $value) {
                 if (in_array($key, $this->model->searchables)) {
