@@ -5,9 +5,11 @@ namespace App\Data\Repositories;
 use Kazmi\Data\Contracts\RepositoryContract;
 use Kazmi\Data\Repositories\AbstractRepository;
 use App\Data\Models\GlobalSetting;
+use App\Traits\AbstractMethods;
 
 class GlobalSettingRepository extends AbstractRepository implements RepositoryContract
 {
+    use AbstractMethods;    
     /**
      *
      * These will hold the instance of GlobalSetting Class.
@@ -55,15 +57,7 @@ class GlobalSettingRepository extends AbstractRepository implements RepositoryCo
     public function findById($id, $refresh = false, $details = false, $encode = true) {
         
         $data = parent::findById($id, $refresh, $details, $encode);
-        
-        if (!empty($data->value)) {
-                if (substr($data->value, 0, 8) != "https://" && substr($data->value, 0, 8) != "http://") {
-                    $data->image_path = url('storage/app/settings/'.$data->value);
-                } else {
-                    $data->image_path = $data->value;
-                }
-        }
-
+    
         return $data;
     
     }

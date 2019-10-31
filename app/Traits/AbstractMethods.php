@@ -347,4 +347,23 @@ trait AbstractMethods
         return false;
     }
 
+
+        /**
+     *
+     * This method will update an existing model
+     * and will return output back to client as json
+     *
+     * @access public
+     * @return mixed
+     *
+     * @author Usaama Effendi <usaamaeffendi@gmail.com>
+     *
+     **/
+    public function updateMultiple(array $criteria = []) {
+
+        return $this->model->where($criteria)->update(['is_active' => 1]);
+        
+    }
+
+
 }

@@ -51,7 +51,8 @@ class FileUploadController extends Controller
 	public function upload(Request $request)
 	{
 		$key = $request->key;
-
+		$fileType = $request->file_type;
+		
 		$folderId = request()->user() ? request()->user()->id : null;
 
 		$config = config("uploads.{$key}");
@@ -89,11 +90,15 @@ class FileUploadController extends Controller
 				Storage::put($config['folder_name'] . '/' . $imageName, base64_decode($file));
 
 			}
-
+			
 			if (!empty($config['thumb'])) {
 
-				$conf = $this->mergeConfigWithDefault($config['thumb']);
+				if(!empty($config['thumb'][$fileType])){
+					$config['thumb'] = $config['thumb'][$fileType];
+				}
 
+				$conf = $this->mergeConfigWithDefault($config['thumb']);
+				
 				$manager = new ImageManager(
 					[
 						'driver' => $conf['driver'],
@@ -106,7 +111,7 @@ class FileUploadController extends Controller
 				$response['height'] = $image->height();
 
 				$method = $conf['method'];
-
+				
 				if ($method instanceof Closure) {
 					$method($image, $conf);
 				} else {
@@ -145,12 +150,12 @@ class FileUploadController extends Controller
 
 					call_user_func_array([$image, $method], $args);
 				}
-				$thumbImageName = str_random(25);
+				$thumbImageName = str_random(25) . '.png';
 				
 				Storage::put($config['folder_name'] .   '/' .  $thumbImageName, $image->stream()->__toString());
 
 				$response['thumb_name'] = $thumbImageName;
-				$response['thumbnail_url'] = Storage::url('storage/'.$config['folder_name'] .  '/' . $thumbImageName);
+				$response['thumbnail_url'] = url('storage/'.$config['public_relative'] .  '/' . $thumbImageName);
 			}
 
 			$fileHashName = !empty($imageName) ? $imageName : $file->hashName(); 

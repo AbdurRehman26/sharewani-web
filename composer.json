@@ -21,9 +21,11 @@
     "type": "project",
     "require": {
         "php": "^7.1.3",
+        "ext-json": "*",
         "barryvdh/laravel-cors": "^0.11.4",
         "fideloper/proxy": "^4.0",
         "fzaninotto/faker": "^1.8",
+        "intervention/image": "^2.5",
         "kazmi/laravel-abstract-resource": "dev-master",
         "laravel/framework": "5.8.*",
         "laravel/passport": "^7.0",
@@ -32,8 +34,7 @@
         "spatie/laravel-activitylog": "^3.9",
         "spatie/laravel-permission": "^2.37",
         "tymon/jwt-auth": "^1.0",
-        "yadakhov/insert-on-duplicate-key": "^1.2",
-      "ext-json": "*"
+        "yadakhov/insert-on-duplicate-key": "^1.2"
     },
     "require-dev": {
         "xethron/migrations-generator": "^2.0",
