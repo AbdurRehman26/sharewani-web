@@ -142,7 +142,7 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
         $data->size = app('SizeRepository')->findById($data->size_id);
         $data->brand = app('BrandRepository')->findById($data->brand_id);
 
-        if ($data->fabric_brand_id) {
+        if (!empty($data->fabric_brand_id)) {
             $data->fabric_brand = app('BrandRepository')->findById($data->fabric_brand_id);
         }
 
