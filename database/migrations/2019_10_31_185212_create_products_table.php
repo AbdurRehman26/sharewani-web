@@ -24,8 +24,6 @@ class CreateProductsTable extends Migration {
 			$table->integer('brand_id')->nullable();
 			$table->integer('fabric_age_id')->nullable();
 			$table->integer('size_id')->nullable();
-			$table->boolean('rent_per_day')->nullable();
-			$table->boolean('base_rent')->nullable();
 			$table->string('original_price', 45)->nullable()->default('1000');
 			$table->timestamps();
 			$table->softDeletes();

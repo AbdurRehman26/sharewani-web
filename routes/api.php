@@ -28,6 +28,8 @@ Route::group(['middleware' => 'api'], function () {
 
     Route::get('product/top-selling', 'Api\V1\ProductController@topSelling');
 
+    Route::get('global-setting-key/{id}', 'Api\V1\GlobalSettingController@getItemByKey');
+    Route::get('global-setting', 'Api\V1\GlobalSettingController@index');
 
     Route::group(['middleware' => 'auth:api'], function () {
 
@@ -60,9 +62,8 @@ Route::group(['middleware' => 'api'], function () {
             ]);
 
             Route::put('global-setting-key/{id}', 'Api\V1\GlobalSettingController@updateItemByKey');
-            Route::get('global-setting-key/{id}', 'Api\V1\GlobalSettingController@getItemByKey');
             Route::resource('global-setting', 'Api\V1\GlobalSettingController')->except([
-                 'edit'
+                 'edit', 'index'
             ]);
 
 

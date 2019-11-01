@@ -110,8 +110,8 @@ class FileUploadController extends Controller
 				$response['height'] = $image->height();
 
 				$method = $conf['method'];
-				
-				if(!empty($conf['thumb']['width']) && !empty($conf['thumb']['height'])){
+
+				if(!empty($conf['width']) && !empty($conf['height'])){
 
 				if ($method instanceof Closure) {
 					$method($image, $conf);
