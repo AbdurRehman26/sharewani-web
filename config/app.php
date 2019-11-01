@@ -179,6 +179,8 @@ return [
         App\Providers\ColorRepositoryServiceProvider::class,
         App\Providers\FabricAgeRepositoryServiceProvider::class,
         App\Providers\UserAddressRepositoryServiceProvider::class,
+        App\Providers\GlobalSettingRepositoryServiceProvider::class,
+        App\Providers\GlobalSettingTypeRepositoryServiceProvider::class,
 
 
         /*

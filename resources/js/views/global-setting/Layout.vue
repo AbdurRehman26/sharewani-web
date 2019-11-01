@@ -14,6 +14,12 @@
 
       </el-tab-pane>
 
+      <el-tab-pane label="Footer" name="third">
+
+        <footer-panel />
+
+      </el-tab-pane>
+
     </el-tabs>
 
   </el-card>
@@ -21,14 +27,15 @@
 
 <script>
 import LogoPanel from './components/LogoPanel.vue';
+import FooterPanel from './components/FooterPanel.vue';
 import MainPageBanner from './components/MainPageBanner.vue';
 
 export default {
-  components: { LogoPanel, MainPageBanner },
+  components: { LogoPanel, MainPageBanner, FooterPanel },
   props: {},
   data() {
     return {
-      activeActivity: 'first',
+      activeActivity: 'third',
     };
   },
   created(){},

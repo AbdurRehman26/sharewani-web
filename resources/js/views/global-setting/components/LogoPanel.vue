@@ -50,7 +50,7 @@
 
         <el-table-column align="center" label="ACTIVE">
           <template slot-scope="scope">
-            <el-tag :type="scope.row.is_active | statusFilter">
+            <el-tag :type="scope.row.is_active == 1 ? 'success' : 'info' | statusFilter">
               {{ scope.row.is_active ? 'Active' : 'In Active' }}
             </el-tag>
           </template>

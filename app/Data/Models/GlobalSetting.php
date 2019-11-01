@@ -9,7 +9,8 @@ class GlobalSetting extends BaseModel
     ];
 
     public $searchables = [
-    	'key'
+    	'key',
+    	'is_active'
     ];
 
 }

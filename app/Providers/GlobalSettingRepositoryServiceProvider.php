@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Data\Models\GlobalSetting;
+use App\Data\Repositories\GlobalSettingRepository;
 
 class GlobalSettingRepositoryServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,9 @@ class GlobalSettingRepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->bind('GlobalSettingRepository', function () {
+            return new GlobalSettingRepository(new GlobalSetting);
+        });
+
     }
 }

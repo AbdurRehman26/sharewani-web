@@ -57,7 +57,7 @@ class GlobalSettingController extends ApiResourceController{
     }
 
     public function input($value=''){
-        $input = request()->only('id', 'key', 'value', 'type');
+        $input = request()->only('id', 'key', 'value', 'type', 'is_active');
         
         return $input;
     }
@@ -72,10 +72,6 @@ class GlobalSettingController extends ApiResourceController{
 
         $messages = $this->messages(__FUNCTION__);
         
-        $this->_repository->updateMultiple(['key' => $input['key']]);
-
-        $input['is_active'] = 1;
-
         $this->validate($request, $rules, $messages);
 
         $data = $this->_repository->create($input);
@@ -88,6 +84,24 @@ class GlobalSettingController extends ApiResourceController{
 
     }
 
+    public function updateItemByKey($settingKey, Request $request)
+    {
+        $settingType = app('GlobalSettingTypeRepository')->findByAttribute('name' , $settingKey);
+        # code...
+        $updateData = $this->input();
+        $updateData['type'] = $settingType->id;
+        $updateData['key'] = $settingKey;
+        $updateData['is_active'] = 1;
+
+        $data = $this->_repository->insertOrUpdate($updateData);
+
+        $output = ['data' => $data, 'message' => $this->responseMessages(__FUNCTION__)];
+
+        // HTTP_OK = 200;
+
+        return response()->json($output, Response::HTTP_OK);
+    
+    }
 
     public function getItemByKey($key)
     {

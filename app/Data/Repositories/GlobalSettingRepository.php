@@ -85,4 +85,17 @@ class GlobalSettingRepository extends AbstractRepository implements RepositoryCo
 
         return parent::findByAll($pagination, $perPage, $input);
     }
+
+
+    public function insertOrUpdate($updateData)
+    {
+        $data = $this->findByAttribute('key', $updateData['key']);
+            
+        if($data){
+            $updateData['id'] = $data->id;
+            return $this->update($updateData);
+        }
+
+        return $this->create($updateData);
+    }
 }

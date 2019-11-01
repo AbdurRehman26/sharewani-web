@@ -44,22 +44,31 @@
 
         <el-table-column align="center" label="IMAGE">
           <template slot-scope="scope">
-            <img :src="scope.row.value.upload_url">
+            <img style="max-height: 75px;" :src="scope.row.value.upload_url">
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="ACTIVE">
           <template slot-scope="scope">
-            <el-tag :type="scope.row.is_active | statusFilter">
+            <el-tag :type="scope.row.is_active == 1 ? 'success' : 'info' | statusFilter">
               {{ scope.row.is_active ? 'Active' : 'In Active' }}
             </el-tag>
           </template>
         </el-table-column>
 
+        <el-table-column align="center" label="DIMENSIONS">
+          <template slot-scope="scope">
+            {{ scope.row.value.height + ' x ' + scope.row.value.width }}
+          </template>
+        </el-table-column>
+
         <el-table-column align="center" label="Actions">
           <template slot-scope="scope">
-            <el-button v-if="!scope.row.is_active" type="info" size="small" icon="el-icon-edit">
-              Set
+            <el-button v-if="!scope.row.is_active" type="info" size="small" icon="el-icon-edit" @click="onUpdate(scope.row.id, 1)">
+              Active
+            </el-button>
+            <el-button v-if="scope.row.is_active" type="info" size="small" icon="el-icon-edit" @click="onUpdate(scope.row.id, null)">
+              Inactive
             </el-button>
           </template>
         </el-table-column>
@@ -148,6 +157,26 @@ export default {
 
     handleClick(tab, event) {
       console.log('Switching tab ', tab, event);
+    },
+    onUpdate(id, active){
+      this.loading = true;
+      globalSettingResource
+        .update(id, { is_active: active })
+        .then(response => {
+          this.$refs.homeBannerDropZone.removeAllFiles();
+          this.getList();
+          this.newItem.value = null;
+          this.loading = false;
+          this.$message({
+            message: 'Settings Updated successfully',
+            type: 'success',
+            duration: 5 * 1000,
+          });
+        })
+        .catch(error => {
+          console.log(error);
+          this.loading = false;
+        });
     },
     onSubmit() {
       this.loading = true;

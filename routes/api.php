@@ -59,6 +59,7 @@ Route::group(['middleware' => 'api'], function () {
                  'edit'
             ]);
 
+            Route::put('global-setting-key/{id}', 'Api\V1\GlobalSettingController@updateItemByKey');
             Route::get('global-setting-key/{id}', 'Api\V1\GlobalSettingController@getItemByKey');
             Route::resource('global-setting', 'Api\V1\GlobalSettingController')->except([
                  'edit'

@@ -360,9 +360,9 @@ trait AbstractMethods
      * @author Usaama Effendi <usaamaeffendi@gmail.com>
      *
      **/
-    public function updateMultiple(array $criteria = []) {
+    public function updateMultiple(array $criteria = [], $updateCriteria) {
         \Cache::flush();    
-        return $this->model->where($criteria)->update(['is_active' => 0]);
+        return $this->model->where($criteria)->update($updateCriteria);
         
     }
 
