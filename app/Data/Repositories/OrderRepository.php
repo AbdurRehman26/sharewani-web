@@ -142,6 +142,34 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
         return $orderBuilder->pluck('id')->toArray();
     }
 
+
+    public function validateCollidingOrder($input, $all = false)
+    {
+        $orderBuilder = $this->model->where('product_id', $input['product_id']);
+
+        if (!empty($input['order_id'])) {
+            $orderBuilder = $orderBuilder->where('id', '!=', $input['order_id']);
+        }
+        $orderBuilder = $orderBuilder->where(function ($where) use ($input)  {
+            $where->where(function ($childWhere) use ($input) {
+                $childWhere->where('from_date', '<=', date($input['from_date']))
+                    ->where('to_date', '>=', date($input['from_date']))
+                    ->where('status', '!=', -1);
+            })->orWhere(function ($childWhere) use ($input) {
+                $childWhere->where('from_date', '<=', date($input['to_date']))
+                    ->where('to_date', '>=', date($input['to_date']))
+                    ->where('status', '!=', -1);
+            });
+        });
+        
+        if (!$all) {
+            return $orderBuilder->first();
+        }
+
+        return $orderBuilder->pluck('id')->toArray();
+    }
+
+
     public function calculateRent($input)
     {
         $orderConstants = !empty(app('config')['constants']['order']) ? app('config')['constants']['order'] : null;
@@ -171,7 +199,7 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
         $input['product_id'] = $order['product_id'];
         $input['order_id'] = $order['id'];
 
-        $allOrdersId = $this->validateOrderDate($input, true, 0);
+        $allOrdersId = $this->validateCollidingOrder($input, true);
         $input['id'] = $allOrdersId;
         unset($input['user_id']);
         return $this->findByAll(false, 20, $input)['data'];
