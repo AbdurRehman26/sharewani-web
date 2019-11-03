@@ -7,7 +7,7 @@
           <item-bio :item="item" />
         </el-col>
         <el-col :span="18">
-          <item-activity :loading="loading" :item="item" :items="items" />
+          <item-activity :loading="loading" :item="item" :items="items" @reload-list="loadList" />
         </el-col>
       </el-row>
     </el-form>
@@ -25,6 +25,7 @@ export default {
   components: { ItemBio, ItemCard, ItemActivity },
   data() {
     return {
+      reloadList: false,
       item: {},
       items: [],
       loading: false,
@@ -32,13 +33,20 @@ export default {
   },
   watch: {
     $route: 'getListOfOrders',
+    reloadList(){
+      this.getListOfOrders(this.$route.params.id);
+      this.getSingle(this.$route.params.id);
+    },
   },
   created() {
-    const id = this.$route.params && this.$route.params.id;
-    this.getListOfOrders(id);
-    this.getSingle(id);
+    this.loadList();
   },
   methods: {
+    loadList(){
+      const id = this.$route.params && this.$route.params.id;
+      this.getListOfOrders(id);
+      this.getSingle(id);
+    },
     async getSingle(id) {
       const { data } = await itemResource.get(id);
       this.item = data;

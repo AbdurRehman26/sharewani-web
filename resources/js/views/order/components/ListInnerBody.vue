@@ -55,7 +55,7 @@
       <el-table-column align="center" label="Actions" width="350">
         <template slot-scope="scope">
           <el-button
-            v-if="scope.row.status !== 1"
+            v-if="scope.row.status === 0"
             type="success"
             size="small"
             icon="el-icon-edit"
@@ -68,7 +68,7 @@
             Accept
           </el-button>
           <el-button
-            v-if="scope.row.status !== 1"
+            v-if="scope.row.status === 0"
             type="danger"
             size="small"
             icon="el-icon-edit"
@@ -125,6 +125,16 @@ const itemResource = new Resource('order');
 export default {
   name: 'UserList',
   components: { Pagination },
+  filters: {
+    statusFilter(status) {
+      const statusMap = {
+        success: 'success',
+        pending: 'warning',
+        rejected: 'danger',
+      };
+      return statusMap[status];
+    },
+  },
   props: {
     loading: {
 
@@ -185,7 +195,7 @@ export default {
       }
       await itemResource.update(this.currentItemId, this.query);
       this.dialogFormVisible = false;
-      this.$parent.reloadList = !this.$parent.reloadList;
+      this.$emit('reload-list');
       this.isLoading = false;
     },
     getList() {},

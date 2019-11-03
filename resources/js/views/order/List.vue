@@ -18,7 +18,7 @@
       </el-button>
     </div>
 
-    <list-inner-body :loading="loading" :query="query" :items="items" />
+    <list-inner-body :loading="loading" :query="query" :items="items" @reload-list="getList" />
   </div>
 </template>
 

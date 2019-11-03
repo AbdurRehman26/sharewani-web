@@ -3,7 +3,7 @@
 
     <h4>Order:</h4>
 
-    <list-inner-body class="order-container" :query="query" :items="[item]" />
+    <list-inner-body class="order-container" :query="query" :items="[item]" @reload-list="loadList" />
 
     <hr>
     <hr>
@@ -12,7 +12,7 @@
 
     <h4>Colliding Orders:</h4>
 
-    <list-inner-body class="order-container" :loading="loading" :query="query" :items="items" />
+    <list-inner-body class="order-container" :loading="loading" :query="query" :items="items" @reload-list="loadList" />
 
   </el-card>
 </template>
@@ -64,7 +64,9 @@ export default {
   mounted(){
   },
   methods: {
-    onSubmit() {},
+    loadList() {
+      this.$emit('reload-list');
+    },
   },
 };
 </script>
