@@ -1,16 +1,23 @@
 <template>
   <div>
+
     <el-table
-      v-loading="loading"
+      v-loading="isLoading"
       :data="items"
       border
       fit
       highlight-current-row
       style="width: 100%"
     >
-      <el-table-column align="center" label="PRODUCT">
+      <el-table-column align="center" label="PRODUCT DESCRIPTION">
         <template slot-scope="scope">
-          <span>{{ scope.row.product.title }}</span>
+          <span>{{ scope.row.product.description ? scope.row.product.description : 'N/A' }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="PRODUCT IMAGE">
+        <template slot-scope="scope">
+          <img height="65" :src="scope.row.product.images[0]">
         </template>
       </el-table-column>
 
@@ -84,7 +91,7 @@
     </el-table>
 
     <el-dialog :title="'Confirm'" :visible.sync="dialogFormVisible">
-      <div v-loading="loading" class="form-container">
+      <div v-loading="isLoading" class="form-container">
         <div class="margin-bottom-40">
           Are you sure you want to {{ confirmationType }} this order?
         </div>
@@ -119,6 +126,9 @@ export default {
   name: 'UserList',
   components: { Pagination },
   props: {
+    loading: {
+
+    },
     query: {
       type: Object,
       default: () => {
@@ -137,7 +147,7 @@ export default {
       currentItemId: null,
       confirmationType: '',
       total: 0,
-      loading: true,
+      isLoading: true,
       downloading: false,
       userCreating: false,
       dialogFormVisible: false,
@@ -150,18 +160,24 @@ export default {
   },
   computed: {},
   watch: {
+    loading() {
+      this.isLoading = false;
+    },
+
     items(){
-      this.loading = false;
+      this.isLoading = false;
     },
   },
   created() {
+    this.isLoading = !this.loading;
+
     if (this.items.length){
-      this.loading = false;
+      this.isLoading = false;
     }
   },
   methods: {
     async submitOrderRequest() {
-      this.loading = true;
+      this.isLoading = true;
       if (this.confirmationType === 'reject') {
         this.query.status = -1;
       } else {
@@ -170,7 +186,7 @@ export default {
       await itemResource.update(this.currentItemId, this.query);
       this.dialogFormVisible = false;
       this.$parent.reloadList = !this.$parent.reloadList;
-      this.loading = false;
+      this.isLoading = false;
     },
     getList() {},
   },

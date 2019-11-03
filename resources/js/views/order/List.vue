@@ -18,7 +18,7 @@
       </el-button>
     </div>
 
-    <list-inner-body :query="query" :items="items" />
+    <list-inner-body :loading="loading" :query="query" :items="items" />
   </div>
 </template>
 
@@ -35,6 +35,7 @@ export default {
     return {
       reloadList: false,
       items: [],
+      loading: false,
       query: {
         total: 0,
         page: 1,

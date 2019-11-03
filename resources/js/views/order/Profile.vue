@@ -7,7 +7,7 @@
           <item-bio :item="item" />
         </el-col>
         <el-col :span="18">
-          <item-activity :item="item" :items="items" />
+          <item-activity :loading="loading" :item="item" :items="items" />
         </el-col>
       </el-row>
     </el-form>
@@ -27,6 +27,7 @@ export default {
     return {
       item: {},
       items: [],
+      loading: false,
     };
   },
   watch: {
@@ -44,6 +45,7 @@ export default {
     },
     async getListOfOrders(id) {
       const { data } = await itemResource.getCollidingOrders(id);
+      this.loading = !this.loading;
       this.items = data;
     },
   },

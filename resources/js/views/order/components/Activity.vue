@@ -12,7 +12,7 @@
 
     <h4>Colliding Orders:</h4>
 
-    <list-inner-body class="order-container" :query="query" :items="items" />
+    <list-inner-body class="order-container" :loading="loading" :query="query" :items="items" />
 
   </el-card>
 </template>
@@ -24,6 +24,9 @@ export default {
 
   components: { ListInnerBody },
   props: {
+    loading: {
+
+    },
     items: {
       type: Array,
       default: () => {
@@ -52,6 +55,13 @@ export default {
       },
       updating: false,
     };
+  },
+  watch: {
+    loading(){
+
+    },
+  },
+  mounted(){
   },
   methods: {
     onSubmit() {},
