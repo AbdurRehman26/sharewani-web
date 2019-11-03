@@ -90,6 +90,12 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
             $this->builder = $this->builder->whereIn('id', $productIds);
         }
 
+
+        if (!empty($input['original_price'])) {
+            $this->builder = $this->builder->where('original_price',  '<=' ,  $input['original_price']);
+        }
+
+
         return parent::findByAll($pagination, $perPage, $input);
     }
 

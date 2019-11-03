@@ -58,7 +58,7 @@
 
         <el-table-column align="center" label="Actions">
           <template slot-scope="scope">
-            <el-button v-if="!scope.row.is_active" type="info" size="small" icon="el-icon-edit">
+            <el-button v-if="!scope.row.is_active" type="info" size="small" icon="el-icon-edit" @click="setActive(scope.row)">
               Set
             </el-button>
           </template>
@@ -79,7 +79,8 @@
 <script>
 import Pagination from '@/components/Pagination';
 import Resource from '@/api/resource';
-const globalSettingResource = new Resource('global-setting');
+import GlobalSettingResource from '@/api/global-setting';
+const globalSettingResource = new GlobalSettingResource();
 import Dropzone from '@/components/Dropzone';
 const fileResource = new Resource('file/remove');
 
@@ -148,6 +149,24 @@ export default {
 
     handleClick(tab, event) {
       console.log('Switching tab ', tab, event);
+    },
+    setActive(resource) {
+      this.loading = true;
+      globalSettingResource
+        .updateByKey('main_logo', resource)
+        .then(response => {
+          this.getList();
+          this.loading = false;
+          this.$message({
+            message: 'Settings Updated successfully',
+            type: 'success',
+            duration: 5 * 1000,
+          });
+        })
+        .catch(error => {
+          console.log(error);
+          this.loading = false;
+        });
     },
     onSubmit() {
       this.loading = true;

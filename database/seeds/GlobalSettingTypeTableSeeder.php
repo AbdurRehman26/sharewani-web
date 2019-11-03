@@ -16,7 +16,7 @@ class GlobalSettingTypeTableSeeder extends Seeder
         $data = [];
 
         $settings = [
-            'logo',
+            'main_logo',
             'home_main_banner',
             'home_headings',
         ];

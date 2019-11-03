@@ -35,7 +35,7 @@ export default {
   props: {},
   data() {
     return {
-      activeActivity: 'third',
+      activeActivity: 'first',
     };
   },
   created(){},

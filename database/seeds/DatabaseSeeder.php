@@ -16,12 +16,13 @@ class DatabaseSeeder extends Seeder
     {
 
         /* Required Seeders && Default Options */
+        $this->call(GlobalSettingTypeTableSeeder::class);
+        $this->call(FabricAgeTableSeeder::class);
         $this->call(CategoryTableSeeder::class);
         $this->call(EventTableSeeder::class);
-        $this->call(CityTableSeeder::class);
         $this->call(ColorTableSeeder::class);
         $this->call(BrandTableSeeder::class);
-        $this->call(FabricAgeTableSeeder::class);
+        $this->call(CityTableSeeder::class);
         $this->call(SizeTableSeeder::class);
 
 

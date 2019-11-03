@@ -20,6 +20,12 @@ return [
         'dry_cleaning' => env('ORDER_DRY_CLEANING', 500),
         'insurance' => env('ORDER_INSURANCE', 0.025),
         'promo_discount' => env('ORDER_PROMO_DISCOUNT', 0),
-    ]
+    ],
 
+    'global_settings' => [
+        'main_logo' => [
+            'limit' => 1
+        ]
+
+    ]
 ];

@@ -92,6 +92,15 @@ class GlobalSettingController extends ApiResourceController{
         $updateData['type'] = $settingType->id;
         $updateData['key'] = $settingKey;
         $updateData['is_active'] = 1;
+        
+        $globalSettings = config('constants')['global_settings'];
+        
+        if((int) $globalSettings[$settingKey]['limit'] == 1){
+            dd($settingType);
+            $this->_repository->updateMultiple(['type' => $settingType->id], ['is_active' => 0]);
+
+        }
+
 
         $data = $this->_repository->insertOrUpdate($updateData);
 

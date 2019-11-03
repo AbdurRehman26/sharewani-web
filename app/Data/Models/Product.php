@@ -11,7 +11,7 @@ class Product extends BaseModel
     ];
 
     public $searchables = [
-        'brand_id', 'color_id', 'original_price', 'fabric_age_id', 'size_id',
+        'brand_id', 'color_id', 'fabric_age_id', 'size_id',
     ];
 
 }
