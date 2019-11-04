@@ -17,7 +17,7 @@ class EventTableSeeder extends Seeder
 
         $data = [
             [
-            'name' => 'Shaadi',
+            'name' => 'Wedding',
             'created_at' => $date,
             'updated_at' => $date,
             'deleted_at' => null
