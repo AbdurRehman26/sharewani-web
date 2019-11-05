@@ -122,6 +122,34 @@ class OrderController extends ApiResourceController
         return response()->json($output, Response::HTTP_OK);
     }
 
+
+    public function updateOrder($id, Request $request)
+    {
+        
+        $rules = $this->rules(__FUNCTION__);
+        $input = $this->input(__FUNCTION__);
+        $messages = $this->messages(__FUNCTION__);
+
+        if($input['status'] == -1){
+            return parent::update($request, $id);
+        } 
+
+        $input['order_id'] = $id;
+
+        $this->validate($request, $rules, $messages);
+
+        $data = $this->_repository->updateOrder($input);
+
+        $output = ['data' => ['error' => $this->responseMessages($data ? 'order_approved' : 'order_rejected')], 'message' => $this->responseMessages($data ? 'order_approved' : 'order_rejected')];
+
+        $code = !$data ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK;
+
+        // HTTP_OK = 200;
+
+        return response()->json($output, $code);
+
+    }
+
     public function collidingOrders(Request $request, $id)
     {
         $input = $this->input();
@@ -195,6 +223,8 @@ class OrderController extends ApiResourceController
     public function responseMessages($value = '')
     {
         $messages = [
+            'order_approved' => 'Order accepted',
+            'order_rejected' => 'An accepted order already exists on current dates',
             'store' => 'Order placed successfully.',
             'update' => 'Record updated successfully.',
             'destroy' => 'Order cancelled.',

@@ -11,6 +11,13 @@ class OrderResource extends Resource {
       method: 'get',
     });
   }
+  updateOrder(id, resource){
+    return request({
+      url: '/' + this.uri + '/' + id + '/update-order',
+      method: 'put',
+      data: resource,
+    });
+  }
 }
 
 export { OrderResource as default };

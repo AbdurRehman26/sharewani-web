@@ -36,10 +36,13 @@ service.interceptors.response.use(
   },
   error => {
     let message = error.message;
+
     if (error.response.data && error.response.data.errors) {
       message = error.response.data.errors;
     } else if (error.response.data && error.response.data.error) {
       message = error.response.data.error;
+    } else if (error.response.data.message){
+      message = error.response.data.message;
     }
 
     Message({
@@ -47,7 +50,6 @@ service.interceptors.response.use(
       type: 'error',
       duration: 5 * 1000,
     });
-    return Promise.reject(error);
   },
 );
 

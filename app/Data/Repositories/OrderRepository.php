@@ -116,6 +116,30 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
         return $data;
     }
 
+
+    public function updateOrder($input)
+    {
+        $order = parent::findById($input['order_id']);
+
+        $input['product_id'] = $order->product_id;
+        $input['from_date'] = $order->from_date;
+        $input['to_date'] = $order->to_date;
+
+        $acceptedOrder = $this->validateOrderDate($input, false, 1);
+        
+        if($acceptedOrder){
+            return false;
+        }
+
+        $updateData['id'] = $order->id;
+        $updateData['status'] = 1;
+
+        return $this->update($updateData);
+
+
+    }
+
+
     public function validateOrderDate($input, $all = false, $status = 1)
     {
         $orderBuilder = $this->model->where('product_id', $input['product_id']);

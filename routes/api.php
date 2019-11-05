@@ -72,6 +72,7 @@ Route::group(['middleware' => 'api'], function () {
                 'edit'
             ]);
 
+            Route::put('order/{id}/update-order', 'Api\V1\OrderController@updateOrder');
             Route::get('order/{id}/colliding-orders', 'Api\V1\OrderController@collidingOrders');
             Route::get('order/validate-order-date', 'Api\V1\OrderController@validateOrderDate');
             Route::get('order/calculate-rent', 'Api\V1\OrderController@calculateRent');

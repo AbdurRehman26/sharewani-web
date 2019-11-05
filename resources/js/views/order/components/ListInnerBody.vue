@@ -111,7 +111,7 @@
       :total="query.total"
       :page.sync="query.page"
       :limit.sync="query.limit"
-      @pagination="getList"
+      @pagination="$emit('reload-list')"
     />
 
   </div>
@@ -119,9 +119,9 @@
 
 <script>
 import Pagination from '@/components/Pagination'; // Secondary package based on el-pagination
-import Resource from '@/api/resource';
+import OrderResource from '@/api/order';
 
-const itemResource = new Resource('order');
+const itemResource = new OrderResource();
 export default {
   name: 'UserList',
   components: { Pagination },
@@ -193,12 +193,14 @@ export default {
       } else {
         this.query.status = 1;
       }
-      await itemResource.update(this.currentItemId, this.query);
+      await itemResource.updateOrder(this.currentItemId, this.query);
+
       this.dialogFormVisible = false;
+
       this.$emit('reload-list');
+
       this.isLoading = false;
     },
-    getList() {},
   },
 };
 </script>
