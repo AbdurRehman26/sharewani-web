@@ -47,23 +47,25 @@ class ImportProducts extends Command
         
         $array = Excel::toArray(new ProductImport, $filePath);
         
-
-        $imagesArray = config('dummyImages');
-
         $input = [];
 
 
-        $event = \App\Data\Models\Event::where('name', 'Shaadi')->first();
+        $event = \App\Data\Models\Event::first();
         
         $category = \App\Data\Models\Category::where('name', 'Sherwaani')->first();
 
         foreach ($array[0] as $key => $row) {
-            
-            shuffle($imagesArray);
-
-            $images = array_slice($imagesArray, 0, 3);
-
+                
             if($key){
+
+            $images = [];
+                
+            for($i = 1; $i <= 3; $i++){
+
+            $images[] = "$key-$i.jpg";
+
+            }            
+
 
             $fabricAge = app('FabricAgeRepository')->findByAttribute('name', $row[4]);
             $color = app('ColorRepository')->findByAttribute('name', $row[7]);
