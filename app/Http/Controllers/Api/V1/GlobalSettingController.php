@@ -96,7 +96,7 @@ class GlobalSettingController extends ApiResourceController{
         
         $globalSettings = config('constants')['global_settings'];
         
-        if($globalSettings[$settingKey] && (int) $globalSettings[$settingKey]['limit'] == 1){
+        if(!empty($globalSettings[$settingKey]) && (int) $globalSettings[$settingKey]['limit'] == 1){
             $this->_repository->updateMultiple(['type' => $settingType->id], ['is_active' => 0]);
         }
 
