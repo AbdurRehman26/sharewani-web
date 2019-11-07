@@ -87,6 +87,7 @@ class GlobalSettingController extends ApiResourceController{
     public function updateItemByKey($settingKey, Request $request)
     {
         $settingType = app('GlobalSettingTypeRepository')->findByAttribute('name' , $settingKey);
+
         # code...
         $updateData = $this->input();
         $updateData['type'] = $settingType->id;
@@ -96,9 +97,7 @@ class GlobalSettingController extends ApiResourceController{
         $globalSettings = config('constants')['global_settings'];
         
         if((int) $globalSettings[$settingKey]['limit'] == 1){
-            dd($settingType);
             $this->_repository->updateMultiple(['type' => $settingType->id], ['is_active' => 0]);
-
         }
 
 

@@ -19,6 +19,7 @@ class GlobalSettingTypeTableSeeder extends Seeder
             'main_logo',
             'home_main_banner',
             'home_headings',
+            'footer'
         ];
 
         foreach ($settings as $setting) {
