@@ -27,14 +27,16 @@ class FabricAgeTableSeeder extends Seeder
             'Between 30 and 36 months',
             'Older than 36 months'
         ];
-
-        foreach ($fabricAges as $fabricAge) {
+        $i = 0;
+        foreach ($fabricAges as $key => $fabricAge) {
             $data[] = [
+                'value' => $i,
                 'name' => $fabricAge,
                 'created_at' => $date,
                 'updated_at' => $date,
                 'deleted_at' => null
             ];
+            $i+=0.5;
         }
 
         \App\Data\Models\FabricAge::insertOnDuplicateKey($data, ['name']);

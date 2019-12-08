@@ -126,7 +126,7 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
         $input['to_date'] = $order->to_date;
 
         $acceptedOrder = $this->validateOrderDate($input, false, 1);
-        
+
         if($acceptedOrder){
             return false;
         }
@@ -158,7 +158,7 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
                     ->where('status', $status);
             });
         });
-        
+
         if (!$all) {
             return $orderBuilder->first();
         }
@@ -174,7 +174,7 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
         if (!empty($input['order_id'])) {
             $orderBuilder = $orderBuilder->where('id', '!=', $input['order_id']);
         }
-        $orderBuilder = $orderBuilder->where(function ($where) use ($input)  {
+        $orderBuilder = $orderBuilder->where(function ($where) use ($input) {
             $where->where(function ($childWhere) use ($input) {
                 $childWhere->where('from_date', '<=', date($input['from_date']))
                     ->where('to_date', '>=', date($input['from_date']))
@@ -185,7 +185,7 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
                     ->where('status', '!=', -1);
             });
         });
-        
+
         if (!$all) {
             return $orderBuilder->first();
         }
@@ -194,7 +194,7 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
     }
 
 
-    public function calculateRent($input)
+    public function calculateRent($input, $dont = true)
     {
         $orderConstants = !empty(app('config')['constants']['order']) ? app('config')['constants']['order'] : null;
 
@@ -202,10 +202,10 @@ class OrderRepository extends AbstractRepository implements RepositoryContract
             return false;
         }
 
-        $product = app('ProductRepository')->findById($input['product_id']);
+        $product = app('ProductRepository')->findById($input['product_id'], false, ['dont' => true]);
         $productPrice = (int) $product->original_price;
 
-        $age = 0;
+        $age = $product->fabric_age->value;
 
         $rent = (
                 ($productPrice * $orderConstants['base_factor'] *

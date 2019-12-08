@@ -140,8 +140,8 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
         $data = parent::findById($id, $refresh, $details, $encode);
 
         $data->user = app('UserRepository')->findById($data->user_id);
-        
-        if(!empty($data->vendor_id)){
+
+        if (!empty($data->vendor_id)) {
             $data->vendor = [app('UserRepository')->findById($data->vendor_id)];
         }
 
@@ -201,6 +201,14 @@ class ProductRepository extends AbstractRepository implements RepositoryContract
             $data->total_orders = \App\Data\Models\Order::where('product_id', $data->id)->count();
             $data->total_accepted_orders = \App\Data\Models\Order::where(['product_id' => $data->id, 'status' => 1])->count();
             $data->total_pending_orders = \App\Data\Models\Order::where(['product_id' => $data->id, 'status' => 0])->count();
+        }
+
+        $rentFilter = [
+            'product_id' => $data->id
+        ];
+
+        if (empty($details['dont'])) {
+            $data->rent = app('OrderRepository')->calculateRent($rentFilter);
         }
 
         return $data;

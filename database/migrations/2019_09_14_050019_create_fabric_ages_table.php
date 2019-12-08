@@ -17,6 +17,7 @@ class CreateFabricAgesTable extends Migration
 
             $table->integer('id', true);
             $table->string('name')->unique('name_UNIQUE');
+            $table->string('value');
             $table->timestamps();
             $table->softDeletes();
         });
