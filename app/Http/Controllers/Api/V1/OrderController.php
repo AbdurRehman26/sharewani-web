@@ -25,8 +25,8 @@ class OrderController extends ApiResourceController
         if ($value == 'store') {
             $rules['address_id'] = 'required_without_all:address';
             $rules['product_id'] =  'required';
-            $rules['from_date'] =  'required';
-            $rules['to_date'] =  'required';
+            $rules['selected_date'] =  'required';
+            $rules['period'] =  'required';
         }
 
         if ($value == 'update') {
@@ -50,8 +50,8 @@ class OrderController extends ApiResourceController
         }
 
         if ($value == 'validateOrderDate') {
-            $rules['from_date'] =  'required';
-            $rules['to_date'] =  'required';
+            $rules['selected_date'] =  'required';
+            $rules['period'] =  'required';
             $rules['product_id'] =  'required';
         }
 
@@ -64,8 +64,8 @@ class OrderController extends ApiResourceController
         $input = request()->only(
             'id',
             'product_id',
-            'from_date',
-            'to_date',
+            'selected_date',
+            'period',
             'number_of_items',
             'address',
             'address_secondary',
@@ -112,6 +112,12 @@ class OrderController extends ApiResourceController
         unset($input['address'], $input['address_type'], $input['address_secondary'], $input['nearest_check_point']);
 
         $input['rent_amount'] = $this->_repository->calculateRent($input);
+
+        $input['to_date'] = $input['period'] == 4 ? \Carbon\Carbon::parse($input['selected_date'])->addDay(4)->format('Y-m-d') : \Carbon\Carbon::parse($input['selected_date'])->addDay(8)->format('Y-m-d'); 
+
+        $input['from_date'] = $input['selected_date'];
+
+        unset($input['selected_date'], $input['period']);
 
         $data = $this->_repository->create($input);
 
@@ -173,6 +179,11 @@ class OrderController extends ApiResourceController
         $messages = $this->messages(__FUNCTION__);
 
         $this->validate($request, $rules, $messages);
+
+        $input['to_date'] = $input['period'] == 4 ? \Carbon\Carbon::parse($input['selected_date'])->addDay(4)->format('Y-m-d') : \Carbon\Carbon::parse($input['selected_date'])->addDay(8)->format('Y-m-d'); 
+
+
+        $input['from_date'] = $input['selected_date'];
 
         $data = $this->_repository->validateOrderDate($input);
 

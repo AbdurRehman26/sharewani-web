@@ -54,7 +54,7 @@ class ImportProducts extends Command
         foreach ($array[0] as $key => $row) {
             if ($key) {
                 $images = [];
-                for ($i = 1; $i <= 3; $i++) {
+                for ($i = 1; $i <= 2; $i++) {
                     $images[] = "$key-$i.jpg";
                 }
 
