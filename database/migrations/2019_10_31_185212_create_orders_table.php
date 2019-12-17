@@ -22,6 +22,7 @@ class CreateOrdersTable extends Migration {
 			$table->boolean('status')->default(0);
 			$table->date('from_date')->nullable();
 			$table->date('to_date')->nullable();
+			$table->text('order_number')->nullable();
 			$table->boolean('number_of_items')->nullable()->default(1);
 			$table->timestamps();
 			$table->softDeletes();

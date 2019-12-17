@@ -9,7 +9,7 @@
 
       <el-form-item prop="title" style="margin-right: 20px;">
         <markdown-editor
-          ref="markdownEditor"
+          ref="markdownEditorPrivacy"
           v-model="newItem.value"
           height="800px"
         />
@@ -63,7 +63,7 @@ export default {
     onUpdate() {
       this.loading = true;
 
-      this.newItem.value = this.$refs.markdownEditor.getHtml();
+      this.newItem.value = this.$refs.markdownEditorPrivacy.getHtml();
 
       globalSettingResource
         .updateByKey('privacy_policy', this.newItem)
