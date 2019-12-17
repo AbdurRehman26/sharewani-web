@@ -124,9 +124,9 @@ export default {
     },
 
     dropzoneS(file) {
+      console.log(file.xhr);
       if (file && file.xhr && file.xhr.response) {
         const uploadedFile = JSON.parse(file.xhr.response);
-
         this.newItem.value = uploadedFile;
       }
 

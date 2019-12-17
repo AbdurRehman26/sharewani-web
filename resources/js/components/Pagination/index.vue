@@ -30,7 +30,7 @@ export default {
     },
     limit: {
       type: Number,
-      default: 20,
+      default: 12,
     },
     pageSizes: {
       type: Array,
