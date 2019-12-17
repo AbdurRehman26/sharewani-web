@@ -81,6 +81,7 @@ class ImportProducts extends Command
                 $user = app('UserRepository')->findByAttribute('name', $row[13]);
 
                 $input = [
+                    'item_code' => $row[11],
                     'description' => $row[1],
                     'images' => $images,
                     'original_price'=> $row[2],

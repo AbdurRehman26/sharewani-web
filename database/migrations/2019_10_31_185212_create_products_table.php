@@ -25,6 +25,7 @@ class CreateProductsTable extends Migration {
 			$table->integer('fabric_age_id')->nullable();
 			$table->integer('size_id')->nullable();
 			$table->string('original_price', 45)->nullable()->default('1000');
+			$table->string('item_code', 45)->nullable();
 			$table->timestamps();
 			$table->softDeletes();
 			$table->bigInteger('vendor_id')->nullable();

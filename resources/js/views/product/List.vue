@@ -128,9 +128,9 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="DESCRIPTION">
+      <el-table-column align="center" label="ASSET CODE">
         <template slot-scope="scope">
-          <span v-html="scope.row.description" />
+          <span v-html="scope.row.item_code" />
         </template>
       </el-table-column>
 

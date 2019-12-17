@@ -20,6 +20,18 @@
 
       </el-tab-pane>
 
+      <el-tab-pane label="Terms of Services" name="forth">
+
+        <terms-panel />
+
+      </el-tab-pane>
+
+      <el-tab-pane label="Privacy Policy" name="fifth">
+
+        <privacy-panel />
+
+      </el-tab-pane>
+
     </el-tabs>
 
   </el-card>
@@ -28,10 +40,12 @@
 <script>
 import LogoPanel from './components/LogoPanel.vue';
 import FooterPanel from './components/FooterPanel.vue';
+import TermsPanel from './components/TermsPanel.vue';
+import PrivacyPanel from './components/PrivacyPanel.vue';
 import MainPageBanner from './components/MainPageBanner.vue';
 
 export default {
-  components: { LogoPanel, MainPageBanner, FooterPanel },
+  components: { TermsPanel, LogoPanel, MainPageBanner, FooterPanel, PrivacyPanel },
   props: {},
   data() {
     return {
