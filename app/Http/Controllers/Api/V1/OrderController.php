@@ -72,7 +72,8 @@ class OrderController extends ApiResourceController
             'address_type',
             'address_id',
             'nearest_check_point',
-            'status'
+            'status',
+            'phone_number'
         );
         $input['user_id'] = request()->user() ? request()->user()->id : null;
 
@@ -102,14 +103,15 @@ class OrderController extends ApiResourceController
                 'city_id' => 1,
                 'address' => $input['address'],
                 'address_secondary' => $input['address_secondary'],
-                'nearest_check_point' => $input['nearest_check_point']
+                'nearest_check_point' => $input['nearest_check_point'],
+                'phone_number' => $input['phone_number']
             ];
 
             $input['address_id'] = \App\Data\Models\UserAddress::create($userAddress)['id'];
 
         }
 
-        unset($input['address'], $input['address_type'], $input['address_secondary'], $input['nearest_check_point']);
+        unset($input['phone_number'], $input['address'], $input['address_type'], $input['address_secondary'], $input['nearest_check_point']);
 
         $input['rent_amount'] = $this->_repository->calculateRent($input);
 

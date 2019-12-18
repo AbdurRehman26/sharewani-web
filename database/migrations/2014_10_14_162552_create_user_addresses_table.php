@@ -20,6 +20,7 @@ class CreateUserAddressesTable extends Migration
             $table->text('address');
             $table->text('address_secondary')->nullable();
             $table->string('nearest_check_point')->nullable();
+            $table->string('phone_number');
             
             $table->bigInteger('user_id');
             $table->bigInteger('city_id');

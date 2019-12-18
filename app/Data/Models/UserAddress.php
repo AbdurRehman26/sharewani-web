@@ -12,7 +12,7 @@ class UserAddress extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'address', 'address_secondary', 'nearest_check_point', 'user_id', 'city_id', 'created_at', 'updated_at'
+        'address', 'address_secondary', 'nearest_check_point', 'user_id', 'city_id', 'created_at', 'updated_at', 'phone_number'
     ];
 
 
