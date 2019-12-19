@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <el-table
       v-loading="isLoading"
       :data="items"
@@ -11,13 +10,23 @@
     >
       <el-table-column align="center" label="PRODUCT DESCRIPTION">
         <template slot-scope="scope">
-          <span>{{ scope.row.product.description ? scope.row.product.description : 'N/A' }}</span>
+          <span>{{
+            scope.row.product.description
+              ? scope.row.product.description
+              : 'N/A'
+          }}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="PRODUCT IMAGE">
         <template slot-scope="scope">
-          <img height="65" :src="scope.row.product.images[0]">
+          <img height="65" :src="scope.row.product.image_paths[0]">
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="ORDER NO.">
+        <template slot-scope="scope">
+          {{ scope.row.order_number }}
         </template>
       </el-table-column>
 
@@ -113,7 +122,6 @@
       :limit.sync="query.limit"
       @pagination="$emit('reload-list')"
     />
-
   </div>
 </template>
 
@@ -136,9 +144,7 @@ export default {
     },
   },
   props: {
-    loading: {
-
-    },
+    loading: {},
     query: {
       type: Object,
       default: () => {
@@ -174,14 +180,14 @@ export default {
       this.isLoading = false;
     },
 
-    items(){
+    items() {
       this.isLoading = false;
     },
   },
   created() {
     this.isLoading = !this.loading;
 
-    if (this.items.length){
+    if (this.items.length) {
       this.isLoading = false;
     }
   },
@@ -206,7 +212,7 @@ export default {
 </script>
 
 <style>
-	.order-container .el-dialog{
-		width: 25%;
-	}
+.order-container .el-dialog {
+  width: 25%;
+}
 </style>

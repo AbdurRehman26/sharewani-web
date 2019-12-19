@@ -93,9 +93,15 @@ class OrderController extends ApiResourceController
         $rules = $this->rules(__FUNCTION__);
         $input = $this->input(__FUNCTION__);
         $messages = $this->messages(__FUNCTION__);
-        \Log::info(json_encode($messages));
+        
 
         $this->validate($request, $rules, $messages);
+
+        $product = \App\Data\Models\Product::find($input['product_id']);
+        $orderCount = \App\Data\Models\Order::all()->count();
+        
+        $input['order_number'] = $product['item_code'] . $orderCount;
+
 
         if (empty($input['address_id'])) {
             $userAddress = [
