@@ -100,7 +100,7 @@ class OrderController extends ApiResourceController
         $product = \App\Data\Models\Product::find($input['product_id']);
         $orderCount = \App\Data\Models\Order::all()->count();
         
-        $input['order_number'] = $product['item_code'] . $orderCount;
+        $input['order_number'] = $product['item_code'] .'-' . $orderCount + 1;
 
 
         if (empty($input['address_id'])) {

@@ -22,7 +22,7 @@ class BrandTableSeeder extends Seeder
             'Gul Ahmed',
             'Moosaa Jee',
             'Maaz Jee',
-            'Junaid Jamshaid',
+            'J.',
             'Khaadi',
             'Kapraay',
             'Eden Robe',

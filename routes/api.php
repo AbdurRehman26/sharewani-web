@@ -30,7 +30,8 @@ Route::group(['middleware' => 'api'], function () {
 
     Route::get('global-setting-key/{id}', 'Api\V1\GlobalSettingController@getItemByKey');
     Route::get('global-setting', 'Api\V1\GlobalSettingController@index');
-
+    Route::get('order/calculate-rent', 'Api\V1\OrderController@calculateRent');
+            
     Route::group(['middleware' => 'auth:api'], function () {
 
             Route::get('auth/user', 'AuthController@user');
@@ -75,7 +76,6 @@ Route::group(['middleware' => 'api'], function () {
             Route::put('order/{id}/update-order', 'Api\V1\OrderController@updateOrder');
             Route::get('order/{id}/colliding-orders', 'Api\V1\OrderController@collidingOrders');
             Route::get('order/validate-order-date', 'Api\V1\OrderController@validateOrderDate');
-            Route::get('order/calculate-rent', 'Api\V1\OrderController@calculateRent');
             Route::get('order_count', 'Api\V1\OrderController@itemCount');
             Route::resource('order', 'Api\V1\OrderController')->except([
                 'edit'
