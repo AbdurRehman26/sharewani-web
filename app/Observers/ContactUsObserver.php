@@ -15,9 +15,10 @@ class ContactUsObserver
      */
     public function created(ContactUs $contactUs)
     {
+        \Log::info(config('mail.from.address'));
         Mail::to([
-            'email' => 'sydabdrehman@gmail.com',
-            'name' => 'sydabdrehman@gmail.com',
+            'email' => config('mail.from.address'),
+            'name' => config('mail.from.address'),
         ])->send(new \App\Mail\ContactUs($contactUs));
         //
     }

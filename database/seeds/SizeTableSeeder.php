@@ -32,14 +32,6 @@ class SizeTableSeeder extends Seeder
             'code' => 'xl',
             'name' => 'Extra Large'
             ],
-            [
-            'code' => 'xxl',
-            'name' => 'Extra Extra Large'
-            ],
-            [
-            'code' => 'xxxl',
-            'name' => 'Extra Extra Extra Large'
-            ],
             ];
 
         $data = [];

@@ -46,7 +46,7 @@ class ImportProducts extends Command
         $filePath = storage_path('app/public/'.$fileName);
 
         $array = Excel::toArray(new ProductImport, $filePath);
-
+        
         $event = \App\Data\Models\Event::first();
 
         $category = \App\Data\Models\Category::where('name', 'Sherwaani')->first();
@@ -54,8 +54,15 @@ class ImportProducts extends Command
         foreach ($array[0] as $key => $row) {
             if ($key) {
                 $images = [];
-                for ($i = 1; $i <= 2; $i++) {
-                    $images[] = "$key-$i.jpg";
+                for ($i = 1; $i <= 3; $i++) {
+                    
+                    $imageKey = "$key-$i.jpg";
+
+                    if (file_exists("storage/app/product/".$imageKey)){
+                        
+                        $images[] = $imageKey;
+
+                    }
                 }
 
                 $fabricAge = app('FabricAgeRepository')->findByAttribute('name', $row[4]);

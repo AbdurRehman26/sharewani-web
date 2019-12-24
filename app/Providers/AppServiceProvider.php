@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Data\Models\ContactUs;
+use App\Data\Models\Order;
 use App\Observers\ContactUsObserver;
+use App\Observers\OrderObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         ContactUs::observe(ContactUsObserver::class);
+        Order::observe(OrderObserver::class);
     }
 
     /**
